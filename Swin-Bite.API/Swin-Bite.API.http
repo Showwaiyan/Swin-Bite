@@ -1,0 +1,6 @@
+@Swin_Bite.API_HostAddress = http://localhost:5068
+
+GET {{Swin_Bite.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SwinBite.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // DI IOC Configurations
 
 // Getting Connection String for DbContext to connect the DB
@@ -11,6 +12,7 @@ if (connectionString == null)
 
 // Adding DbContext and connect DbContext and DB
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString)); // Dependency Injection
+
 var app = builder.Build();
 
 // Middleware Configuration

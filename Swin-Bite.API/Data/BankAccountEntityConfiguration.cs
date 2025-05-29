@@ -10,5 +10,17 @@ namespace SwinBite.Context
         {
             builder.HasAlternateKey(e => e.AccountNumber);
         }
+
+        public void Seed(EntityTypeBuilder<BankAccount> builder)
+        {
+            builder.HasData(
+                new BankAccount
+                {
+                    Id = 123456,
+                    AccountNumber = "105293041",
+                    AgeRestriction = 18,
+                }
+            );
+        }
     }
 }

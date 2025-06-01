@@ -12,11 +12,15 @@ if (connectionString == null)
 
 // Adding DbContext and connect DbContext and DB
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString)); // Dependency Injection
+// Add Controller Service
+builder.Services.AddControllers();
+
 
 var app = builder.Build();
 
 // Middleware Configuration
 
 app.UseHttpsRedirection();
+app.MapControllers(); // To Map Controller End Point
 
 app.Run();

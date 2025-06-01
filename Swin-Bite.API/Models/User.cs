@@ -8,8 +8,10 @@ namespace SwinBite.Models
         // Fields
         private int _id;
         private string _name;
-        private int _bankAccountId;
         private string _type;
+        private int _bankAccountId;
+
+        private BankAccount _bankAccount; // for one-to-one relation
 
         // Properties
         [Key]
@@ -27,11 +29,19 @@ namespace SwinBite.Models
             set { _name = value; }
         }
 
-        [ForeignKey("BankAccount")]
+        
         public int BankAccountId
         {
             get { return _bankAccountId; }
             set { _bankAccountId = value; }
+        }
+
+        // Navigation property for one-to-one relation
+        [ForeignKey("BankAccountId")]
+        public BankAccount BankAccount
+        {
+            get { return _bankAccount; }
+            set { _bankAccount = value; }
         }
 
         // Discriminator Property

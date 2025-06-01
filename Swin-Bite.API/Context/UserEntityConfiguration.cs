@@ -9,6 +9,9 @@ namespace SwinBite.Context
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasDiscriminator<string>("Type");
+            builder
+                .HasOne(u => u.BankAccount)
+                .WithOne(b => b.User);
         }
     }
 }

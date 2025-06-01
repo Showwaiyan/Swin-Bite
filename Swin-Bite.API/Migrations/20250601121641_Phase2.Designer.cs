@@ -11,8 +11,8 @@ using SwinBite.Context;
 namespace Swin_Bite.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250529062822_CreateUserAndBankAccountTables")]
-    partial class CreateUserAndBankAccountTables
+    [Migration("20250601121641_Phase2")]
+    partial class Phase2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,39 @@ namespace Swin_Bite.API.Migrations
 
                     b.HasAlternateKey("AccountNumber");
 
-                    b.ToTable("BankAccount");
+                    b.ToTable("BankAccounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 100001,
+                            AccountNumber = "105293041",
+                            AgeRestriction = 18
+                        },
+                        new
+                        {
+                            Id = 100002,
+                            AccountNumber = "205184732",
+                            AgeRestriction = 21
+                        },
+                        new
+                        {
+                            Id = 100003,
+                            AccountNumber = "305729184",
+                            AgeRestriction = 0
+                        },
+                        new
+                        {
+                            Id = 100004,
+                            AccountNumber = "405318907",
+                            AgeRestriction = 16
+                        },
+                        new
+                        {
+                            Id = 100005,
+                            AccountNumber = "505274193",
+                            AgeRestriction = 65
+                        });
                 });
 
             modelBuilder.Entity("SwinBite.Models.User", b =>
@@ -69,9 +101,28 @@ namespace Swin_Bite.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.HasIndex("BankAccountId")
+                        .IsUnique();
+
+                    b.ToTable("Users");
 
                     b.HasDiscriminator<string>("Type").HasValue("User");
+                });
+
+            modelBuilder.Entity("SwinBite.Models.User", b =>
+                {
+                    b.HasOne("SwinBite.Models.BankAccount", "BankAccount")
+                        .WithOne("User")
+                        .HasForeignKey("SwinBite.Models.User", "BankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
+                });
+
+            modelBuilder.Entity("SwinBite.Models.BankAccount", b =>
+                {
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

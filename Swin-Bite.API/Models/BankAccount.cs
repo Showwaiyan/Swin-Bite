@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwinBite.Models
 {
@@ -8,6 +9,8 @@ namespace SwinBite.Models
         private int _id;
         private string _accountNumber;
         private int _ageRestriction;
+
+        private User _user;
 
         // Properties
         [Key]
@@ -29,6 +32,13 @@ namespace SwinBite.Models
         {
             get { return _ageRestriction; }
             set { _ageRestriction = value; }
+        }
+
+        // Navigation property for one-to-one relation
+        public User User
+        {
+            get { return _user; }
+            set { _user = value; }
         }
     }
 }

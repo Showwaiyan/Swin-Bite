@@ -13,7 +13,7 @@ namespace SwinBite.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          // User
+            // User
             new UserEntityConfiguration().Configure(modelBuilder.Entity<User>());
 
             // BankAccount

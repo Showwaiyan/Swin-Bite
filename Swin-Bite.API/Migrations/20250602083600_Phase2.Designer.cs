@@ -11,7 +11,7 @@ using SwinBite.Context;
 namespace Swin_Bite.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250601121641_Phase2")]
+    [Migration("20250602083600_Phase2")]
     partial class Phase2
     {
         /// <inheritdoc />
@@ -37,7 +37,9 @@ namespace Swin_Bite.API.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("AgeRestriction")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 

@@ -12,10 +12,8 @@ namespace SwinBite.Context
             builder
                 .HasOne(u => u.BankAccount)
                 .WithOne(b => b.User)
-                .HasForeignKey<User>(u => u.BankAccountId);
-
-            builder.Property(u=>u.BankAccount).IsRequired();
-              
+                .HasForeignKey<User>(u => u.BankAccountId)
+                .IsRequired();
         }
     }
 }

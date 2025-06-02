@@ -34,7 +34,9 @@ namespace Swin_Bite.API.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("AgeRestriction")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 

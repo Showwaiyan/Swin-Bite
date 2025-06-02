@@ -30,7 +30,10 @@ namespace SwinBite.Models
         public int AgeRestriction
         {
             get { return _ageRestriction; }
-            set { _ageRestriction = value; }
+            set {
+              if (value < 0) throw new ArgumentException("Age Restriction cannot be negative value");
+              _ageRestriction = value;
+            }
         }
 
         // Navigation property for one-to-one relation

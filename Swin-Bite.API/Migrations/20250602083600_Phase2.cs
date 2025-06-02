@@ -20,7 +20,7 @@ namespace Swin_Bite.API.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AccountNumber = table.Column<string>(type: "text", nullable: false),
-                    AgeRestriction = table.Column<int>(type: "integer", nullable: false)
+                    AgeRestriction = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -55,8 +55,19 @@ namespace Swin_Bite.API.Migrations
                 values: new object[,]
                 {
                     { 100001, "105293041", 18 },
-                    { 100002, "205184732", 21 },
-                    { 100003, "305729184", 0 },
+                    { 100002, "205184732", 21 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BankAccounts",
+                columns: new[] { "Id", "AccountNumber" },
+                values: new object[] { 100003, "305729184" });
+
+            migrationBuilder.InsertData(
+                table: "BankAccounts",
+                columns: new[] { "Id", "AccountNumber", "AgeRestriction" },
+                values: new object[,]
+                {
                     { 100004, "405318907", 16 },
                     { 100005, "505274193", 65 }
                 });

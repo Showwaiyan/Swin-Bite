@@ -6,37 +6,65 @@ namespace SwinBite.Models
     public class User
     {
         // Fields
-        private int _id;
-        private string _name;
-        private string _type;
+        private int _userId;
+        private string _username;
+        private string _email;
+        private string _password;
+        private bool _isAuthenticated;
+        private UserType _userType;
         private int _bankAccountId;
 
-        private BankAccount _bankAccount; // for one-to-one relation
+        private BankAccount _bankAccount;
 
-        // Properties
+        //Properties
         [Key]
-        public int Id
+        public int UserId
         {
-            get { return _id; }
-            set { _id = value; }
+            get { return _userId; }
+            set { _userId = value; }
         }
 
         [Required]
-        [StringLength(50, MinimumLength = 3)]
-        public string Name
+        public string Username
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return _username; }
+            set { _username = value; }
         }
 
-        
+        [EmailAddress]
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; }
+        }
+
+        [Required]
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; }
+        }
+
+        public bool IsAuthenticated
+        {
+            get { return _isAuthenticated; }
+            set { _isAuthenticated = value; }
+        }
+
+        [Required]
+        public UserType UserType
+        {
+            get { return _userType; }
+            set { _userType = value; }
+        }
+
+        // For one-to-one relationship with Bankaccount
         public int BankAccountId
         {
             get { return _bankAccountId; }
             set { _bankAccountId = value; }
         }
 
-        // Navigation property for one-to-one relation
         [ForeignKey("BankAccountId")]
         public BankAccount BankAccount
         {
@@ -44,12 +72,17 @@ namespace SwinBite.Models
             set { _bankAccount = value; }
         }
 
-        // Discriminator Property
-        [Required]
-        public string Type
+        //Methods
+        public bool Login()
         {
-            get { return _type; }
-            set { _type = value; }
+            return true;
+        }
+
+        public void Logout() { }
+
+        public bool UpdateProfile()
+        {
+            return true;
         }
     }
 }

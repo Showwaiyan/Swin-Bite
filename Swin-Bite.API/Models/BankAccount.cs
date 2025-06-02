@@ -4,19 +4,20 @@ namespace SwinBite.Models
 {
     public class BankAccount
     {
-        // Fields
-        private int _id;
+        //Fields
+        private int _bankId;
         private string _accountNumber;
-        private int _ageRestriction;
-
+        private decimal _balance;
+        private string _pin;
+        private bool _isActive;
         private User _user;
 
         // Properties
         [Key]
-        public int Id
+        public int BankId
         {
-            get { return _id; }
-            set { _id = value; }
+            get { return _bankId; }
+            set { _bankId = value; }
         }
 
         [Required]
@@ -26,21 +27,40 @@ namespace SwinBite.Models
             set { _accountNumber = value; }
         }
 
-        [Required]
-        public int AgeRestriction
+        public decimal Balance
         {
-            get { return _ageRestriction; }
-            set {
-              if (value < 0) throw new ArgumentException("Age Restriction cannot be negative value");
-              _ageRestriction = value;
-            }
+            get { return _balance; }
+            set { _balance = value; }
         }
 
-        // Navigation property for one-to-one relation
+        [Required]
+        public string Pin
+        {
+            get { return _pin; }
+            set { _pin = value; }
+        }
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { _isActive = value; }
+        }
+
         public User User
         {
             get { return _user; }
             set { _user = value; }
+        }
+
+        //Methods
+        public bool ProcessPayment(decimal amount)
+        {
+            return true;
+        }
+
+        public decimal GetBalance()
+        {
+            return 0;
         }
     }
 }

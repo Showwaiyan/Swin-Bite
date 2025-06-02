@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Swin_Bite.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Phase2 : Migration
+    public partial class UpdateUserAndBankAccount : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,14 +17,16 @@ namespace Swin_Bite.API.Migrations
                 name: "BankAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    BankId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AccountNumber = table.Column<string>(type: "text", nullable: false),
-                    AgeRestriction = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
+                    Balance = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
+                    Pin = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BankAccounts", x => x.Id);
+                    table.PrimaryKey("PK_BankAccounts", x => x.BankId);
                     table.UniqueConstraint("AK_BankAccounts_AccountNumber", x => x.AccountNumber);
                 });
 
@@ -32,44 +34,32 @@ namespace Swin_Bite.API.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    BankAccountId = table.Column<int>(type: "integer", nullable: false),
-                    Type = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false)
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    IsAuthenticated = table.Column<bool>(type: "boolean", nullable: false),
+                    UserType = table.Column<int>(type: "integer", nullable: false),
+                    BankAccountId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_Users_BankAccounts_BankAccountId",
                         column: x => x.BankAccountId,
                         principalTable: "BankAccounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "BankId");
                 });
 
             migrationBuilder.InsertData(
                 table: "BankAccounts",
-                columns: new[] { "Id", "AccountNumber", "AgeRestriction" },
+                columns: new[] { "BankId", "AccountNumber", "Balance", "IsActive", "Pin" },
                 values: new object[,]
                 {
-                    { 100001, "105293041", 18 },
-                    { 100002, "205184732", 21 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "BankAccounts",
-                columns: new[] { "Id", "AccountNumber" },
-                values: new object[] { 100003, "305729184" });
-
-            migrationBuilder.InsertData(
-                table: "BankAccounts",
-                columns: new[] { "Id", "AccountNumber", "AgeRestriction" },
-                values: new object[,]
-                {
-                    { 100004, "405318907", 16 },
-                    { 100005, "505274193", 65 }
+                    { 100001, "12345678", 500.00m, true, "1234" },
+                    { 100002, "87654321", 300.00m, true, "5678" }
                 });
 
             migrationBuilder.CreateIndex(

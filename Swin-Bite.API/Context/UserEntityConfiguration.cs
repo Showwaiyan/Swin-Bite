@@ -8,12 +8,18 @@ namespace SwinBite.Context
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasDiscriminator<string>("Type");
+            builder
+                .HasDiscriminator<UserType>(u => u.UserType)
+                .HasValue(UserType.Customer)
+                .HasValue(UserType.RestaurantOwner)
+                .HasValue(UserType.Admin)
+                .HasValue(UserType.DeliveryDriver);
+
             builder
                 .HasOne(u => u.BankAccount)
-                .WithOne(b => b.User)
+                .WithOne()
                 .HasForeignKey<User>(u => u.BankAccountId)
-                .IsRequired();
+                .IsRequired(false); // Optional for now (development process)
         }
     }
 }

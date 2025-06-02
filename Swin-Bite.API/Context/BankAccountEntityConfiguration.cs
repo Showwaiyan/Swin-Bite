@@ -9,7 +9,9 @@ namespace SwinBite.Context
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {
             builder.HasAlternateKey(e => e.AccountNumber);
-            builder.Property(b => b.AgeRestriction).IsRequired().HasDefaultValue(0);
+            builder.Property(b => b.Balance).HasDefaultValue(0);
+            builder.Property(b => b.IsActive).HasDefaultValue(true); // Optional for Development
+            builder.Property(b=>b.Pin).IsRequired();
         }
 
         public void Seed(EntityTypeBuilder<BankAccount> builder)
@@ -17,33 +19,19 @@ namespace SwinBite.Context
             builder.HasData(
                 new BankAccount
                 {
-                    Id = 100001,
-                    AccountNumber = "105293041",
-                    AgeRestriction = 18,
+                    BankId = 100001,
+                    AccountNumber = "12345678",
+                    Balance = 500.00m,
+                    Pin = "1234",
+                    IsActive = true,
                 },
                 new BankAccount
                 {
-                    Id = 100002,
-                    AccountNumber = "205184732",
-                    AgeRestriction = 21,
-                },
-                new BankAccount
-                {
-                    Id = 100003,
-                    AccountNumber = "305729184",
-                    AgeRestriction = 0,
-                },
-                new BankAccount
-                {
-                    Id = 100004,
-                    AccountNumber = "405318907",
-                    AgeRestriction = 16,
-                },
-                new BankAccount
-                {
-                    Id = 100005,
-                    AccountNumber = "505274193",
-                    AgeRestriction = 65,
+                    BankId = 100002,
+                    AccountNumber = "87654321",
+                    Balance = 300.00m,
+                    Pin = "5678",
+                    IsActive = true,
                 }
             );
         }

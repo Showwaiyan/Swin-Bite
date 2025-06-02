@@ -9,6 +9,7 @@ namespace SwinBite.Context
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {
             builder.HasAlternateKey(e => e.AccountNumber);
+            builder.Property(b=>b.AgeRestriction).IsRequired().HasDefaultValue(0);
         }
 
         public void Seed(EntityTypeBuilder<BankAccount> builder)

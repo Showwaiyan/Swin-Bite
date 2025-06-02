@@ -17,8 +17,8 @@ namespace SwinBite.Context
             new UserEntityConfiguration().Configure(modelBuilder.Entity<User>());
 
             // BankAccount
-            new BankAccountEnitiyConfiguration().Configure(modelBuilder.Entity<BankAccount>());
-            new BankAccountEnitiyConfiguration().Seed(modelBuilder.Entity<BankAccount>());
+            new BankAccountEntityConfiguration().Configure(modelBuilder.Entity<BankAccount>());
+            new BankAccountEntityConfiguration().Seed(modelBuilder.Entity<BankAccount>());
         }
     }
 }

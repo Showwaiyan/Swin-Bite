@@ -4,7 +4,7 @@ using SwinBite.Models;
 
 namespace SwinBite.Context
 {
-    public class BankAccountEnitiyConfiguration : IEntityTypeConfiguration<BankAccount>
+    public class BankAccountEntityConfiguration : IEntityTypeConfiguration<BankAccount>
     {
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {

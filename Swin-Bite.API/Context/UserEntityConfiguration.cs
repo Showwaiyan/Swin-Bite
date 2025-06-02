@@ -11,7 +11,8 @@ namespace SwinBite.Context
             builder.HasDiscriminator<string>("Type");
             builder
                 .HasOne(u => u.BankAccount)
-                .WithOne(b => b.User);
+                .WithOne(b => b.User)
+                .HasForeignKey<User>(u => u.BankAccountId);
         }
     }
 }

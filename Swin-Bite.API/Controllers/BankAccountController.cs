@@ -31,23 +31,31 @@ namespace SwinBite.Controllers
 
                 if (userAccount == null)
                 {
-                    return StatusCode(
-                        404,
+                    return NotFound(
                         new
                         {
                             status = 404,
                             message = "Bank Account NotFound",
-                            data = userAccount,
                         }
                     );
                 }
+                int userAge = 18; // Only for testing
+                if (userAge < userAccount.AgeRestriction)
+                {
+                    return BadRequest(new
+                    {
+                        status = 400,
+                        message = "Age Restriction not met",
+                    });
+                }
+
                 var result = new
                 {
                     status = 200,
                     message = "Bank Account Found",
                     data = userAccount,
                 };
-                return StatusCode(200, result);
+                return Ok(result);
             }
             catch (System.Exception ex)
             {

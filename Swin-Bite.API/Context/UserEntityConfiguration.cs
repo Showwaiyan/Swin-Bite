@@ -13,6 +13,7 @@ namespace SwinBite.Context
                 .HasOne(u => u.BankAccount)
                 .WithOne(b => b.User)
                 .HasForeignKey<User>(u => u.BankAccountId);
+              
         }
     }
 }

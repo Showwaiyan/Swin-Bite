@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SwinBite.Context;
 using SwinBite.Models;
 
-namespace SiwnBite.Controllers
+namespace SwinBite.Controllers
 {
     [Route("bankaccount/")]
     [ApiController]

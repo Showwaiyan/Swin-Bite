@@ -11,9 +11,9 @@ namespace SwinBite.Context
             // Discriminator
             builder
                 .HasDiscriminator<FoodCategory>(f => f.Category)
-                .HasValue(FoodCategory.Dish)
-                .HasValue(FoodCategory.Drink)
-                .HasValue(FoodCategory.Snack);
+                .HasValue<Dish>(FoodCategory.Dish)
+                .HasValue<Drink>(FoodCategory.Drink)
+                .HasValue<Snack>(FoodCategory.Snack);
         }
     }
 }

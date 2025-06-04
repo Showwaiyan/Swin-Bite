@@ -16,12 +16,12 @@ namespace SwinBite.Controller
             _context = context;
         }
 
-        [HttpGet("bankaccounts")]
+        [HttpGet("foods")]
         public async Task<IActionResult> GetAllBankAccounts()
         {
-          List<BankAccount> bankAccounts = await _context.BankAccounts.ToListAsync();
+          List<Food> foods = await _context.Foods.ToListAsync();
 
-          return Ok(bankAccounts);
+          return Ok(foods);
         }
     } 
 }

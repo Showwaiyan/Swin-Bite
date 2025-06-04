@@ -14,9 +14,14 @@ namespace SwinBite.Context
                 .WithOne(c => c.ShoppingCart)
                 .HasForeignKey<ShoppingCart>(s => s.CustomerId)
                 .IsRequired();
+        }
 
-            // One-to-Many Relationship with Food
-            builder.HasMany(s => s.Items).WithOne().IsRequired(false);
+        public void Seed(EntityTypeBuilder<ShoppingCart> builder)
+        {
+            builder.HasData(
+                new ShoppingCart { ShoppingCartId = 1, CustomerId = 1 },
+                new ShoppingCart { ShoppingCartId = 2, CustomerId = 2 }
+            );
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwinBite.Models
 {
@@ -10,6 +11,7 @@ namespace SwinBite.Models
         private decimal _price;
         private string _description;
         private FoodCategory _category;
+        private int _restaurantId;
         private Restaurant _restaurant; // Need to implement many:1 relationship
         private bool _isAvailable;
 
@@ -47,6 +49,13 @@ namespace SwinBite.Models
             set { _category = value; }
         }
 
+        // Many-To-One Relationship
+        public int RestaurantId
+        {
+            get { return _restaurantId; }
+            set { _restaurantId = value; }
+        }
+        [ForeignKey("RestaurantId")]
         public Restaurant Restaurant
         {
             get { return _restaurant; }

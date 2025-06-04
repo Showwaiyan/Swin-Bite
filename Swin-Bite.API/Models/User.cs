@@ -24,7 +24,6 @@ namespace SwinBite.Models
             set { _userId = value; }
         }
 
-        [Required]
         public string Username
         {
             get { return _username; }
@@ -38,7 +37,6 @@ namespace SwinBite.Models
             set { _email = value; }
         }
 
-        [Required]
         public string Password
         {
             get { return _password; }

@@ -11,8 +11,8 @@ namespace SwinBite.Context
             // Discriminator
             builder
                 .HasDiscriminator<UserType>(u => u.UserType)
-                .HasValue(UserType.Customer)
-                .HasValue(UserType.RestaurantOwner)
+                .HasValue<Customer>(UserType.Customer)
+                .HasValue<Restaurant>(UserType.RestaurantOwner)
                 .HasValue(UserType.Admin)
                 .HasValue(UserType.DeliveryDriver);
 

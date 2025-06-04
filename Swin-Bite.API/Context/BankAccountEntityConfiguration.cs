@@ -32,6 +32,22 @@ namespace SwinBite.Context
                     Balance = 300.00m,
                     Pin = "5678",
                     IsActive = true,
+                },
+                new BankAccount
+                {
+                    BankId = 100003,
+                    AccountNumber = "24681012",
+                    Balance = 300.00m,
+                    Pin = "4321",
+                    IsActive = true,
+                },
+                new BankAccount
+                {
+                    BankId = 100004,
+                    AccountNumber = "01357911",
+                    Balance = 300.00m,
+                    Pin = "8765",
+                    IsActive = true,
                 }
             );
         }

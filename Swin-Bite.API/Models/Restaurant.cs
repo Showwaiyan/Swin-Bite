@@ -1,9 +1,8 @@
 namespace SwinBite.Models
 {
-    public class Restaurant
+    public class Restaurant : User
     {
         // Fields
-        private int _restaurantId;
         private string _name;
         private string _address;
         private float _rating;
@@ -11,11 +10,6 @@ namespace SwinBite.Models
         private string _operatingHours;
 
         // Properties
-        public int RestaurantId
-        {
-            get { return _restaurantId; }
-            set { _restaurantId = value; }
-        }
 
         public string Name
         {
@@ -63,10 +57,11 @@ namespace SwinBite.Models
             return true;
         }
 
-        public List<Order> ViewOrder()
-        {
-            return new List<Order>() { };
-        }
+        // Will be implemented in Phase 3
+        // public List<Order> ViewOrder()
+        // {
+        //     return new List<Order>() { };
+        // }
 
         public bool UpdateOrderStatus(int orderId, OrderStatus status)
         {

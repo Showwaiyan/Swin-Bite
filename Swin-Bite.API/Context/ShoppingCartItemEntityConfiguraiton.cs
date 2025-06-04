@@ -1,0 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SwinBite.Models;
+
+namespace SwinBite.Context
+{
+    public class ShoppingCartItemEntityConfiguration : IEntityTypeConfiguration<ShoppingCartItem>
+    {
+        public void Configure(EntityTypeBuilder<ShoppingCartItem> builder)
+        {
+            // Many-To-One Relationship with ShoppingCart
+            builder
+                .HasOne(si => si.ShoppingCart)
+                .WithMany(s => s.ShoppingCartItem)
+                .HasForeignKey(si => si.ShoppingCartId);
+
+            // One-To-One Relationship with Food
+            builder
+                .HasOne(si => si.Food)
+                .WithOne()
+                .HasForeignKey<ShoppingCartItem>(si => si.FoodId);
+        }
+    }
+}

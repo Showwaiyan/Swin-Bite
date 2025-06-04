@@ -6,23 +6,23 @@ namespace SwinBite.Models
     public class ShoppingCart
     {
         // Fields
-        private List<Food> _items;
-        private Dictionary<Food, int> _quantities;
+        private int _shoppingCartId;
         private int _customerId;
-
         private Customer _customer;
+        private List<ShoppingCartItem> _shoppingCartItem;
 
         // Properties
-        public List<Food> Items
+        [Key]
+        public int ShoppingCartId
         {
-            get { return _items; }
-            set { _items = value; }
+            get { return _shoppingCartId; }
+            set { _shoppingCartId = value; }
         }
 
-        public Dictionary<Food, int> Quantities
+        public List<ShoppingCartItem> ShoppingCartItem
         {
-            get { return _quantities; }
-            set { _quantities = value; }
+            get { return _shoppingCartItem; }
+            set { _shoppingCartItem = value; }
         }
 
         // For One-to-One Relationship
@@ -58,9 +58,10 @@ namespace SwinBite.Models
 
         public void Clear() { }
 
-        public Order ConvertToOrder()
-        {
-            return new Order();
-        }
+        // Will be implemented in Phase 3
+        // public Order ConvertToOrder()
+        // {
+        //     return new Order();
+        // }
     }
 }

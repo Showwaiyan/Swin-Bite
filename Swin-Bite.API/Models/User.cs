@@ -51,6 +51,7 @@ namespace SwinBite.Models
             set { _isAuthenticated = value; }
         }
 
+        // Discriminator
         [Required]
         public UserType UserType
         {

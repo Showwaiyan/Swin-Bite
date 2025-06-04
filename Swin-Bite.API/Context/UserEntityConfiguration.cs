@@ -8,6 +8,7 @@ namespace SwinBite.Context
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            // Discriminator
             builder
                 .HasDiscriminator<UserType>(u => u.UserType)
                 .HasValue(UserType.Customer)
@@ -15,9 +16,10 @@ namespace SwinBite.Context
                 .HasValue(UserType.Admin)
                 .HasValue(UserType.DeliveryDriver);
 
+            // One-To-One Relationship with BankAccount
             builder
                 .HasOne(u => u.BankAccount)
-                .WithOne(b=>b.User)
+                .WithOne(b => b.User)
                 .HasForeignKey<User>(u => u.BankAccountId)
                 .IsRequired(false); // Optional for now (development process)
         }

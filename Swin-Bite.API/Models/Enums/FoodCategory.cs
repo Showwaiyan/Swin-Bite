@@ -1,6 +1,9 @@
-public enum FoodCategory
+namespace SwinBite.Models
 {
-    Dish,
-    Drink,
-    Snack,
+    public enum FoodCategory
+    {
+        Dish,
+        Drink,
+        Snack,
+    }
 }

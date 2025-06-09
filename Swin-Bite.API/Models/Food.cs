@@ -14,6 +14,7 @@ namespace SwinBite.Models
         private int _restaurantId;
         private Restaurant _restaurant; // Need to implement many:1 relationship
         private bool _isAvailable;
+        private int _prepTime;
 
         // Properties
         [Key]
@@ -55,6 +56,7 @@ namespace SwinBite.Models
             get { return _restaurantId; }
             set { _restaurantId = value; }
         }
+
         [ForeignKey("RestaurantId")]
         public Restaurant Restaurant
         {
@@ -66,6 +68,12 @@ namespace SwinBite.Models
         {
             get { return _isAvailable; }
             set { _isAvailable = value; }
+        }
+
+        public int PrepTime
+        {
+            get { return _prepTime; }
+            set { _prepTime = value; }
         }
 
         // Method

@@ -52,7 +52,7 @@ namespace SwinBite.Models
             return new List<Food>() { };
         }
 
-        public bool AddMenu(Food food)
+        public bool AddMenuItem(Food food)
         {
             return true;
         }

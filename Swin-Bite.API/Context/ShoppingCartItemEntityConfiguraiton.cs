@@ -17,8 +17,8 @@ namespace SwinBite.Context
             // One-To-One Relationship with Food
             builder
                 .HasOne(si => si.Food)
-                .WithOne()
-                .HasForeignKey<ShoppingCartItem>(si => si.FoodId);
+                .WithMany()
+                .HasForeignKey(si => si.FoodId);
         }
     }
 }

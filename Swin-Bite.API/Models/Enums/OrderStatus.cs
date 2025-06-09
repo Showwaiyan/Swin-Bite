@@ -1,6 +1,12 @@
 namespace SwinBite.Models
 {
-    public class OrderStatus
+    public enum OrderStatus
     {
+        Pending,
+        Confirmed,
+        Prepared,
+        Ready,
+        Completed,
+        Cancelled,
     }
 }

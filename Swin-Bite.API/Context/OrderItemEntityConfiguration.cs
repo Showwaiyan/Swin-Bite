@@ -17,5 +17,43 @@ namespace SwinBite.Context
             // Many-To-One Relationship with Food
             builder.HasOne(oi => oi.Food).WithMany().HasForeignKey(oi => oi.FoodId);
         }
+
+        public void Seed(EntityTypeBuilder<OrderItem> builder)
+        {
+            builder.HasData(
+                new OrderItem
+                {
+                    OrderItemId = 1,
+                    OrderId = 1,
+                    FoodId = 1, // Spicy Noodles
+                    Quantity = 1,
+                    PriceAtTime = 10.00m,
+                },
+                new OrderItem
+                {
+                    OrderItemId = 2,
+                    OrderId = 1,
+                    FoodId = 2, // Iced Tea
+                    Quantity = 1,
+                    PriceAtTime = 3.00m,
+                },
+                new OrderItem
+                {
+                    OrderItemId = 3,
+                    OrderId = 2,
+                    FoodId = 3, // Grilled Chicken
+                    Quantity = 1,
+                    PriceAtTime = 12.00m,
+                },
+                new OrderItem
+                {
+                    OrderItemId = 4,
+                    OrderId = 2,
+                    FoodId = 4, // Lemonade
+                    Quantity = 1,
+                    PriceAtTime = 2.50m,
+                }
+            );
+        }
     }
 }

@@ -53,8 +53,10 @@ namespace SwinBite.Context
             // Order
             OrderEntityConfiguration OrderEC = new OrderEntityConfiguration();
             OrderEC.Configure(modelBuilder.Entity<Order>());
+            OrderEC.Seed(modelBuilder.Entity<Order>());
             OrderItemEntityConfiguration OrderItemEC = new OrderItemEntityConfiguration();
             OrderItemEC.Configure(modelBuilder.Entity<OrderItem>());
+            OrderItemEC.Seed(modelBuilder.Entity<OrderItem>());
 
             new ShoppingCartItemEntityConfiguration().Configure(
                 modelBuilder.Entity<ShoppingCartItem>()

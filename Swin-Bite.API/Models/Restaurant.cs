@@ -7,6 +7,7 @@ namespace SwinBite.Models
         private string _address;
         private float _rating;
         private List<Food> _menu; // Need to implement 1:many relationship
+        private List<Order> _orders;
         private string _operatingHours;
 
         // Properties
@@ -35,6 +36,12 @@ namespace SwinBite.Models
             set { _menu = value; }
         }
 
+        public List<Order> Orders
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
+
         public string OperatingHours
         {
             get { return _operatingHours; }
@@ -57,11 +64,10 @@ namespace SwinBite.Models
             return true;
         }
 
-        // Will be implemented in Phase 3
-        // public List<Order> ViewOrder()
-        // {
-        //     return new List<Order>() { };
-        // }
+        public List<Order> ViewOrder()
+        {
+            return new List<Order>() { };
+        }
 
         public bool UpdateOrderStatus(int orderId, OrderStatus status)
         {

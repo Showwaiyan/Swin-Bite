@@ -6,7 +6,7 @@ namespace SwinBite.Models
     {
         // Fields
         private ShoppingCart _shoppingCart;
-        // private List<Order> _order; Will be update in Phase 3
+        private List<Order> _orders;
 
         // Properties
         [Required]
@@ -16,11 +16,11 @@ namespace SwinBite.Models
             set { _shoppingCart = value; }
         }
 
-        // public List<Order> Order // One-to-Many relationship (! Need to implement later)
-        // {
-        //     get { return _order; }
-        //     set { _order = value; }
-        // }
+        public List<Order> Orders // One-to-Many relationship (! Need to implement later)
+        {
+            get { return _orders; }
+            set { _orders = value; }
+        }
 
         // Methods
         public void AddToCart() { }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwinBite.Models
 {
@@ -6,7 +7,9 @@ namespace SwinBite.Models
     {
         // Fields
         private int _orderId;
+        private int _customerId;
         private Customer _customer;
+        private int _restaurantId;
         private Restaurant _restaurant;
         private List<OrderItem> _orderItems;
         private decimal _totalPrice;
@@ -23,6 +26,14 @@ namespace SwinBite.Models
         }
 
         // Many-To-One Realtionship
+        [Required]
+        public int CustomerId
+        {
+            get { return _customerId; }
+            set { _customerId = value; }
+        }
+
+        [ForeignKey("CustomerId")]
         public Customer Customer
         {
             get { return _customer; }
@@ -30,6 +41,13 @@ namespace SwinBite.Models
         }
 
         // Many-To-One Relationship
+        [Required]
+        public int RestaurantId
+        {
+            get { return _restaurantId; }
+            set { _restaurantId = value; }
+        }
+        [ForeignKey("RestaurantId")]
         public Restaurant Restaurant
         {
             get { return _restaurant; }

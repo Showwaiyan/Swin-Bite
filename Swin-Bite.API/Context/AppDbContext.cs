@@ -51,7 +51,7 @@ namespace SwinBite.Context
             ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
 
             // Order
-            OrderEntityConfiguraion OrderEC = new OrderEntityConfiguraion();
+            OrderEntityConfiguration OrderEC = new OrderEntityConfiguration();
             OrderEC.Configure(modelBuilder.Entity<Order>());
             OrderItemEntityConfiguration OrderItemEC = new OrderItemEntityConfiguration();
             OrderItemEC.Configure(modelBuilder.Entity<OrderItem>());

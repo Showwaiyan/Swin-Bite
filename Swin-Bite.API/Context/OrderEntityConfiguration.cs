@@ -4,7 +4,7 @@ using SwinBite.Models;
 
 namespace SwinBite.Context
 {
-    public class OrderEntityConfiguraion : IEntityTypeConfiguration<Order>
+    public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {

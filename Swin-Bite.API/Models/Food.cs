@@ -12,7 +12,7 @@ namespace SwinBite.Models
         private string _description;
         private FoodCategory _category;
         private int _restaurantId;
-        private Restaurant _restaurant; // Need to implement many:1 relationship
+        private Restaurant _restaurant; 
         private bool _isAvailable;
         private int _prepTime;
 

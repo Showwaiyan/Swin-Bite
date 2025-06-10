@@ -22,6 +22,10 @@ namespace SwinBite.Context
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
+        // Order
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
@@ -45,6 +49,12 @@ namespace SwinBite.Context
             ShoppingCartEntityConfiguration ShoppingCartsEC = new ShoppingCartEntityConfiguration();
             ShoppingCartsEC.Configure(modelBuilder.Entity<ShoppingCart>());
             ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
+
+            // Order
+            OrderEntityConfiguraion OrderEC = new OrderEntityConfiguraion();
+            OrderEC.Configure(modelBuilder.Entity<Order>());
+            OrderItemEntityConfiguration OrderItemEC = new OrderItemEntityConfiguration();
+            OrderItemEC.Configure(modelBuilder.Entity<OrderItem>());
 
             new ShoppingCartItemEntityConfiguration().Configure(
                 modelBuilder.Entity<ShoppingCartItem>()

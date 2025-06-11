@@ -60,13 +60,8 @@ namespace SwinBite.Models
 
         public Order ConvertToOrder()
         {
-            if (
-                ShoppingCartItems == null
-                || !ShoppingCartItems.Any()
-            )
-                throw new InvalidOperationException(
-                    "Cannot create order from empty shopping "
-                );
+            if (ShoppingCartItems == null || !ShoppingCartItems.Any())
+                throw new InvalidOperationException("Cannot create order from empty shopping ");
 
             // Creating Order
             Order order = new Order()
@@ -80,14 +75,14 @@ namespace SwinBite.Models
             };
 
             // Create orderItems and assigned each shoppingCartItem to it
-            foreach (ShoppingCartItem tem in ShoppingCartItems)
+            foreach (ShoppingCartItem item in ShoppingCartItems)
             {
                 OrderItem orderItem = new OrderItem()
                 {
                     Order = order,
-                    FoodId = tem.FoodId,
-                    Quantity = tem.Quantity,
-                    PriceAtTime = tem.Food.Price,
+                    FoodId = item.FoodId,
+                    Quantity = item.Quantity,
+                    PriceAtTime = item.Food.Price,
                 };
                 // and these orderItem is assigned to order
                 order.OrderItems.Add(orderItem);

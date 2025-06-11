@@ -49,9 +49,14 @@ namespace SwinBite.Models
         }
 
         // Methods
-        public bool ProcessOrder(int orderId)
+        public Order ProcessOrder(Order order)
         {
-            return true;
+            if (order.RestaurantId != UserId)
+                throw new InvalidOperationException(
+                    "This order does not belong to this restaurant."
+                );
+            order.Status = OrderStatus.Confirmed;
+            return order;
         }
 
         public List<Food> GetMenu()
@@ -66,12 +71,17 @@ namespace SwinBite.Models
 
         public List<Order> ViewOrder()
         {
-            return new List<Order>() { };
+            return Orders;
         }
 
-        public bool UpdateOrderStatus(int orderId, OrderStatus status)
+        public Order UpdateOrderStatus(Order order, OrderStatus status)
         {
-            return true;
+            if (order.RestaurantId != UserId)
+                throw new InvalidOperationException(
+                    "This order does not belong to this restaurant"
+                );
+            order.Status = status;
+            return order;
         }
 
         public bool UpdateMenu()

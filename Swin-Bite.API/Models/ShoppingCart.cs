@@ -9,7 +9,7 @@ namespace SwinBite.Models
         private int _shoppingCartId;
         private int _customerId;
         private Customer _customer;
-        private List<ShoppingCartItem> _shoppingCartItem;
+        private List<ShoppingCartItem> _shoppingCartItems;
 
         // Properties
         [Key]
@@ -19,10 +19,10 @@ namespace SwinBite.Models
             set { _shoppingCartId = value; }
         }
 
-        public List<ShoppingCartItem> ShoppingCartItem
+        public List<ShoppingCartItem> ShoppingCartItems
         {
-            get { return _shoppingCartItem; }
-            set { _shoppingCartItem = value; }
+            get { return _shoppingCartItems; }
+            set { _shoppingCartItems = value; }
         }
 
         // For One-to-One Relationship
@@ -58,10 +58,45 @@ namespace SwinBite.Models
 
         public void Clear() { }
 
-        // Will be implemented in Phase 3
-        // public Order ConvertToOrder()
-        // {
-        //     return new Order();
-        // }
+        public Order ConvertToOrder(ShoppingCart cart)
+        {
+            if (
+                cart.ShoppingCartItems == null
+                || !cart.ShoppingCartItems.Any()
+            )
+                throw new InvalidOperationException(
+                    "Cannot create order from empty shopping cart."
+                );
+
+            // Creating Order
+            Order order = new Order()
+            {
+                CustomerId = cart.CustomerId,
+                RestaurantId = cart.ShoppingCartItems.First().Food.RestaurantId,
+                OrderItems = new List<OrderItem>(),
+                Status = OrderStatus.Pending,
+                OrderDate = DateTime.UtcNow,
+                PickUpTime = DateTime.UtcNow.AddMinutes(30), // HardCoded value now
+            };
+
+            // Create orderItems and assigned each shoppingCartItem to it
+            foreach (ShoppingCartItem cartItem in cart.ShoppingCartItems)
+            {
+                OrderItem orderItem = new OrderItem()
+                {
+                    Order = order,
+                    FoodId = cartItem.FoodId,
+                    Quantity = cartItem.Quantity,
+                    PriceAtTime = cartItem.Food.Price,
+                };
+                // and these orderItem is assigned to order
+                order.OrderItems.Add(orderItem);
+            }
+
+            // Computing Total Price
+            order.TotalPrice = order.CalculateTotal();
+
+            return order;
+        }
     }
 }

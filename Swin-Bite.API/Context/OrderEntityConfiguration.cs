@@ -21,7 +21,7 @@ namespace SwinBite.Context
                 .HasForeignKey(o => o.RestaurantId);
 
             // Auto Generated PK
-            builder.Property(o=>o.OrderId).ValueGeneratedOnAdd();
+            builder.Property(o => o.OrderId).ValueGeneratedOnAdd();
         }
 
         public void Seed(EntityTypeBuilder<Order> builder)
@@ -34,8 +34,14 @@ namespace SwinBite.Context
                     RestaurantId = 3,
                     TotalPrice = 13.00m,
                     Status = OrderStatus.Pending,
-                    OrderDate = DateTime.UtcNow,
-                    PickUpTime = DateTime.UtcNow.AddHours(1),
+                    OrderDate = DateTime.SpecifyKind(
+                        new DateTime(2024, 01, 01, 12, 00, 00),
+                        DateTimeKind.Utc
+                    ),
+                    PickUpTime = DateTime.SpecifyKind(
+                        new DateTime(2024, 01, 01, 12, 00, 00),
+                        DateTimeKind.Utc
+                    ),
                 },
                 new Order
                 {
@@ -44,8 +50,14 @@ namespace SwinBite.Context
                     RestaurantId = 4,
                     TotalPrice = 14.50m,
                     Status = OrderStatus.Pending,
-                    OrderDate = DateTime.UtcNow,
-                    PickUpTime = DateTime.UtcNow.AddHours(1),
+                    OrderDate = DateTime.SpecifyKind(
+                        new DateTime(2024, 01, 01, 12, 00, 00),
+                        DateTimeKind.Utc
+                    ),
+                    PickUpTime = DateTime.SpecifyKind(
+                        new DateTime(2024, 01, 01, 12, 00, 00),
+                        DateTimeKind.Utc
+                    ),
                 }
             );
         }

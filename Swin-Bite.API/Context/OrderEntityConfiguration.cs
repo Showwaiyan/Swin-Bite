@@ -19,6 +19,9 @@ namespace SwinBite.Context
                 .HasOne(o => o.Restaurant)
                 .WithMany(r => r.Orders)
                 .HasForeignKey(o => o.RestaurantId);
+
+            // Auto Generated PK
+            builder.Property(o=>o.OrderId).ValueGeneratedOnAdd();
         }
 
         public void Seed(EntityTypeBuilder<Order> builder)

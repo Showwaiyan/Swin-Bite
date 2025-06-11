@@ -93,7 +93,7 @@ namespace SwinBite.Models
 
         public decimal CalculateTotal()
         {
-            return 0;
+            return OrderItems.Sum(i=>i.Quantity*i.PriceAtTime);
         }
 
         public bool CancelOrder()

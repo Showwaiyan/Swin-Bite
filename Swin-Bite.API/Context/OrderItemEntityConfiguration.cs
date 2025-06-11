@@ -16,6 +16,9 @@ namespace SwinBite.Context
 
             // Many-To-One Relationship with Food
             builder.HasOne(oi => oi.Food).WithMany().HasForeignKey(oi => oi.FoodId);
+
+            // Auto Generated PK
+            builder.Property(oi=>oi.OrderItemId).ValueGeneratedOnAdd();
         }
 
         public void Seed(EntityTypeBuilder<OrderItem> builder)

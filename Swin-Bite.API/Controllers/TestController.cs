@@ -31,8 +31,9 @@ namespace SwinBite.Controller
         [HttpGet("restaurants")]
         public async Task<IActionResult> GetAllRestaurants()
         {
-            List<Restaurant> restaurants = await _context.Restaurants.ToListAsync();
-            return Ok(restaurants);
+            List<Restaurant> restaurants = await _context.Restaurants.Include(r=>r.Menu).Include(r=>r.Orders).ToListAsync();
+            List<RestaurantDto> restaurantDto = _mapper.Map<List<RestaurantDto>>(restaurants);
+            return Ok(restaurantDto);
         }
 
         [HttpGet("shoppingcarts")]

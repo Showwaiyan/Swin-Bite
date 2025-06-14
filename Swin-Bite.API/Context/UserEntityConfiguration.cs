@@ -22,6 +22,10 @@ namespace SwinBite.Context
                 .WithOne(b => b.User)
                 .HasForeignKey<User>(u => u.BankAccountId)
                 .IsRequired(false); // Optional for now (development process)
+
+            // Unique Properties set
+            builder.HasIndex(u=>u.Username).IsUnique();
+            builder.HasIndex(u=>u.Email).IsUnique();
         }
     }
 }

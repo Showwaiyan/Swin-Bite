@@ -8,6 +8,7 @@ namespace SwinBite.Mappings
     {
         public MappingProfile()
         {
+            CreateMap<User, UserDto>();
             CreateMap<Customer, CustomerDto>();
             CreateMap<Restaurant, RestaurantDto>();
 

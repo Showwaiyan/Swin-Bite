@@ -19,15 +19,17 @@ namespace SwinBite.Services
                 throw new ArgumentException("Invalid information");
 
             if (!user.Login(password))
-                throw new UnauthorizedAccessException("Your have provided invalid inoformation");
+                throw new UnauthorizedAccessException("Your have provided invalid information");
 
             return user;
         }
 
         public async Task Logout(int userId)
         {
-          User user = await _repo.GetByIdAsync(userId);
-          user.Logout();
+            User user = await _repo.GetByIdAsync(userId);
+            if (user == null)
+                throw new ArgumentException("Invalid information");
+            user.Logout();
         }
     }
 }

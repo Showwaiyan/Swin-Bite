@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using SwinBite.Context;
+using SwinBite.Reposiroties;
+using SwinBite.Services;
 using SwinBite.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,8 +28,15 @@ builder
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
-var app = builder.Build();
 
+// Repository Injection
+builder.Services.AddScoped<UserRespository>();
+
+// Services Injection
+builder.Services.AddScoped<UserService>();
+
+
+var app = builder.Build();
 // Middleware Configuration
 
 app.UseHttpsRedirection();

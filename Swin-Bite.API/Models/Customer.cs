@@ -23,11 +23,15 @@ namespace SwinBite.Models
         }
 
         // Methods
-        public void AddToCart() { }
+        public ShoppingCartItem AddToCart(Food food,int quantity) 
+        { 
+          return ShoppingCart.AddItem(food, quantity);
+        }
 
-        public bool PlaceOrder()
+        public Order PlaceOrder()
         {
-            return true;
+            
+            return ShoppingCart.ConvertToOrder();
         }
 
         public List<Restaurant> BrowseRestaurants()

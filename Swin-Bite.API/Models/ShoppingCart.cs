@@ -41,9 +41,16 @@ namespace SwinBite.Models
         }
 
         // Methods
-        public bool AddItem(Food food, int quantity)
+        public ShoppingCartItem AddItem(Food food, int quantity)
         {
-            return true;
+            ShoppingCartItem item = new ShoppingCartItem()
+            {
+                ShoppingCartId = ShoppingCartId,
+                Quantity = quantity,
+                FoodId = food.FoodId,
+            };
+            ShoppingCartItems.Add(item);
+            return item;
         }
 
         public bool RemoveItem(Food food)

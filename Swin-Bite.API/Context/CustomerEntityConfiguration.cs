@@ -14,12 +14,18 @@ namespace SwinBite.Context
                 new Customer
                 {
                     UserId = 1,
+                    Username = "John Snow",
+                    Password = "johnsnow123",
+                    Email = "johnsnow@got.com",
                     UserType = UserType.Customer,
                     BankAccountId = 100001,
                 },
                 new Customer
                 {
                     UserId = 2,
+                    Username = "Frodo",
+                    Password = "frodo321",
+                    Email = "frodo@lotr.com",
                     UserType = UserType.Customer,
                     BankAccountId = 100002,
                 }

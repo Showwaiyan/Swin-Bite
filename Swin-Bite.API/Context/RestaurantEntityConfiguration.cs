@@ -20,12 +20,20 @@ public class RestaurantEntityConfiguration : IEntityTypeConfiguration<Restaurant
             new Restaurant
             {
                 UserId = 3,
+                Username = "Walter White",
+                Name = "ChemistryChad",
+                Password = "lethimcook",
+                Email = "walterwhite@breakingbad.com",
                 UserType = UserType.RestaurantOwner,
                 BankAccountId = 100003,
             },
             new Restaurant
             {
                 UserId = 4,
+                Username = "Dean Winchester",
+                Name = "ApplePi",
+                Password = "iambatman",
+                Email = "dean@supernatural.com",
                 UserType = UserType.RestaurantOwner,
                 BankAccountId = 100004,
             }

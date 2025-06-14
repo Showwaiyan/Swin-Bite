@@ -14,6 +14,9 @@ namespace SwinBite.Context
                 .WithOne(c => c.ShoppingCart)
                 .HasForeignKey<ShoppingCart>(s => s.CustomerId)
                 .IsRequired();
+
+            // Auto Generated PK
+            builder.Property(s => s.ShoppingCartId).ValueGeneratedOnAdd();
         }
 
         public void Seed(EntityTypeBuilder<ShoppingCart> builder)

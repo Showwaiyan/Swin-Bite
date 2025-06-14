@@ -31,7 +31,10 @@ namespace SwinBite.Controller
         [HttpGet("restaurants")]
         public async Task<IActionResult> GetAllRestaurants()
         {
-            List<Restaurant> restaurants = await _context.Restaurants.Include(r=>r.Menu).Include(r=>r.Orders).ToListAsync();
+            List<Restaurant> restaurants = await _context
+                .Restaurants.Include(r => r.Menu)
+                .Include(r => r.Orders)
+                .ToListAsync();
             List<RestaurantDto> restaurantDto = _mapper.Map<List<RestaurantDto>>(restaurants);
             return Ok(restaurantDto);
         }
@@ -100,6 +103,41 @@ namespace SwinBite.Controller
             }
 
             OrderDto orderDto = _mapper.Map<OrderDto>(order);
+            return Ok(orderDto);
+        }
+
+        [HttpPatch("updateorderstatus/{orderId}/{status}")]
+        public async Task<IActionResult> UpdateOrderStatus(int orderId, OrderStatus status)
+        {
+            if (!Enum.IsDefined(typeof(OrderStatus), status))
+                return BadRequest($"There is no such status as {status}");
+            Order order = await _context.Orders.FindAsync(orderId);
+            if (order == null)
+                return BadRequest("There is no order with this id");
+
+            order.Status = status;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error Occured\nError: {ex.Message}");
+            }
+
+            OrderDto orderDto = _mapper.Map<OrderDto>(order);
+
+            return Ok(orderDto);
+        }
+
+        [HttpGet("restaurantorders/{restaurantId}")]
+        public async Task<IActionResult> ViewRestaurantOrders(int restaurantId)
+        {
+            Restaurant restaurant = await _context.Restaurants.Include(r => r.Orders).FirstOrDefaultAsync(r => r.UserId == restaurantId);
+
+            if (restaurant == null) return BadRequest("There is no restaurant with this id.");
+
+            List<OrderDto> orderDto = _mapper.Map<List<OrderDto>>(restaurant.Orders);
             return Ok(orderDto);
         }
     }

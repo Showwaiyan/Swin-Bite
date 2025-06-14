@@ -74,6 +74,11 @@ namespace SwinBite.Models
             return Orders;
         }
 
+        public List<Food> ViewMenu()
+        {
+            return Menu;
+        }
+
         public Order UpdateOrderStatus(Order order, OrderStatus status)
         {
             if (order.RestaurantId != UserId)

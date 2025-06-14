@@ -39,7 +39,7 @@ namespace SwinBite.Models
         }
 
         [Required]
-        [StringLength(20,MinimumLength=8)]
+        [StringLength(20, MinimumLength = 8)]
         public string Password
         {
             get { return _password; }
@@ -75,12 +75,18 @@ namespace SwinBite.Models
         }
 
         //Methods
-        public bool Login()
+        public bool Login(string password)
         {
+            if (!(Password == password))
+                return false;
+            IsAuthenticated = true;
             return true;
         }
 
-        public void Logout() { }
+        public void Logout()
+        {
+            IsAuthenticated = false;
+        }
 
         public bool UpdateProfile()
         {

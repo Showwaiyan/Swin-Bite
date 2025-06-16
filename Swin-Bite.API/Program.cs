@@ -31,9 +31,11 @@ builder
 
 // Repository Injection
 builder.Services.AddScoped<UserRespository>();
+builder.Services.AddScoped<RestaurantRepository>();
 
 // Services Injection
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RestaurantServices>();
 
 
 var app = builder.Build();

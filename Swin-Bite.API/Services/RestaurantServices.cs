@@ -12,14 +12,16 @@ namespace SwinBite.Services
             _repo = repo;
         }
 
-        public async Task<IEnumerable<Restaurant>> BrowseRestaurant()
+        public async Task<IEnumerable<Restaurant>> GetRestaurant()
         {
           return await _repo.GetAllRestaurant();
         }
 
         public async Task<IEnumerable<Food>> GetMenu(int restaurantId)
         {
-          return await _repo.GetMenuByRestaurantId(restaurantId);
+          Restaurant restaurant = await _repo.GetRestaruantById(restaurantId);
+          if (restaurant == null) throw new ArgumentException("There is no such restaurant");
+          return restaurant.ViewMenu();
         }
     }
 }

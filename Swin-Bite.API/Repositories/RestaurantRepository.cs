@@ -30,13 +30,5 @@ namespace SwinBite.Reposiroties
                 .Include(r => r.Orders)
                 .FirstOrDefaultAsync(r => r.UserId == id);
         }
-
-        //Get menu by id
-        public async Task<IEnumerable<Food>> GetMenuByRestaurantId(int id)
-        {
-           Restaurant restaurant = await GetRestaruantById(id);
-           return restaurant.Menu;
-        }
-            
     }
 }

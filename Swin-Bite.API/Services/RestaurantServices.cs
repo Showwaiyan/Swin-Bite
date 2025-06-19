@@ -12,7 +12,7 @@ namespace SwinBite.Services
             _repo = repo;
         }
 
-        public async Task<IEnumerable<Restaurant>> GetRestaurant()
+        public async Task<IEnumerable<Restaurant>> GetRestaurants()
         {
           return await _repo.GetAllRestaurant();
         }

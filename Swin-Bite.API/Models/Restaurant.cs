@@ -10,8 +10,14 @@ namespace SwinBite.Models
         private List<Order> _orders;
         private string _operatingHours;
 
-        // Properties
+        // Constructor
+        public Restaurant()
+        {
+            _menu = new List<Food>();
+            _orders = new List<Order>();
+        }
 
+        // Properties
         public string Name
         {
             get { return _name; }

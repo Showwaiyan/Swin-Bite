@@ -14,7 +14,7 @@ namespace SwinBite.Reposiroties
         }
 
         // Get all
-        public async Task<IEnumerable<Restaurant>> GetAllRestaurant()
+        public async Task<IEnumerable<Restaurant>> GetAllRestaurantAsync()
         {
             return await _context
                 .Restaurants.Include(r => r.Menu)
@@ -23,12 +23,18 @@ namespace SwinBite.Reposiroties
         }
 
         // Get by id
-        public async Task<Restaurant> GetRestaruantById(int id)
+        public async Task<Restaurant> GetRestaruantByIdAsync(int id)
         {
             return await _context
                 .Restaurants.Include(r => r.Menu)
                 .Include(r => r.Orders)
                 .FirstOrDefaultAsync(r => r.UserId == id);
+        }
+
+        // Get by Name
+        public async Task<IEnumerable<Restaurant>> GetRestaruantByNameAsync(string name)
+        {
+            return await _context.Restaurants.Where(r => r.Name.Contains(name)).ToListAsync();
         }
     }
 }

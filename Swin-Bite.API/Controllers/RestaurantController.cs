@@ -20,15 +20,18 @@ namespace SwinBite.Controller
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> BrowseRestaurants()
+        public async Task<IActionResult> BrowseRestaurants(string? name)
         {
             try
             {
-                IEnumerable<Restaurant> restaurants = await _restaurantServices.GetRestaurant();
+                IEnumerable<Restaurant> restaurants = null;
+                if (string.IsNullOrEmpty(name))
+                {
+                    restaurants = await _restaurantServices.GetRestaurants();
+                }
+                else restaurants = await _restaurantServices.FindRestaruants(name);
 
-                IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(
-                    restaurants
-                );
+                IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
 
                 return Ok(restaurantsDto);
             }

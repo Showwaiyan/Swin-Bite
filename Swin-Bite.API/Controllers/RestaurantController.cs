@@ -20,7 +20,7 @@ namespace SwinBite.Controller
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> BrowseRestaurants(string? name)
+        public async Task<IActionResult> BrowseRestaurants([FromQuery] string? name)
         {
             try
             {

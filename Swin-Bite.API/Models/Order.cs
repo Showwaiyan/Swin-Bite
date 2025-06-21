@@ -17,6 +17,12 @@ namespace SwinBite.Models
         private DateTime _orderDate;
         private DateTime _pickUpTime;
 
+        // Constructor
+        public Order()
+        {
+          _orderItems = new List<OrderItem>();
+        }
+
         // Properties
         [Key]
         public int OrderId

@@ -54,8 +54,9 @@ namespace SwinBite.Controller
         public async Task<IActionResult> GetAllShoppingCartItems()
         {
             List<ShoppingCartItem> shoppingCartItems =
-                await _context.ShoppingCartItems.ToListAsync();
-            return Ok(shoppingCartItems);
+                await _context.ShoppingCartItems.Include(si=>si.Food).ToListAsync();
+            List<ShoppingCartItemDto> shoppingCartItemsDto = _mapper.Map<List<ShoppingCartItemDto>>(shoppingCartItems);
+            return Ok(shoppingCartItemsDto);
         }
 
         [HttpGet("foods")]

@@ -77,9 +77,6 @@ namespace SwinBite.Models
         }
 
         // Method
-        public string GetDetails()
-        {
-            return "";
-        }
+        public abstract string GetDetails();
     }
 }

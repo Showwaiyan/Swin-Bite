@@ -9,6 +9,7 @@ namespace SwinBite.Models
         private int _foodId;
         private string _name;
         private decimal _price;
+        private int _totalQuantity;
         private string _description;
         private FoodCategory _category;
         private int _restaurantId;
@@ -74,6 +75,12 @@ namespace SwinBite.Models
         {
             get { return _prepTime; }
             set { _prepTime = value; }
+        }
+
+        public int TotalQuantity
+        {
+          get {return _totalQuantity;}
+          set {_totalQuantity = value;}
         }
 
         // Method

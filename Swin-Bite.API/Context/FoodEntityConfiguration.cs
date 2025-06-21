@@ -14,8 +14,6 @@ namespace SwinBite.Context
                 .HasValue<Dish>(FoodCategory.Dish)
                 .HasValue<Drink>(FoodCategory.Drink)
                 .HasValue<Snack>(FoodCategory.Snack);
-
-            builder.Property(f=>f.TotalQuantity).HasDefaultValue(0);
         }
     }
 }

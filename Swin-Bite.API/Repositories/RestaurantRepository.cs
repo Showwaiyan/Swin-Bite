@@ -34,7 +34,11 @@ namespace SwinBite.Reposiroties
         // Get by Name
         public async Task<IEnumerable<Restaurant>> GetRestaruantByNameAsync(string name)
         {
-            return await _context.Restaurants.Where(r => r.Name.Contains(name)).ToListAsync();
+            return await _context
+                .Restaurants.Include(r => r.Menu)
+                .Include(r => r.Orders)
+                .Where(r => r.Name.Contains(name))
+                .ToListAsync();
         }
     }
 }

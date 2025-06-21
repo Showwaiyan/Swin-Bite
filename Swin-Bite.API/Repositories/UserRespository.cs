@@ -34,7 +34,7 @@ namespace SwinBite.Reposiroties
         // Add
         public async Task AddAsync(User user)
         {
-           await _context.AddAsync(user);
+           await _context.Users.AddAsync(user);
         }
 
         // Udpate

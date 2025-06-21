@@ -1,0 +1,68 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using SwinBite.DTO;
+using SwinBite.Models;
+using SwinBite.Services;
+
+namespace SwinBite.Context
+{
+    [Route("api/customer")]
+    [ApiController]
+    public class CustomerController : ControllerBase
+    {
+        private readonly IMapper _mapper;
+        private readonly CustomerServices _customerServices;
+        private readonly RestaurantServices _restaurantServices;
+        private readonly FoodServices _foodServices;
+
+        public CustomerController(
+            IMapper mapper,
+            CustomerServices customerServices,
+            RestaurantServices restaurantServices,
+            FoodServices foodServices
+        )
+        {
+            _mapper = mapper;
+            _customerServices = customerServices;
+            _restaurantServices = restaurantServices;
+            _foodServices = foodServices;
+        }
+
+        [HttpPost("cart")]
+        public async Task<IActionResult> AddToCart([FromBody] CartAddDto cartAddDto)
+        {
+            try
+            {
+                int customerId = cartAddDto.UserId;
+                int foodId = cartAddDto.FoodId;
+                Food food = await _foodServices.GetFood(foodId);
+                int quantity = cartAddDto.Quantity;
+
+                ShoppingCartItem shoppingCartItem = await _customerServices.AddToCart(
+                    customerId,
+                    food,
+                    quantity
+                );
+
+                ShoppingCartItemDto shoppingCartItemDto = _mapper.Map<ShoppingCartItemDto>(
+                    shoppingCartItem
+                );
+
+
+                return Ok(shoppingCartItemDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error Occured: {ex.Message}");
+            }
+        }
+    }
+}

@@ -119,6 +119,11 @@ namespace Swin_Bite.API.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("TotalQuantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
                     b.HasKey("FoodId");
 
                     b.HasIndex("RestaurantId");
@@ -327,6 +332,7 @@ namespace Swin_Bite.API.Migrations
                             PrepTime = 0,
                             Price = 10.00m,
                             RestaurantId = 3,
+                            TotalQuantity = 0,
                             Calories = 0,
                             ServingSize = 0,
                             SpiceLevel = 0
@@ -340,6 +346,7 @@ namespace Swin_Bite.API.Migrations
                             PrepTime = 0,
                             Price = 12.00m,
                             RestaurantId = 4,
+                            TotalQuantity = 0,
                             Calories = 0,
                             ServingSize = 0,
                             SpiceLevel = 0
@@ -374,6 +381,7 @@ namespace Swin_Bite.API.Migrations
                             PrepTime = 0,
                             Price = 3.00m,
                             RestaurantId = 3,
+                            TotalQuantity = 0,
                             HasAlcohol = false,
                             IsCarbonated = false,
                             Temperature = 0,
@@ -388,6 +396,7 @@ namespace Swin_Bite.API.Migrations
                             PrepTime = 0,
                             Price = 2.50m,
                             RestaurantId = 4,
+                            TotalQuantity = 0,
                             HasAlcohol = false,
                             IsCarbonated = false,
                             Temperature = 0,

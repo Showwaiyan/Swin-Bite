@@ -23,7 +23,11 @@ namespace SwinBite.Controller
         [HttpGet("customers")]
         public async Task<IActionResult> GetAllCustomers()
         {
-            List<Customer> customers = await _context.Customers.ToListAsync();
+            List<Customer> customers = await _context
+                .Customers.Include(c => c.ShoppingCart)
+                .ThenInclude(s => s.ShoppingCartItems)
+                .Include(c => c.Orders)
+                .ToListAsync();
             List<CustomerDto> customersDto = _mapper.Map<List<CustomerDto>>(customers);
             return Ok(customersDto);
         }
@@ -133,9 +137,12 @@ namespace SwinBite.Controller
         [HttpGet("restaurantorders/{restaurantId}")]
         public async Task<IActionResult> ViewRestaurantOrders(int restaurantId)
         {
-            Restaurant restaurant = await _context.Restaurants.Include(r => r.Orders).FirstOrDefaultAsync(r => r.UserId == restaurantId);
+            Restaurant restaurant = await _context
+                .Restaurants.Include(r => r.Orders)
+                .FirstOrDefaultAsync(r => r.UserId == restaurantId);
 
-            if (restaurant == null) return BadRequest("There is no restaurant with this id.");
+            if (restaurant == null)
+                return BadRequest("There is no restaurant with this id.");
 
             List<OrderDto> orderDto = _mapper.Map<List<OrderDto>>(restaurant.Orders);
             return Ok(orderDto);

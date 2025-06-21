@@ -4,6 +4,6 @@ namespace SwinBite.DTO
     {
         public int ShoppingCartItemId { get; set; }
         public int Quantity { get; set; }
-        public FoodDto Food {get;set;}
-}
+        public FoodDto Food { get; set; }
+    }
 }

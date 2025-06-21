@@ -9,7 +9,7 @@ namespace SwinBite.Models
         private int _shoppingCartId;
         private int _customerId;
         private Customer _customer;
-        private List<ShoppingCartItem> _shoppingCartItems;
+        private List<ShoppingCartItem> _shoppingCartItems = new List<ShoppingCartItem>();
 
         // Properties
         [Key]

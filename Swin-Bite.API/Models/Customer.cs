@@ -30,18 +30,17 @@ namespace SwinBite.Models
 
         public Order PlaceOrder()
         {
-            
             return ShoppingCart.ConvertToOrder();
         }
 
-        public List<Restaurant> BrowseRestaurants()
-        {
-            return new List<Restaurant> { };
-        }
-
-        public List<Food> ViewMenu(int restaurantId)
-        {
-            return new List<Food> { };
-        }
+        // public List<Restaurant> BrowseRestaurants()
+        // {
+        //     return new List<Restaurant> { };
+        // }
+        //
+        // public List<Food> ViewMenu(int restaurantId)
+        // {
+        //     return new List<Food> { };
+        // }
     }
 }

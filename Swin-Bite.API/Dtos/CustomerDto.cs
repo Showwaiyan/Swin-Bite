@@ -6,6 +6,6 @@ namespace SwinBite.DTO
         public string Username { get; set; }
         public string Email { get; set; }
         public ShoppingCartDto ShoppingCart { get; set; }
-        public OrderDto Orders { get; set; }
+        public List<OrderDto> Orders { get; set; }
     }
 }

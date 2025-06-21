@@ -29,5 +29,11 @@ namespace SwinBite.Models
             get { return _hasAlcohol; }
             set { _hasAlcohol = value; }
         }
+
+        // Methods
+        public override string GetDetails()
+        {
+            return "";
+        }
     }
 }

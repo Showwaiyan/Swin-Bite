@@ -23,5 +23,11 @@ namespace SwinBite.Models
             get { return _allergens; }
             set { _allergens = value; }
         }
+
+        // Methods
+        public override string GetDetails()
+        {
+            return "";
+        }
     }
 }

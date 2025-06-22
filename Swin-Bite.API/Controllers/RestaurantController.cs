@@ -41,12 +41,12 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpGet("menu")]
-        public async Task<IActionResult> ViewMenu([FromBody] MenuRequestDto menuRequestDto)
+        [HttpGet("{id}/menu")]
+        public async Task<IActionResult> ViewMenu(int id)
         {
             try
             {
-                IEnumerable<Food> foods = await _restaurantServices.GetMenu(menuRequestDto.RestaurantId);
+                IEnumerable<Food> foods = await _restaurantServices.GetMenu(id);
                 IEnumerable<FoodDto> foodsDto = _mapper.Map<IEnumerable<FoodDto>>(foods);
                 return Ok(foodsDto);
             }

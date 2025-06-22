@@ -18,15 +18,18 @@ namespace SwinBite.Reposiroties
         {
             return await _context
                 .Customers.Include(c => c.ShoppingCart)
+                .ThenInclude(s => s.ShoppingCartItems)
+                .ThenInclude(si => si.Food)
                 .Include(c => c.Orders)
+                .ThenInclude(o => o.OrderItems)
                 .FirstOrDefaultAsync(c => c.UserId == id);
         }
 
         // Save Cart Item
         public async Task AddToCart(ShoppingCartItem item)
         {
-          await _context.ShoppingCartItems.AddAsync(item);
-          await _context.SaveChangesAsync();
+            await _context.ShoppingCartItems.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
     }
 }

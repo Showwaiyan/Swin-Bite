@@ -4,5 +4,6 @@ namespace SwinBite.DTO
     {
         public int ShoppingCartId { get; set; }
         public List<ShoppingCartItemDto> ShoppingCartItems { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

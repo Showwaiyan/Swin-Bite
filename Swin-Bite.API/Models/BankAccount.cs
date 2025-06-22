@@ -60,7 +60,7 @@ namespace SwinBite.Models
 
         public decimal GetBalance()
         {
-            return 0;
+            return Balance;
         }
     }
 }

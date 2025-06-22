@@ -10,11 +10,12 @@ namespace SwinBite.Models
         private int _customerId;
         private Customer _customer;
         private List<ShoppingCartItem> _shoppingCartItems;
+        private decimal _totalPrice;
 
         // constructor
         public ShoppingCart()
         {
-          _shoppingCartItems = new List<ShoppingCartItem>();
+            _shoppingCartItems = new List<ShoppingCartItem>();
         }
 
         // Properties
@@ -46,6 +47,12 @@ namespace SwinBite.Models
             set { _customer = value; }
         }
 
+        public decimal TotalPrice
+        {
+            get { return _totalPrice; }
+            set { _totalPrice = value; }
+        }
+
         // Methods
         public ShoppingCartItem AddItem(Food food, int quantity)
         {
@@ -66,7 +73,7 @@ namespace SwinBite.Models
 
         public decimal CalculateTotal()
         {
-            return 0;
+            return ShoppingCartItems.Sum(i => i.Quantity * i.Food.Price);
         }
 
         public void Clear() { }

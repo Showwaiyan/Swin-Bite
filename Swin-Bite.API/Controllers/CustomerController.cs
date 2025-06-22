@@ -48,7 +48,6 @@ namespace SwinBite.Context
                     shoppingCartItem
                 );
 
-
                 return Ok(shoppingCartItemDto);
             }
             catch (ArgumentException ex)
@@ -56,6 +55,43 @@ namespace SwinBite.Context
                 return BadRequest(ex.Message);
             }
             catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error Occured: {ex.Message}");
+            }
+        }
+
+        [HttpGet("cart")]
+        public async Task<IActionResult> CheckOut([FromBody] UserDto userDto)
+        {
+            try
+            {
+                ShoppingCart cart = await _customerServices.CheckOutCart(userDto.UserId);
+                ShoppingCartDto cartDto = _mapper.Map<ShoppingCartDto>(cart);
+                return Ok(cartDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("order")]
+        public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto)
+        {
+            try
+            {
+                Order order = await _customerServices.ConvertToOrder(userDto.UserId);
+                return Ok(order);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
             {
                 return BadRequest(ex.Message);
             }

@@ -37,7 +37,7 @@ namespace SwinBite.Controller
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal Error Occured");
+                return StatusCode(500, $"Internal Error Occured: {ex.Message}");
             }
         }
 
@@ -56,7 +56,7 @@ namespace SwinBite.Controller
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal Error Occured");
+                return StatusCode(500, $"Internal Error Occured {ex.Message}");
             }
         }
     }

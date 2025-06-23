@@ -26,7 +26,8 @@ namespace SwinBite.Reposiroties
         public async Task<Restaurant> GetRestaruantByIdAsync(int id)
         {
             return await _context
-                .Restaurants.Include(r => r.Menu)
+                .Restaurants.Include(r => r.BankAccount)
+                .Include(r => r.Menu)
                 .Include(r => r.Orders)
                 .FirstOrDefaultAsync(r => r.UserId == id);
         }
@@ -35,7 +36,8 @@ namespace SwinBite.Reposiroties
         public async Task<IEnumerable<Restaurant>> GetRestaruantByNameAsync(string name)
         {
             return await _context
-                .Restaurants.Include(r => r.Menu)
+                .Restaurants.Include(r => r.BankAccount)
+                .Include(r => r.Menu)
                 .Include(r => r.Orders)
                 .Where(r => r.Name.Contains(name))
                 .ToListAsync();

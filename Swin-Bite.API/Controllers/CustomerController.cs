@@ -14,18 +14,24 @@ namespace SwinBite.Context
         private readonly CustomerServices _customerServices;
         private readonly RestaurantServices _restaurantServices;
         private readonly FoodServices _foodServices;
+        private readonly BankServices _bankServices;
+        private readonly OrderServices _orderServices;
 
         public CustomerController(
             IMapper mapper,
             CustomerServices customerServices,
             RestaurantServices restaurantServices,
-            FoodServices foodServices
+            FoodServices foodServices,
+            BankServices bankServices,
+            OrderServices orderServices
         )
         {
             _mapper = mapper;
             _customerServices = customerServices;
             _restaurantServices = restaurantServices;
             _foodServices = foodServices;
+            _bankServices = bankServices;
+            _orderServices = orderServices;
         }
 
         [HttpPost("cart")]
@@ -85,7 +91,22 @@ namespace SwinBite.Context
             try
             {
                 Order order = await _customerServices.ConvertToOrder(userDto.UserId);
-                return Ok(order);
+                Customer sender = await _customerServices.GetCustomer(order.CustomerId);
+                Restaurant receiver = await _restaurantServices.GetRestaurant(order.RestaurantId);
+                order.Customer = sender;
+                order.Restaurant = receiver;
+
+                if (await _bankServices.ProcessPayment(sender, receiver, order.TotalPrice))
+                {
+                    // Error start here
+
+                    await _orderServices.SaveOrder(order);
+                    _customerServices.ClearCart(order.Customer);
+                    OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                    return Ok(orderDto);
+                }
+
+                return BadRequest("Payment is not successful.");
             }
             catch (ArgumentException ex)
             {
@@ -97,7 +118,7 @@ namespace SwinBite.Context
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal Error Occured: {ex.Message}");
+                return StatusCode(500, $"Internal Error Occured: {ex}");
             }
         }
     }

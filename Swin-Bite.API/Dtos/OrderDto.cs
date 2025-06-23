@@ -5,6 +5,8 @@ namespace SwinBite.DTO
     public class OrderDto
     {
         public int OrderId { get; set; }
+        public int CustomerId { get; set; }
+        public int RestaurantId { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
         public decimal TotalPrice { get; set; }
         public OrderStatus Status { get; set; }

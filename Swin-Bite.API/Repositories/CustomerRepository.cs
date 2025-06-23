@@ -17,7 +17,8 @@ namespace SwinBite.Reposiroties
         public async Task<Customer> GetByIdAsync(int id)
         {
             return await _context
-                .Customers.Include(c => c.ShoppingCart)
+                .Customers.Include(c => c.BankAccount)
+                .Include(c => c.ShoppingCart)
                 .ThenInclude(s => s.ShoppingCartItems)
                 .ThenInclude(si => si.Food)
                 .Include(c => c.Orders)
@@ -29,6 +30,12 @@ namespace SwinBite.Reposiroties
         public async Task AddToCart(ShoppingCartItem item)
         {
             await _context.ShoppingCartItems.AddAsync(item);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ClearCart(Customer customer)
+        {
+            _context.ShoppingCartItems.RemoveRange(customer.ShoppingCart.ShoppingCartItems);
             await _context.SaveChangesAsync();
         }
     }

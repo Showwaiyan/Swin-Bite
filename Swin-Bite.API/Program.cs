@@ -29,16 +29,24 @@ builder
     });
 
 // Repository Injection
-builder.Services.AddScoped<UserRespository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<RestaurantRepository>();
 builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddScoped<FoodRepository>();
+builder.Services.AddScoped<BankRepository>();
+builder.Services.AddScoped<OrderRepository>();
 
 // Services Injection
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RestaurantServices>();
 builder.Services.AddScoped<CustomerServices>();
 builder.Services.AddScoped<FoodServices>();
+builder.Services.AddScoped<BankServices>();
+builder.Services.AddScoped<BankValidatorServices>();
+builder.Services.AddScoped<OrderServices>();
+builder.Services.AddScoped<ValidationEventArgs>();
+builder.Services.AddScoped<IValidatorServices<ValidationEventArgs>, BankValidatorServices>();
+builder.Services.AddScoped<IValidateServices<ValidationEventArgs>, BankServices>();
 
 var app = builder.Build();
 

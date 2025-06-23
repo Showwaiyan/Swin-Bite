@@ -13,8 +13,8 @@ using SwinBite.Context;
 namespace Swin_Bite.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250621052641_Phase4-3")]
-    partial class Phase43
+    [Migration("20250622030909_Phase4-4")]
+    partial class Phase44
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,6 +208,9 @@ namespace Swin_Bite.API.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
                     b.HasKey("ShoppingCartId");
 
                     b.HasIndex("CustomerId")
@@ -219,12 +222,14 @@ namespace Swin_Bite.API.Migrations
                         new
                         {
                             ShoppingCartId = 1,
-                            CustomerId = 1
+                            CustomerId = 1,
+                            TotalPrice = 0m
                         },
                         new
                         {
                             ShoppingCartId = 2,
-                            CustomerId = 2
+                            CustomerId = 2,
+                            TotalPrice = 0m
                         });
                 });
 

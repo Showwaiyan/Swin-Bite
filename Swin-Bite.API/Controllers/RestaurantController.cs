@@ -29,7 +29,7 @@ namespace SwinBite.Controller
                 {
                     restaurants = await _restaurantServices.GetRestaurants();
                 }
-                else restaurants = await _restaurantServices.FindRestaruants(name);
+                else restaurants = await _restaurantServices.FindRestaruantsByName(name);
 
                 IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
 

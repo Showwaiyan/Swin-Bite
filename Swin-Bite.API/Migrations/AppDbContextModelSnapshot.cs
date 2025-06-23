@@ -205,6 +205,9 @@ namespace Swin_Bite.API.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
                     b.HasKey("ShoppingCartId");
 
                     b.HasIndex("CustomerId")
@@ -216,12 +219,14 @@ namespace Swin_Bite.API.Migrations
                         new
                         {
                             ShoppingCartId = 1,
-                            CustomerId = 1
+                            CustomerId = 1,
+                            TotalPrice = 0m
                         },
                         new
                         {
                             ShoppingCartId = 2,
-                            CustomerId = 2
+                            CustomerId = 2,
+                            TotalPrice = 0m
                         });
                 });
 

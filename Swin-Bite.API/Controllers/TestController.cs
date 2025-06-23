@@ -27,6 +27,7 @@ namespace SwinBite.Controller
                 .Customers.Include(c => c.ShoppingCart)
                 .ThenInclude(s => s.ShoppingCartItems)
                 .Include(c => c.Orders)
+                .ThenInclude(o => o.OrderItems)
                 .ToListAsync();
             List<CustomerDto> customersDto = _mapper.Map<List<CustomerDto>>(customers);
             return Ok(customersDto);

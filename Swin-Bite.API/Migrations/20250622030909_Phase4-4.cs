@@ -5,7 +5,7 @@
 namespace Swin_Bite.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Phase43 : Migration
+    public partial class Phase44 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,11 +13,36 @@ namespace Swin_Bite.API.Migrations
             migrationBuilder.DropColumn(
                 name: "TotalQuantity",
                 table: "Foods");
+
+            migrationBuilder.AddColumn<decimal>(
+                name: "TotalPrice",
+                table: "ShoppingCarts",
+                type: "numeric",
+                nullable: false,
+                defaultValue: 0m);
+
+            migrationBuilder.UpdateData(
+                table: "ShoppingCarts",
+                keyColumn: "ShoppingCartId",
+                keyValue: 1,
+                column: "TotalPrice",
+                value: 0m);
+
+            migrationBuilder.UpdateData(
+                table: "ShoppingCarts",
+                keyColumn: "ShoppingCartId",
+                keyValue: 2,
+                column: "TotalPrice",
+                value: 0m);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "TotalPrice",
+                table: "ShoppingCarts");
+
             migrationBuilder.AddColumn<int>(
                 name: "TotalQuantity",
                 table: "Foods",

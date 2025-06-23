@@ -53,9 +53,9 @@ namespace SwinBite.Models
         }
 
         //Methods
-        public bool ProcessPayment(decimal amount)
+        public void ProcessPayment(decimal amount)
         {
-            return true;
+            Balance += amount;
         }
 
         public decimal GetBalance()

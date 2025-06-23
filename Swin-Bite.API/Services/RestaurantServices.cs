@@ -25,13 +25,18 @@ namespace SwinBite.Services
             return restaurant.ViewMenu();
         }
 
-        public async Task<IEnumerable<Restaurant>> FindRestaruants(string name)
+        public async Task<IEnumerable<Restaurant>> FindRestaruantsByName(string name)
         {
             IEnumerable<Restaurant> restaurants = await _repo.GetRestaruantByNameAsync(name);
             if (restaurants == null)
                 return null;
 
             return restaurants;
+        }
+
+        public async Task<Restaurant> GetRestaurant(int id)
+        {
+          return await _repo.GetRestaruantByIdAsync(id);
         }
     }
 }

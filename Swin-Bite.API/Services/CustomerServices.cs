@@ -51,5 +51,16 @@ namespace SwinBite.Services
 
             return cart;
         }
+
+        public async Task<Customer> GetCustomer(int id)
+        {
+            return await _repo.GetByIdAsync(id);
+        }
+
+        public async Task ClearCart(Customer customer)
+        {
+            customer.ClearCart();
+            await _repo.ClearCart(customer);
+        }
     }
 }

@@ -8,6 +8,5 @@ namespace SwinBite.DTO
         public string Address { get; set; }
         public float Rating { get; set; }
         public List<FoodDto> Menu { get; set; }
-        public List<OrderDto> Orders { get; set; }
     }
 }

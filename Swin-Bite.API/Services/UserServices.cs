@@ -5,9 +5,9 @@ namespace SwinBite.Services
 {
     public class UserService
     {
-        private readonly UserRespository _repo;
+        private readonly UserRepository _repo;
 
-        public UserService(UserRespository repo)
+        public UserService(UserRepository repo)
         {
             _repo = repo;
         }

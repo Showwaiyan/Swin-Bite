@@ -23,14 +23,19 @@ namespace SwinBite.Models
         }
 
         // Methods
-        public ShoppingCartItem AddToCart(Food food,int quantity) 
-        { 
-          return ShoppingCart.AddItem(food, quantity);
+        public ShoppingCartItem AddToCart(Food food, int quantity)
+        {
+            return ShoppingCart.AddItem(food, quantity);
         }
 
         public Order PlaceOrder()
         {
             return ShoppingCart.ConvertToOrder();
+        }
+
+        public void ClearCart()
+        {
+            ShoppingCart.ShoppingCartItems.Clear();
         }
     }
 }

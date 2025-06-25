@@ -65,5 +65,24 @@ namespace SwinBite.Services
             customer.ClearCart();
             await _repo.ClearCart(customer);
         }
+
+        public async Task<IEnumerable<Order>> GetOrders(int customerId)
+        {
+            Customer customer = await GetCustomer(customerId);
+            if (customer == null)
+                throw new ArgumentException("We can't find customer with this id.");
+            List<Order> orders = customer.GetOrders();
+            return orders;
+        }
+
+        public async Task<Order> GetOrder(int orderId, int customerId)
+        {
+            Customer customer = await GetCustomer(customerId);
+            if (customer == null)
+                throw new ArgumentException("We can't find customer with this id.");
+
+            Order order = customer.GetOrder(orderId);
+            return order;
+        }
     }
 }

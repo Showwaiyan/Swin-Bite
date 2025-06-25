@@ -121,21 +121,20 @@ namespace SwinBite.Context
                 return StatusCode(500, $"Internal Error Occured: {ex}");
             }
         }
-        [HttpGet("order/{id}")]
-        public async Task<IActionResult> GetOrder(int id, [FromBody] UserDto userDto)
-        {
-          try 
-          {
-            Customer customer = await _customerServices.GetCustomer(userDto.UserId);
-            Order order = customer.GetOrder(id);
 
-            OrderDto orderDto = _mapper.Map<OrderDto>(order);
-            return Ok(orderDto);
-          }
-          catch (ArgumentException ex)
-          {
-            return BadRequest(ex.Message);
-          }
+        [HttpGet("order/{id}")]
+        public async Task<IActionResult> GetOrder(int orderId, [FromBody] UserDto userDto)
+        {
+            try
+            {
+                Order order = await _customerServices.GetOrder(orderId, userDto.UserId);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("orders")]
@@ -143,12 +142,10 @@ namespace SwinBite.Context
         {
             try
             {
-                Customer customer = await _customerServices.GetCustomer(userDto.UserId);
-                List<Order> orders = customer.GetOrders();
+                IEnumerable<Order> orders = await _customerServices.GetOrders(userDto.UserId);
 
-                List<OrderDto> ordersDto = _mapper.Map<List<OrderDto>>(orders);
+                IEnumerable<OrderDto> ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
                 return Ok(ordersDto);
-
             }
             catch (ArgumentException ex)
             {

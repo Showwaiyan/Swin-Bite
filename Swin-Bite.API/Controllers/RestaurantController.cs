@@ -6,22 +6,16 @@ using SwinBite.Services;
 
 namespace SwinBite.Controller
 {
-    [Route("api/restaurants")]
+    [Route("api/restaurant")]
     [ApiController]
     public class RestaurantController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly RestaurantServices _restaurantServices;
-        private readonly OrderServices _orderServices;
 
-        public RestaurantController(
-            RestaurantServices restaurantServices,
-            OrderServices orderServices,
-            IMapper mapper
-        )
+        public RestaurantController(RestaurantServices restaurantServices, IMapper mapper)
         {
             _restaurantServices = restaurantServices;
-            _orderServices = orderServices;
             _mapper = mapper;
         }
 
@@ -35,12 +29,9 @@ namespace SwinBite.Controller
                 {
                     restaurants = await _restaurantServices.GetRestaurants();
                 }
-                else
-                    restaurants = await _restaurantServices.FindRestaruantsByName(name);
+                else restaurants = await _restaurantServices.FindRestaruantsByName(name);
 
-                IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(
-                    restaurants
-                );
+                IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
 
                 return Ok(restaurantsDto);
             }
@@ -51,11 +42,11 @@ namespace SwinBite.Controller
         }
 
         [HttpGet("{id}/menu")]
-        public async Task<IActionResult> ViewMenu(int restaruantId)
+        public async Task<IActionResult> ViewMenu(int id)
         {
             try
             {
-                IEnumerable<Food> foods = await _restaurantServices.GetMenu(restaruantId);
+                IEnumerable<Food> foods = await _restaurantServices.GetMenu(id);
                 IEnumerable<FoodDto> foodsDto = _mapper.Map<IEnumerable<FoodDto>>(foods);
                 return Ok(foodsDto);
             }
@@ -66,38 +57,6 @@ namespace SwinBite.Controller
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal Error Occured {ex.Message}");
-            }
-        }
-
-        [HttpPost("order")]
-        public async Task<IActionResult> UpdateOrderStatus([FromBody] OrderStatusDto orderStatusDto)
-        {
-            try
-            {
-                Order order = await _orderServices.GetOrder(orderStatusDto.OrderId);
-                order = await _restaurantServices.UpdateOrderStatus(order, orderStatusDto.Status);
-                await _orderServices.UpdateOrder(order);
-                OrderDto orderDto = _mapper.Map<OrderDto>(order);
-                return Ok(orderDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("order/{orderId}")]
-        public async Task<IActionResult> GetOrder(int orderId, [FromBody] UserDto userDto)
-        {
-            try
-            {
-                Order order = await _restaurantServices.GetOrder(orderId, userDto.UserId);
-                OrderDto orderDto = _mapper.Map<OrderDto>(order);
-                return Ok(orderDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
             }
         }
     }

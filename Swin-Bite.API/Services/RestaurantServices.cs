@@ -36,17 +36,7 @@ namespace SwinBite.Services
 
         public async Task<Restaurant> GetRestaurant(int id)
         {
-            return await _repo.GetRestaruantByIdAsync(id);
-        }
-
-        public async Task<Order> UpdateOrderStatus(Order order, OrderStatus status)
-        {
-            Restaurant restaurant = await _repo.GetRestaruantByIdAsync(order.RestaurantId);
-            if (restaurant == null)
-                throw new InvalidOperationException(
-                    "This order does not belong to this restaurant"
-                );
-            return restaurant.UpdateOrderStatus(order, status);
+          return await _repo.GetRestaruantByIdAsync(id);
         }
     }
 }

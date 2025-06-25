@@ -33,6 +33,11 @@ namespace SwinBite.Models
             return ShoppingCart.ConvertToOrder();
         }
 
+        public List<Order> GetOrder()
+        {
+          return Orders;
+        }
+
         public void ClearCart()
         {
             ShoppingCart.ShoppingCartItems.Clear();

@@ -6,7 +6,7 @@ using SwinBite.Services;
 
 namespace SwinBite.Context
 {
-    [Route("api/customer")]
+    [Route("api/customers")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -121,13 +121,19 @@ namespace SwinBite.Context
                 return StatusCode(500, $"Internal Error Occured: {ex}");
             }
         }
-
         [HttpGet("order/{id}")]
-        public async Task<Order> GetOrder(int id, [FromBody] UserDto userDto)
+
+        [HttpGet("orders")]
+        public async Task<IActionResult> GetOrder(int id, [FromBody] UserDto userDto)
         {
             try
             {
                 Customer customer = await _customerServices.GetCustomer(userDto.UserId);
+                List<Order> orders = customer.GetOrder();
+
+                List<OrderDto> ordersDto = _mapper.Map<List<OrderDto>>(orders);
+                return Ok(ordersDto);
+
             }
             catch (ArgumentException ex)
             {

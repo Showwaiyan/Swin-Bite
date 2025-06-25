@@ -29,6 +29,8 @@ namespace SwinBite.Reposiroties
                 .Restaurants.Include(r => r.BankAccount)
                 .Include(r => r.Menu)
                 .Include(r => r.Orders)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Food)
                 .FirstOrDefaultAsync(r => r.UserId == id);
         }
 
@@ -39,6 +41,8 @@ namespace SwinBite.Reposiroties
                 .Restaurants.Include(r => r.BankAccount)
                 .Include(r => r.Menu)
                 .Include(r => r.Orders)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Food)
                 .Where(r => r.Name.Contains(name))
                 .ToListAsync();
         }

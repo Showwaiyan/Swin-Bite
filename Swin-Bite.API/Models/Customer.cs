@@ -33,7 +33,7 @@ namespace SwinBite.Models
             return ShoppingCart.ConvertToOrder();
         }
 
-        public List<Order> GetOrder()
+        public List<Order> GetOrders()
         {
           return Orders;
         }

@@ -121,15 +121,16 @@ namespace SwinBite.Context
                 return StatusCode(500, $"Internal Error Occured: {ex}");
             }
         }
-        [HttpGet("order/{id}")]
+        // [HttpGet("order/{id}")]
+        // public async Task<IActionResult> Get
 
         [HttpGet("orders")]
-        public async Task<IActionResult> GetOrder(int id, [FromBody] UserDto userDto)
+        public async Task<IActionResult> GetOrders(int id, [FromBody] UserDto userDto)
         {
             try
             {
                 Customer customer = await _customerServices.GetCustomer(userDto.UserId);
-                List<Order> orders = customer.GetOrder();
+                List<Order> orders = customer.GetOrders();
 
                 List<OrderDto> ordersDto = _mapper.Map<List<OrderDto>>(orders);
                 return Ok(ordersDto);

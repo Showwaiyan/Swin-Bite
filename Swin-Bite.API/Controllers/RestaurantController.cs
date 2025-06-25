@@ -68,29 +68,5 @@ namespace SwinBite.Controller
                 return StatusCode(500, $"Internal Error Occured {ex.Message}");
             }
         }
-
-        [HttpPost("order/{id}/{status}")]
-        public async Task<IActionResult> UpdateOrderStatus(
-            int id,
-            OrderStatus status,
-            [FromBody] UserDto userDto
-        )
-        {
-            try
-            {
-                Order order = await _restaurantServices.UpdateOrderStatus(
-                    id,
-                    status,
-                    userDto.UserId
-                );
-                await _orderServices.UpdateOrder(order);
-                OrderDto orderDto = _mapper.Map<OrderDto>(order);
-                return Ok(orderDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

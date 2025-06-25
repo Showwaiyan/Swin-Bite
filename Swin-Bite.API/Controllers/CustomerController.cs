@@ -121,5 +121,6 @@ namespace SwinBite.Context
                 return StatusCode(500, $"Internal Error Occured: {ex}");
             }
         }
+
     }
 }

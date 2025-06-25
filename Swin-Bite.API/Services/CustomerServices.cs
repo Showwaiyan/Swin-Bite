@@ -78,10 +78,17 @@ namespace SwinBite.Services
         public async Task<Order> GetOrder(int orderId, int customerId)
         {
             Customer customer = await GetCustomer(customerId);
-            
+
             Order order = customer.GetOrder(orderId);
             if (order == null)
                 throw new ArgumentException("We can't find order with this id.");
+            return order;
+        }
+
+        public async Task<Order> PickUpOrder(int orderId, int customerId)
+        {
+            Customer customer = await GetCustomer(customerId);
+            Order order = customer.PickUpOrder(orderId);
             return order;
         }
     }

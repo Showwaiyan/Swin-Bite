@@ -32,5 +32,11 @@ namespace SwinBite.Reposiroties
           _context.Orders.Update(order);
           await _context.SaveChangesAsync();
         }
+        
+        public async Task DeleteOrder(Order order)
+        {
+          _context.Orders.Remove(order);
+          await _context.SaveChangesAsync();
+        }
     }
 }

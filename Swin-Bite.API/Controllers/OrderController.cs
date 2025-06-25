@@ -13,15 +13,18 @@ namespace SwinBite.Controller
         private readonly IMapper _mapper;
         private readonly CustomerServices _customerServices;
         private readonly RestaurantServices _restaurantServices;
+        private readonly OrderServices _orderServices;
 
         public OrderController(
             CustomerServices customerServices,
             RestaurantServices restaruatnServices,
+            OrderServices orderServices,
             IMapper mapper
         )
         {
             _customerServices = customerServices;
             _restaurantServices = restaruatnServices;
+            _orderServices = orderServices;
             _mapper = mapper;
         }
 
@@ -82,6 +85,50 @@ namespace SwinBite.Controller
                 return Ok(orderDto);
             }
             catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("{id}/{status}")]
+        public async Task<IActionResult> UpdateOrderStatus(
+            int id,
+            OrderStatus status,
+            [FromBody] UserDto userDto
+        )
+        {
+            try
+            {
+                Order order = await _restaurantServices.UpdateOrderStatus(
+                    id,
+                    status,
+                    userDto.UserId
+                );
+                await _orderServices.UpdateOrder(order);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PickUpOrder(int id, UserDto userDto)
+        {
+            try
+            {
+                Order order = await _customerServices.PickUpOrder(id, userDto.UserId);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                await _orderServices.DeleteOrder(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
             {
                 return BadRequest(ex.Message);
             }

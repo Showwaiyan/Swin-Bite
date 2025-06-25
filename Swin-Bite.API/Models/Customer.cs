@@ -48,5 +48,15 @@ namespace SwinBite.Models
             Order order = Orders.Find(o => o.OrderId == id);
             return order;
         }
+
+        public Order PickUpOrder(int orderId)
+        {
+            Order order = GetOrder(orderId);
+            order.Status = OrderStatus.Completed;
+            if (!Orders.Remove(order))
+                throw new InvalidOperationException("Can't confirm the order!");
+
+            return order;
+        }
     }
 }

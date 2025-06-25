@@ -33,9 +33,15 @@ namespace SwinBite.Models
             return ShoppingCart.ConvertToOrder();
         }
 
+        public Order GetOrder(int id)
+        {
+            Order order = Orders.Find(o => o.OrderId == id);
+            return order;
+        }
+
         public List<Order> GetOrders()
         {
-          return Orders;
+            return Orders;
         }
 
         public void ClearCart()

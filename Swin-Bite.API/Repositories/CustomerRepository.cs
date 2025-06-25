@@ -23,6 +23,7 @@ namespace SwinBite.Reposiroties
                 .ThenInclude(si => si.Food)
                 .Include(c => c.Orders)
                 .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Food)
                 .FirstOrDefaultAsync(c => c.UserId == id);
         }
 

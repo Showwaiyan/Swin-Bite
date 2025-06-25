@@ -87,10 +87,6 @@ namespace SwinBite.Models
 
         public Order UpdateOrderStatus(Order order, OrderStatus status)
         {
-            if (order.RestaurantId != UserId)
-                throw new InvalidOperationException(
-                    "This order does not belong to this restaurant"
-                );
             order.Status = status;
             return order;
         }
@@ -98,6 +94,17 @@ namespace SwinBite.Models
         public bool UpdateMenu()
         {
             return true;
+        }
+
+        public List<Order> GetOrders()
+        {
+          return Orders;
+        }
+
+        public Order GetOrder(int id)
+        {
+          Order order = Orders.Find(o=>o.OrderId == id);
+          return order;
         }
     }
 }

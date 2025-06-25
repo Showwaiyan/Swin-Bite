@@ -85,7 +85,7 @@ namespace SwinBite.Context
             }
         }
 
-        [HttpPost("order")]
+        [HttpPost("placeorder")]
         public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto)
         {
             try
@@ -119,37 +119,6 @@ namespace SwinBite.Context
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal Error Occured: {ex}");
-            }
-        }
-
-        [HttpGet("order/{id}")]
-        public async Task<IActionResult> GetOrder(int orderId, [FromBody] UserDto userDto)
-        {
-            try
-            {
-                Order order = await _customerServices.GetOrder(orderId, userDto.UserId);
-                OrderDto orderDto = _mapper.Map<OrderDto>(order);
-                return Ok(orderDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("orders")]
-        public async Task<IActionResult> GetOrders([FromBody] UserDto userDto)
-        {
-            try
-            {
-                IEnumerable<Order> orders = await _customerServices.GetOrders(userDto.UserId);
-
-                IEnumerable<OrderDto> ordersDto = _mapper.Map<IEnumerable<OrderDto>>(orders);
-                return Ok(ordersDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace SwinBite.Models
             set { _shoppingCart = value; }
         }
 
-        public List<Order> Orders // One-to-Many relationship (! Need to implement later)
+        public List<Order> Orders
         {
             get { return _orders; }
             set { _orders = value; }
@@ -33,10 +33,9 @@ namespace SwinBite.Models
             return ShoppingCart.ConvertToOrder();
         }
 
-        public Order GetOrder(int id)
+        public void ClearCart()
         {
-            Order order = Orders.Find(o => o.OrderId == id);
-            return order;
+            ShoppingCart.ShoppingCartItems.Clear();
         }
 
         public List<Order> GetOrders()
@@ -44,9 +43,10 @@ namespace SwinBite.Models
             return Orders;
         }
 
-        public void ClearCart()
+        public Order GetOrder(int id)
         {
-            ShoppingCart.ShoppingCartItems.Clear();
+            Order order = Orders.Find(o => o.OrderId == id);
+            return order;
         }
     }
 }

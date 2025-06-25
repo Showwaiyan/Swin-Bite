@@ -3,11 +3,11 @@ using SwinBite.Reposiroties;
 
 namespace SwinBite.Services
 {
-    public class UserService
+    public class UserServices
     {
         private readonly UserRepository _repo;
 
-        public UserService(UserRepository repo)
+        public UserServices(UserRepository repo)
         {
             _repo = repo;
         }

@@ -10,10 +10,10 @@ namespace SwinBite.Controller
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserService _userServices;
+        private readonly UserServices _userServices;
         private readonly IMapper _mapper;
 
-        public AuthController(UserService userServices, IMapper mapper)
+        public AuthController(UserServices userServices, IMapper mapper)
         {
             _userServices = userServices;
             _mapper = mapper;

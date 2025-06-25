@@ -37,7 +37,7 @@ builder.Services.AddScoped<BankRepository>();
 builder.Services.AddScoped<OrderRepository>();
 
 // Services Injection
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<RestaurantServices>();
 builder.Services.AddScoped<CustomerServices>();
 builder.Services.AddScoped<FoodServices>();

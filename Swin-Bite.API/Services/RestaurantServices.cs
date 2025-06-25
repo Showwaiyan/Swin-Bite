@@ -36,7 +36,31 @@ namespace SwinBite.Services
 
         public async Task<Restaurant> GetRestaurant(int id)
         {
-          return await _repo.GetRestaruantByIdAsync(id);
+            return await _repo.GetRestaruantByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Order>> GetOrders(int restaurantId)
+        {
+            Restaurant restaurant = await GetRestaurant(restaurantId);
+            if (restaurant == null)
+                throw new ArgumentException("We can't find customer with this id.");
+            List<Order> orders = restaurant.GetOrders();
+            return orders;
+        }
+
+        public async Task<Order> GetOrder(int orderId, int restaurantId)
+        {
+            Restaurant restaurant = await GetRestaurant(restaurantId);
+
+            Order order = restaurant.GetOrder(orderId);
+            if (order == null)
+                throw new ArgumentException("We can't find order with this id.");
+            return order;
+        }
+
+        public async Task<Order> UpdateOrderStatus(int orderId)
+        {
+          Order order = await GetOr
         }
     }
 }

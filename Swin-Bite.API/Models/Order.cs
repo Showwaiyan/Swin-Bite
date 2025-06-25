@@ -92,9 +92,9 @@ namespace SwinBite.Models
         }
 
         // Methods
-        public bool UpdateStatus(OrderStatus status)
+        public void UpdateStatus(OrderStatus status)
         {
-            return true;
+            Status = status;
         }
 
         public decimal CalculateTotal()

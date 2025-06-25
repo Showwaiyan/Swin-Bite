@@ -6,16 +6,22 @@ using SwinBite.Services;
 
 namespace SwinBite.Controller
 {
-    [Route("api/restaurant")]
+    [Route("api/restaurants")]
     [ApiController]
     public class RestaurantController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly RestaurantServices _restaurantServices;
+        private readonly OrderServices _orderServices;
 
-        public RestaurantController(RestaurantServices restaurantServices, IMapper mapper)
+        public RestaurantController(
+            RestaurantServices restaurantServices,
+            OrderServices orderServices,
+            IMapper mapper
+        )
         {
             _restaurantServices = restaurantServices;
+            _orderServices = orderServices;
             _mapper = mapper;
         }
 
@@ -29,9 +35,12 @@ namespace SwinBite.Controller
                 {
                     restaurants = await _restaurantServices.GetRestaurants();
                 }
-                else restaurants = await _restaurantServices.FindRestaruantsByName(name);
+                else
+                    restaurants = await _restaurantServices.FindRestaruantsByName(name);
 
-                IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
+                IEnumerable<RestaurantDto> restaurantsDto = _mapper.Map<IEnumerable<RestaurantDto>>(
+                    restaurants
+                );
 
                 return Ok(restaurantsDto);
             }
@@ -57,6 +66,30 @@ namespace SwinBite.Controller
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal Error Occured {ex.Message}");
+            }
+        }
+
+        [HttpPost("order/{id}/{status}")]
+        public async Task<IActionResult> UpdateOrderStatus(
+            int id,
+            OrderStatus status,
+            [FromBody] UserDto userDto
+        )
+        {
+            try
+            {
+                Order order = await _restaurantServices.UpdateOrderStatus(
+                    id,
+                    status,
+                    userDto.UserId
+                );
+                await _orderServices.UpdateOrder(order);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -85,7 +85,7 @@ namespace SwinBite.Context
             }
         }
 
-        [HttpPost("placeorder")]
+        [HttpPost("order")]
         public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto)
         {
             try

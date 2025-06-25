@@ -16,5 +16,10 @@ namespace SwinBite.Services
     {
       await _repo.SaveOrder(order);
     }
+
+    public async Task UpdateOrder(Order order)
+    {
+      await _repo.UpdateOrder(order);
+    }
   }
 }

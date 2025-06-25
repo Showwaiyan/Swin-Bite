@@ -87,9 +87,7 @@ namespace SwinBite.Models
             Order order = new Order()
             {
                 CustomerId = CustomerId,
-                Customer = Customer,
                 RestaurantId = ShoppingCartItems.First().Food.RestaurantId,
-                Restaurant = ShoppingCartItems.First().Food.Restaurant,
                 OrderItems = new List<OrderItem>(),
                 Status = OrderStatus.Pending,
                 OrderDate = DateTime.UtcNow,

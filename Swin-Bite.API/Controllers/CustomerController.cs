@@ -101,7 +101,7 @@ namespace SwinBite.Context
                     // Error start here
 
                     await _orderServices.SaveOrder(order);
-                    _customerServices.ClearCart(order.Customer);
+                    await _customerServices.ClearCart(order.Customer);
                     OrderDto orderDto = _mapper.Map<OrderDto>(order);
                     return Ok(orderDto);
                 }
@@ -119,6 +119,19 @@ namespace SwinBite.Context
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal Error Occured: {ex}");
+            }
+        }
+
+        [HttpGet("order/{id}")]
+        public async Task<Order> GetOrder(int id, [FromBody] UserDto userDto)
+        {
+            try
+            {
+                Customer customer = await _customerServices.GetCustomer(userDto.UserId);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

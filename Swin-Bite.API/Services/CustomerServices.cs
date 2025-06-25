@@ -54,7 +54,10 @@ namespace SwinBite.Services
 
         public async Task<Customer> GetCustomer(int id)
         {
-            return await _repo.GetByIdAsync(id);
+            Customer customer = await _repo.GetByIdAsync(id);
+            if (customer == null)
+                throw new ArgumentException("We can't find customer with this id!");
+            return customer;
         }
 
         public async Task ClearCart(Customer customer)

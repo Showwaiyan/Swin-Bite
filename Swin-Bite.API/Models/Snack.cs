@@ -27,7 +27,8 @@ namespace SwinBite.Models
         // Methods
         public override string GetDetails()
         {
-            return "";
+            string allergens = Allergens.Count() > 0 ? "Please aware for allergics reaction" : "";
+            return $"{Name} for {PackageSize}, good for desserts.{allergens}";
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SwinBite.Models
         // Methods
         public override string GetDetails()
         {
-            return "";
+            return $"{Name} containing {Ingredients} with {Calories} and {ServingSize} serving size only for {Price}$";
         }
     }
 }

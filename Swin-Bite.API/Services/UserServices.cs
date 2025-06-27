@@ -38,7 +38,7 @@ namespace SwinBite.Services
             if (user == null)
                 throw new ArgumentException("We can't find user with this id!");
             user.UpdateProfile(userUpdate);
-            _repo.Update(user);
+            await _repo.Update(user);
             return user;
         }
     }

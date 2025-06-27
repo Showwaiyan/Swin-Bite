@@ -33,7 +33,11 @@ namespace SwinBite.Models
         // Methods
         public override string GetDetails()
         {
-            return "";
+            string carbonated = IsCarbonated ? "Carbonated" : "Non-Carbonated";
+            string alcohol = HasAlcohol
+                ? "Be aware this is non-hala due to containg alcohol"
+                : "Don't worry, this is hala drink, alcohol free!.";
+            return $"{carbonated} {Name} drink only {Price}$ for {Volume} Liters.Only consume at {Temperature}.{alcohol}";
         }
     }
 }

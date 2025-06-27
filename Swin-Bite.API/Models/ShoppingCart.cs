@@ -56,13 +56,23 @@ namespace SwinBite.Models
         // Methods
         public ShoppingCartItem AddItem(Food food, int quantity)
         {
-            ShoppingCartItem item = new ShoppingCartItem()
+          ShoppingCartItem item;
+            if (!ShoppingCartItems.Exists(si=>si.FoodId == food.FoodId))
             {
-                ShoppingCartId = ShoppingCartId,
-                Quantity = quantity,
-                FoodId = food.FoodId,
-            };
-            ShoppingCartItems.Add(item);
+                item = new ShoppingCartItem()
+                {
+                    ShoppingCartId = ShoppingCartId,
+                    Quantity = quantity,
+                    FoodId = food.FoodId,
+                };
+                ShoppingCartItems.Add(item);
+            }
+            else 
+            {
+              item = ShoppingCartItems.Find(si=>si.FoodId == food.FoodId);
+              item.Quantity = item.Quantity+quantity;
+            }
+
             return item;
         }
 
@@ -76,8 +86,9 @@ namespace SwinBite.Models
             return ShoppingCartItems.Sum(i => i.Quantity * i.Food.Price);
         }
 
-        public void Clear() { 
-          ShoppingCartItems.Clear();
+        public void Clear()
+        {
+            ShoppingCartItems.Clear();
         }
 
         public Order ConvertToOrder()

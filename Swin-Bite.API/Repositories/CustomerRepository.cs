@@ -30,7 +30,14 @@ namespace SwinBite.Reposiroties
         // Save Cart Item
         public async Task AddToCart(ShoppingCartItem item)
         {
-            await _context.ShoppingCartItems.AddAsync(item);
+            ShoppingCartItem existItem = await _context.ShoppingCartItems.FirstOrDefaultAsync(si =>
+                si.ShoppingCartId == item.ShoppingCartId && si.FoodId == item.FoodId
+            );
+
+            if (existItem != null)
+                _context.ShoppingCartItems.Update(existItem);
+            else
+                await _context.ShoppingCartItems.AddAsync(item);
             await _context.SaveChangesAsync();
         }
 

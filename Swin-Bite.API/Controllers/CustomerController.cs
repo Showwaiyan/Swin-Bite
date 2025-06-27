@@ -26,14 +26,14 @@ namespace SwinBite.Context
         }
 
         [HttpPost("cart")]
-        public async Task<IActionResult> AddToCart([FromBody] CartAddDto cartAddDto)
+        public async Task<IActionResult> AddToCart([FromBody] CartOperationDto cartOperationDto)
         {
             try
             {
-                int customerId = cartAddDto.UserId;
-                int foodId = cartAddDto.FoodId;
+                int customerId = cartOperationDto.UserId;
+                int foodId = cartOperationDto.FoodId;
                 Food food = await _foodServices.GetFood(foodId);
-                int quantity = cartAddDto.Quantity;
+                int quantity = cartOperationDto.Quantity;
 
                 ShoppingCartItem shoppingCartItem = await _customerServices.AddToCart(
                     customerId,
@@ -76,6 +76,13 @@ namespace SwinBite.Context
             }
         }
 
-
+        [HttpPatch("cart")]
+        public async Task<IActionResult> RemoveFromCart(
+            [FromBody] CartOperationDto cartOperationDto
+        )
+        {
+            
+            return Ok();
+        }
     }
 }

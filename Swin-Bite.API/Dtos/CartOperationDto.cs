@@ -1,6 +1,6 @@
 namespace SwinBite.DTO
 {
-    public class CartAddDto
+    public class CartOperationDto
     {
         public int UserId { get; set; }
         public int FoodId { get; set; }

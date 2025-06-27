@@ -88,9 +88,10 @@ namespace SwinBite.Models
             IsAuthenticated = false;
         }
 
-        public bool UpdateProfile()
+        public void UpdateProfile(User user)
         {
-            return true;
+            Username = user.Username;
+            Email = user.Email;
         }
     }
 }

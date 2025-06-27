@@ -31,5 +31,15 @@ namespace SwinBite.Services
                 throw new ArgumentException("Invalid information");
             user.Logout();
         }
+
+        public async Task<User> UpdateProfile(User userUpdate)
+        {
+            User user = await _repo.GetByIdAsync(userUpdate.UserId);
+            if (user == null)
+                throw new ArgumentException("We can't find user with this id!");
+            user.UpdateProfile(userUpdate);
+            _repo.Update(user);
+            return user;
+        }
     }
 }

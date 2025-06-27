@@ -42,13 +42,29 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpGet("logout")]
+        [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromBody] UserDto userDto)
         {
             try
             {
                 await _userServices.Logout(userDto.UserId);
                 return Ok("Successfully Logout");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("update")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserDto userDto)
+        {
+            try
+            {
+                User userUpdate = _mapper.Map<User>(userDto);
+                User user = await _userServices.UpdateProfile(userUpdate);
+                UserDto userUpdatedDto = _mapper.Map<UserDto>(user);
+                return Ok(userUpdatedDto);
             }
             catch (ArgumentException ex)
             {

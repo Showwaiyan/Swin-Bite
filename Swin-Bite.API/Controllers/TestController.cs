@@ -20,18 +20,18 @@ namespace SwinBite.Controller
             _mapper = mapper;
         }
 
-        [HttpGet("customers")]
-        public async Task<IActionResult> GetAllCustomers()
-        {
-            List<Customer> customers = await _context
-                .Customers.Include(c => c.ShoppingCart)
-                .ThenInclude(s => s.ShoppingCartItems)
-                .Include(c => c.Orders)
-                .ThenInclude(o => o.OrderItems)
-                .ToListAsync();
-            List<CustomerDto> customersDto = _mapper.Map<List<CustomerDto>>(customers);
-            return Ok(customersDto);
-        }
+        // [HttpGet("customers")]
+        // public async Task<IActionResult> GetAllCustomers()
+        // {
+        //     List<Customer> customers = await _context
+        //         .Customers.Include(c => c.ShoppingCart)
+        //         .ThenInclude(s => s.ShoppingCartItems)
+        //         .Include(c => c.Orders)
+        //         .ThenInclude(o => o.OrderItems)
+        //         .ToListAsync();
+        //     List<CustomerDto> customersDto = _mapper.Map<List<CustomerDto>>(customers);
+        //     return Ok(customersDto);
+        // }
 
         [HttpGet("restaurants")]
         public async Task<IActionResult> GetAllRestaurants()

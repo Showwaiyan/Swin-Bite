@@ -51,6 +51,8 @@ namespace SwinBite.Services
         public async Task<Order> GetOrder(int orderId, int restaurantId)
         {
             Restaurant restaurant = await GetRestaurant(restaurantId);
+            if (restaurant == null)
+                throw new ArgumentException("we can't find restaurant with this id.");
 
             Order order = restaurant.GetOrder(orderId);
             if (order == null)
@@ -58,11 +60,15 @@ namespace SwinBite.Services
             return order;
         }
 
-        public async Task<Order> UpdateOrderStatus(int orderId, OrderStatus status, int restaurantId)
+        public async Task<Order> UpdateOrderStatus(
+            int orderId,
+            OrderStatus status,
+            int restaurantId
+        )
         {
-          Order order = await GetOrder(orderId, restaurantId);
-          order.UpdateStatus(status); 
-          return order;
+            Restaurant restaurant = await GetRestaurant(restaurantId);
+            Order order = restaurant.UpdateOrderStatus(orderId, status);
+            return order;
         }
     }
 }

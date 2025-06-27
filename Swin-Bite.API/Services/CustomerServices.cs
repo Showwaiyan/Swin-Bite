@@ -91,5 +91,12 @@ namespace SwinBite.Services
             Order order = customer.PickUpOrder(orderId);
             return order;
         }
+
+        public async Task<Order> CancellOrder(int orderId, int customerId)
+        {
+            Customer customer = await GetCustomer(customerId);
+            Order order = customer.CancellOrder(orderId);
+            return order;
+        }
     }
 }

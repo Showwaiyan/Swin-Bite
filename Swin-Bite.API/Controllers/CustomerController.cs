@@ -12,26 +12,17 @@ namespace SwinBite.Context
     {
         private readonly IMapper _mapper;
         private readonly CustomerServices _customerServices;
-        private readonly RestaurantServices _restaurantServices;
         private readonly FoodServices _foodServices;
-        private readonly BankServices _bankServices;
-        private readonly OrderServices _orderServices;
 
         public CustomerController(
             IMapper mapper,
             CustomerServices customerServices,
-            RestaurantServices restaurantServices,
-            FoodServices foodServices,
-            BankServices bankServices,
-            OrderServices orderServices
+            FoodServices foodServices
         )
         {
             _mapper = mapper;
             _customerServices = customerServices;
-            _restaurantServices = restaurantServices;
             _foodServices = foodServices;
-            _bankServices = bankServices;
-            _orderServices = orderServices;
         }
 
         [HttpPost("cart")]
@@ -85,42 +76,6 @@ namespace SwinBite.Context
             }
         }
 
-        [HttpPost("order")]
-        public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto)
-        {
-            try
-            {
-                Order order = await _customerServices.ConvertToOrder(userDto.UserId);
-                Customer sender = await _customerServices.GetCustomer(order.CustomerId);
-                Restaurant receiver = await _restaurantServices.GetRestaurant(order.RestaurantId);
-                order.Customer = sender;
-                order.Restaurant = receiver;
-
-                if (await _bankServices.ProcessPayment(sender, receiver, order.TotalPrice))
-                {
-                    // Error start here
-
-                    await _orderServices.SaveOrder(order);
-                    await _customerServices.ClearCart(order.Customer);
-                    OrderDto orderDto = _mapper.Map<OrderDto>(order);
-                    return Ok(orderDto);
-                }
-
-                return BadRequest("Payment is not successful.");
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Error Occured: {ex}");
-            }
-        }
 
     }
 }

@@ -21,10 +21,5 @@ namespace SwinBite.Services
     {
       await _repo.UpdateOrder(order);
     }
-
-    public async Task DeleteOrder(Order order)
-    {
-     await _repo.DeleteOrder(order);
-    }
   }
 }

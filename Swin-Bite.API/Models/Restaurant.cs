@@ -85,9 +85,15 @@ namespace SwinBite.Models
             return Menu;
         }
 
-        public Order UpdateOrderStatus(Order order, OrderStatus status)
+        public Order UpdateOrderStatus(int id, OrderStatus status)
         {
-            order.Status = status;
+            Order order = GetOrder(id);
+            if (order == null)
+                throw new ArgumentException("We can't find order with this id!");
+            order.UpdateStatus(status);
+            if (status == OrderStatus.Cancelled || status == OrderStatus.Completed)
+                if (!Orders.Remove(order))
+                    throw new InvalidOperationException("Can't cancell the order!");
             return order;
         }
 
@@ -98,13 +104,13 @@ namespace SwinBite.Models
 
         public List<Order> GetOrders()
         {
-          return Orders;
+            return Orders;
         }
 
         public Order GetOrder(int id)
         {
-          Order order = Orders.Find(o=>o.OrderId == id);
-          return order;
+            Order order = Orders.Find(o => o.OrderId == id);
+            return order;
         }
     }
 }

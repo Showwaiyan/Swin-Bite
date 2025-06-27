@@ -14,17 +14,20 @@ namespace SwinBite.Controller
         private readonly CustomerServices _customerServices;
         private readonly RestaurantServices _restaurantServices;
         private readonly OrderServices _orderServices;
+        private readonly BankServices _bankServices;
 
         public OrderController(
             CustomerServices customerServices,
             RestaurantServices restaruatnServices,
             OrderServices orderServices,
+            BankServices bankServices,
             IMapper mapper
         )
         {
             _customerServices = customerServices;
             _restaurantServices = restaruatnServices;
             _orderServices = orderServices;
+            _bankServices = bankServices;
             _mapper = mapper;
         }
 
@@ -54,6 +57,81 @@ namespace SwinBite.Controller
                 return Ok(orderDto);
             }
             catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("customer/placeorder")]
+        public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto)
+        {
+            try
+            {
+                Order order = await _customerServices.ConvertToOrder(userDto.UserId);
+                Customer sender = await _customerServices.GetCustomer(order.CustomerId);
+                Restaurant receiver = await _restaurantServices.GetRestaurant(order.RestaurantId);
+                order.Customer = sender;
+                order.Restaurant = receiver;
+
+                if (await _bankServices.ProcessPayment(sender, receiver, order.TotalPrice))
+                {
+                    await _orderServices.SaveOrder(order);
+                    await _customerServices.ClearCart(order.Customer);
+                    OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                    return Ok(orderDto);
+                }
+
+                return BadRequest("Payment is not successful.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error Occured: {ex}");
+            }
+        }
+
+        [HttpPatch("customer/{id}/pickup")]
+        public async Task<IActionResult> PickUpOrder(int id, UserDto userDto)
+        {
+            try
+            {
+                Order order = await _customerServices.PickUpOrder(id, userDto.UserId);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                await _orderServices.UpdateOrder(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("customer/{id}/cancell")]
+        public async Task<IActionResult> CancellOrder(int id, UserDto userDto)
+        {
+            try
+            {
+                Order order = await _customerServices.CancellOrder(id, userDto.UserId);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                await _orderServices.UpdateOrder(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -90,7 +168,7 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpPatch("{id}/{status}")]
+        [HttpPatch("restaurant/{id}/{status}")]
         public async Task<IActionResult> UpdateOrderStatus(
             int id,
             OrderStatus status,
@@ -114,24 +192,5 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> PickUpOrder(int id, UserDto userDto)
-        {
-            try
-            {
-                Order order = await _customerServices.PickUpOrder(id, userDto.UserId);
-                OrderDto orderDto = _mapper.Map<OrderDto>(order);
-                await _orderServices.DeleteOrder(order);
-                return Ok(orderDto);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

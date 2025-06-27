@@ -101,10 +101,5 @@ namespace SwinBite.Models
         {
             return OrderItems.Sum(i=>i.Quantity*i.PriceAtTime);
         }
-
-        public bool CancelOrder()
-        {
-            return true;
-        }
     }
 }

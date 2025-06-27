@@ -52,9 +52,24 @@ namespace SwinBite.Models
         public Order PickUpOrder(int orderId)
         {
             Order order = GetOrder(orderId);
-            order.Status = OrderStatus.Completed;
+            if (order == null)
+                throw new ArgumentException("We can't find order with this id!");
+            order.UpdateStatus(OrderStatus.Completed);
             if (!Orders.Remove(order))
                 throw new InvalidOperationException("Can't confirm the order!");
+
+            return order;
+        }
+
+        public Order CancellOrder(int orderId)
+        {
+            Order order = GetOrder(orderId);
+            if (order.Status != OrderStatus.Pending)
+                throw new InvalidOperationException("You can't cancell confirmed Order!");
+
+            order.UpdateStatus(OrderStatus.Cancelled);
+            if (!Orders.Remove(order))
+                throw new InvalidOperationException("Can't cancell the order!");
 
             return order;
         }

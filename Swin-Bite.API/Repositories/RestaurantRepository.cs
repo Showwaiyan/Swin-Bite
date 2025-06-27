@@ -19,6 +19,7 @@ namespace SwinBite.Reposiroties
             return await _context
                 .Restaurants.Include(r => r.Menu)
                 .Include(r => r.Orders)
+                .ThenInclude(o => o.OrderItems)
                 .ToListAsync();
         }
 

@@ -76,7 +76,9 @@ namespace SwinBite.Models
             return ShoppingCartItems.Sum(i => i.Quantity * i.Food.Price);
         }
 
-        public void Clear() { }
+        public void Clear() { 
+          ShoppingCartItems.Clear();
+        }
 
         public Order ConvertToOrder()
         {

@@ -35,7 +35,7 @@ namespace SwinBite.Models
 
         public void ClearCart()
         {
-            ShoppingCart.ShoppingCartItems.Clear();
+            ShoppingCart.Clear();
         }
 
         public List<Order> GetOrders()

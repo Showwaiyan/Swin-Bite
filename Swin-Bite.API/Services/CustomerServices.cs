@@ -27,6 +27,17 @@ namespace SwinBite.Services
             return item;
         }
 
+        public async Task<ShoppingCartItem> RemoveFromCart(int customerId, Food food)
+        {
+            Customer customer = await _repo.GetByIdAsync(customerId);
+            if (customer == null)
+                throw new ArgumentException("We can't find customer with this id!");
+
+            ShoppingCartItem item = customer.ShoppingCart.RemoveItem(food);
+            await _repo.RemoveFromCart(item);
+            return item;
+        }
+
         public async Task<Order> ConvertToOrder(int customerId)
         {
             Customer customer = await _repo.GetByIdAsync(customerId);

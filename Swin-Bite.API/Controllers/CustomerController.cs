@@ -61,6 +61,42 @@ namespace SwinBite.Context
             }
         }
 
+        [HttpPatch("cart")]
+        public async Task<IActionResult> RemoveFromCart(
+            [FromBody] CartOperationDto cartOperationDto
+        )
+        {
+            try
+            {
+                int customerId = cartOperationDto.UserId;
+                int foodId = cartOperationDto.FoodId;
+                Food food = await _foodServices.GetFood(foodId);
+
+                ShoppingCartItem shoppingCartItem = await _customerServices.RemoveFromCart(
+                    customerId,
+                    food
+                );
+
+                ShoppingCartItemDto shoppingCartItemDto = _mapper.Map<ShoppingCartItemDto>(
+                    shoppingCartItem
+                );
+
+                return Ok(shoppingCartItemDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error Occured: {ex.Message}");
+            }
+        }
+
         [HttpGet("cart")]
         public async Task<IActionResult> CheckOut([FromBody] UserDto userDto)
         {
@@ -74,15 +110,6 @@ namespace SwinBite.Context
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        [HttpPatch("cart")]
-        public async Task<IActionResult> RemoveFromCart(
-            [FromBody] CartOperationDto cartOperationDto
-        )
-        {
-            
-            return Ok();
         }
     }
 }

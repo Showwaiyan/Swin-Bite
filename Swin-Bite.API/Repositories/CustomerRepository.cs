@@ -41,6 +41,12 @@ namespace SwinBite.Reposiroties
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemoveFromCart(ShoppingCartItem item)
+        {
+            _context.ShoppingCartItems.Remove(item);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task ClearCart(Customer customer)
         {
             _context.ShoppingCartItems.RemoveRange(customer.ShoppingCart.ShoppingCartItems);

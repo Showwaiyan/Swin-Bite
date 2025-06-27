@@ -76,9 +76,13 @@ namespace SwinBite.Models
             return item;
         }
 
-        public bool RemoveItem(Food food)
+        public ShoppingCartItem RemoveItem(Food food)
         {
-            return true;
+            ShoppingCartItem removeItm = ShoppingCartItems.Find(si=>si.FoodId == food.FoodId);
+            if (removeItm == null) throw new InvalidOperationException("You can't remove non-existing item!");
+
+            ShoppingCartItems.Remove(removeItm);
+            return removeItm;
         }
 
         public decimal CalculateTotal()

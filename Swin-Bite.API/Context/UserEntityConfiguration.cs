@@ -13,7 +13,6 @@ namespace SwinBite.Context
                 .HasDiscriminator<UserType>(u => u.UserType)
                 .HasValue<Customer>(UserType.Customer)
                 .HasValue<Restaurant>(UserType.RestaurantOwner)
-                .HasValue(UserType.Admin)
                 .HasValue(UserType.DeliveryDriver);
 
             // One-To-One Relationship with BankAccount
@@ -24,8 +23,8 @@ namespace SwinBite.Context
                 .IsRequired(false); // Optional for now (development process)
 
             // Unique Properties set
-            builder.HasIndex(u=>u.Username).IsUnique();
-            builder.HasIndex(u=>u.Email).IsUnique();
+            builder.HasIndex(u => u.Username).IsUnique();
+            builder.HasIndex(u => u.Email).IsUnique();
         }
     }
 }

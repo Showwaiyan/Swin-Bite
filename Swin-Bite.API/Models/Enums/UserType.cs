@@ -5,6 +5,5 @@ namespace SwinBite.Models
         Customer,
         RestaurantOwner,
         DeliveryDriver,
-        Admin,
     }
 }

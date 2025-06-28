@@ -26,5 +26,10 @@ namespace SwinBite.Reposiroties
             await _context.Foods.AddAsync(food);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateFoodAsync(Food food)
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

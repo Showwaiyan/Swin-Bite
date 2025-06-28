@@ -25,5 +25,11 @@ namespace SwinBite.Services
             await _repo.AddFoodAsync(food);
             return true;
         }
+
+        public async Task<bool> UpdateMenu(Food food)
+        {
+          await _repo.UpdateFoodAsync(food);
+          return true;
+        }
     }
 }

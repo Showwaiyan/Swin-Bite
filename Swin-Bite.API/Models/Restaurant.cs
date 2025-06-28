@@ -97,9 +97,11 @@ namespace SwinBite.Models
             return order;
         }
 
-        public bool UpdateMenu()
+        public void UpdateMenu(Food food)
         {
-            return true;
+            int index = Menu.FindIndex(f => f.FoodId == food.FoodId);
+            if (index == -1) throw new InvalidOperationException("Can't update non-existing item!");
+            Menu[index] = food;
         }
 
         public List<Order> GetOrders()

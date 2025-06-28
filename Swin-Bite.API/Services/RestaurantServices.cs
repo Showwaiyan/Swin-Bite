@@ -79,5 +79,14 @@ namespace SwinBite.Services
             restaurant.AddMenuItem(food);
             return food;
         }
+
+        public async Task<Food> UpdateFoodToMenu(int restaurantId, Food food)
+        {
+            Restaurant restaurant = await _repo.GetRestaruantByIdAsync(restaurantId);
+            if (restaurant == null)
+                throw new ArgumentException("We can't find restaurant with this id!");
+            restaurant.UpdateMenu(food);
+            return food;
+        }
     }
 }

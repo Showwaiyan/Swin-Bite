@@ -69,6 +69,7 @@ namespace SwinBite.Controller
             }
         }
 
+
         [HttpPost("{id}/dish")]
         public async Task<IActionResult> AddDishToMenu(int id, [FromBody] DishDto foodDto)
         {
@@ -80,6 +81,31 @@ namespace SwinBite.Controller
                 if (!(await _foodServices.AddMenu(dishAdded))) throw new InvalidOperationException("Can't create menu");
 
                 DishDto dishDto = _mapper.Map<DishDto>(dishAdded);
+                return Ok(dishDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPatch("{id}/dish")]
+        public async Task<IActionResult> UpdateDishToMenu(int id, [FromBody] DishDto foodDto)
+        {
+            try
+            {
+                Food existingDish = await _foodServices.GetFood(foodDto.FoodId);
+                if (existingDish == null) throw new ArgumentException("We can't find food with this id!");
+
+                _mapper.Map(foodDto,existingDish);
+                Food dishUpdated = await _restaurantServices.UpdateFoodToMenu(id, existingDish);
+
+                if (!(await _foodServices.UpdateMenu(dishUpdated))) throw new InvalidOperationException("Can't update menu");
+
+                DishDto dishDto = _mapper.Map<DishDto>(dishUpdated);
                 return Ok(dishDto);
             }
             catch (ArgumentException ex)
@@ -114,6 +140,31 @@ namespace SwinBite.Controller
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPatch("{id}/drink")]
+        public async Task<IActionResult> UpdateDinkToMenu(int id, [FromBody] DrinkDto foodDto)
+        {
+            try
+            {
+                Food existingDrink = await _foodServices.GetFood(foodDto.FoodId);
+                if (existingDrink == null) throw new ArgumentException("We can't find food with this id!");
+
+                _mapper.Map(foodDto,existingDrink);
+                Food drinkUpdated = await _restaurantServices.UpdateFoodToMenu(id, existingDrink);
+
+                if (!(await _foodServices.UpdateMenu(drinkUpdated))) throw new InvalidOperationException("Can't update menu");
+
+                DrinkDto drinkDto = _mapper.Map<DrinkDto>(drinkUpdated);
+                return Ok(drinkDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost("{id}/snack")]
         public async Task<IActionResult> AddSnackToMenu(int id, [FromBody] SnackDto foodDto)
@@ -126,6 +177,31 @@ namespace SwinBite.Controller
                 if (!(await _foodServices.AddMenu(snackAdded))) throw new InvalidOperationException("Can't create menu");
 
                 SnackDto snackDto = _mapper.Map<SnackDto>(snackAdded);
+                return Ok(snackDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPatch("{id}/snack")]
+        public async Task<IActionResult> UpdateSnackToMenu(int id, [FromBody] SnackDto foodDto)
+        {
+            try
+            {
+                Food existingSnack = await _foodServices.GetFood(foodDto.FoodId);
+                if (existingSnack == null) throw new ArgumentException("We can't find food with this id!");
+
+                _mapper.Map(foodDto,existingSnack);
+                Food snackUpdated = await _restaurantServices.UpdateFoodToMenu(id, existingSnack);
+
+                if (!(await _foodServices.UpdateMenu(snackUpdated))) throw new InvalidOperationException("Can't update menu");
+
+                SnackDto snackDto = _mapper.Map<SnackDto>(snackUpdated);
                 return Ok(snackDto);
             }
             catch (ArgumentException ex)

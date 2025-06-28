@@ -20,6 +20,13 @@ namespace SwinBite.Context
                 .WithMany(r => r.Orders)
                 .HasForeignKey(o => o.RestaurantId);
 
+            // Many-To-Zero Relationship with DeliveryDriver
+            builder
+                .HasOne(o => o.DeliveryDriver)
+                .WithMany(d => d.Deliveries)
+                .HasForeignKey(o => o.DeliveryDriverId)
+                .IsRequired(false);
+
             // Auto Generated PK
             builder.Property(o => o.OrderId).ValueGeneratedOnAdd();
         }

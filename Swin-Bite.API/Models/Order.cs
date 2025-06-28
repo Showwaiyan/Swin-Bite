@@ -11,6 +11,8 @@ namespace SwinBite.Models
         private Customer _customer;
         private int _restaurantId;
         private Restaurant _restaurant;
+        private int? _deliveryDriverId;
+        private DeliveryDriver _deliveryDriver;
         private List<OrderItem> _orderItems;
         private decimal _totalPrice;
         private OrderStatus _status;
@@ -20,7 +22,7 @@ namespace SwinBite.Models
         // Constructor
         public Order()
         {
-          _orderItems = new List<OrderItem>();
+            _orderItems = new List<OrderItem>();
         }
 
         // Properties
@@ -53,11 +55,25 @@ namespace SwinBite.Models
             get { return _restaurantId; }
             set { _restaurantId = value; }
         }
+
         [ForeignKey("RestaurantId")]
         public Restaurant Restaurant
         {
             get { return _restaurant; }
             set { _restaurant = value; }
+        }
+
+        // Many-To-Zero Relationship
+        public int? DeliveryDriverId
+        {
+            get { return _deliveryDriverId; }
+            set { _deliveryDriverId = value; }
+        }
+        [ForeignKey("DeliveryDriverId")]
+        public DeliveryDriver DeliveryDriver
+        {
+            get { return _deliveryDriver; }
+            set { _deliveryDriver = value; }
         }
 
         // One-To-Many Relationship
@@ -99,7 +115,7 @@ namespace SwinBite.Models
 
         public decimal CalculateTotal()
         {
-            return OrderItems.Sum(i=>i.Quantity*i.PriceAtTime);
+            return OrderItems.Sum(i => i.Quantity * i.PriceAtTime);
         }
     }
 }

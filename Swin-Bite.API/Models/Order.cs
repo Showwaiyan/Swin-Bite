@@ -16,6 +16,7 @@ namespace SwinBite.Models
         private List<OrderItem> _orderItems;
         private decimal _totalPrice;
         private OrderStatus _status;
+        private OrderType _type;
         private DateTime _orderDate;
         private DateTime _pickUpTime;
 
@@ -69,6 +70,7 @@ namespace SwinBite.Models
             get { return _deliveryDriverId; }
             set { _deliveryDriverId = value; }
         }
+
         [ForeignKey("DeliveryDriverId")]
         public DeliveryDriver DeliveryDriver
         {
@@ -93,6 +95,12 @@ namespace SwinBite.Models
         {
             get { return _status; }
             set { _status = value; }
+        }
+
+        public OrderType Type
+        {
+            get { return _type; }
+            set { _type = value; }
         }
 
         public DateTime OrderDate

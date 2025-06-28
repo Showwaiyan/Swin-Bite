@@ -38,8 +38,7 @@ namespace SwinBite.Models
 
         public string Description
         {
-            get { return _description; }
-            set { _description = value; }
+            get { return GetDetails(); }
         }
 
         // Discriminator

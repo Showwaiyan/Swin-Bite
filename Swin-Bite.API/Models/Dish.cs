@@ -8,6 +8,12 @@ namespace SwinBite.Models
         private int _calories;
         private List<String> _ingredients;
 
+        //Constructor
+        public Dish()
+        {
+          _ingredients = new List<String>();
+        }
+
         // Properites
         public int ServingSize
         {
@@ -33,7 +39,12 @@ namespace SwinBite.Models
         // Methods
         public override string GetDetails()
         {
-            return $"{Name} containing {Ingredients} with {Calories} and {ServingSize} serving size only for {Price}$";
+            string result = "";
+            foreach (string item in Ingredients?? new List<string>())
+            {
+                result += $"{item},";
+            }
+            return $"{Name} containing {result.TrimEnd(',')} with {Calories} calories and {ServingSize} serving size only for {Price}$";
         }
     }
 }

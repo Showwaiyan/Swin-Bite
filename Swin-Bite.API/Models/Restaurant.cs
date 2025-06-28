@@ -70,9 +70,9 @@ namespace SwinBite.Models
             return new List<Food>() { };
         }
 
-        public bool AddMenuItem(Food food)
+        public void AddMenuItem(Food food)
         {
-            return true;
+            Menu.Add(food);
         }
 
         public List<Order> ViewOrder()

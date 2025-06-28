@@ -12,16 +12,16 @@ namespace SwinBite.Controller
     {
         private readonly IMapper _mapper;
         private readonly RestaurantServices _restaurantServices;
-        private readonly OrderServices _orderServices;
+        private readonly FoodServices _foodServices;
 
         public RestaurantController(
             RestaurantServices restaurantServices,
-            OrderServices orderServices,
+            FoodServices foodServices,
             IMapper mapper
         )
         {
             _restaurantServices = restaurantServices;
-            _orderServices = orderServices;
+            _foodServices = foodServices;
             _mapper = mapper;
         }
 
@@ -66,6 +66,75 @@ namespace SwinBite.Controller
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal Error Occured {ex.Message}");
+            }
+        }
+
+        [HttpPost("{id}/dish")]
+        public async Task<IActionResult> AddDishToMenu(int id, [FromBody] DishDto foodDto)
+        {
+            try
+            {
+                Dish dish = _mapper.Map<Dish>(foodDto);
+                Food dishAdded = await _restaurantServices.AddFoodToMenu(id, dish);
+
+                if (!(await _foodServices.AddMenu(dishAdded))) throw new InvalidOperationException("Can't create menu");
+
+                DishDto dishDto = _mapper.Map<DishDto>(dishAdded);
+                return Ok(dishDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{id}/drink")]
+        public async Task<IActionResult> AddDrinkToMenu(int id, [FromBody] DrinkDto foodDto)
+        {
+            try
+            {
+                Drink drink = _mapper.Map<Drink>(foodDto);
+                Food drinkAdded = await _restaurantServices.AddFoodToMenu(id, drink);
+
+                if (!(await _foodServices.AddMenu(drinkAdded))) throw new InvalidOperationException("Can't create menu");
+
+                DrinkDto drinkDto = _mapper.Map<DrinkDto>(drinkAdded);
+                return Ok(drinkDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{id}/snack")]
+        public async Task<IActionResult> AddSnackToMenu(int id, [FromBody] SnackDto foodDto)
+        {
+            try
+            {
+                Snack snack = _mapper.Map<Snack>(foodDto);
+                Food snackAdded = await _restaurantServices.AddFoodToMenu(id, snack);
+
+                if (!(await _foodServices.AddMenu(snackAdded))) throw new InvalidOperationException("Can't create menu");
+
+                SnackDto snackDto = _mapper.Map<SnackDto>(snackAdded);
+                return Ok(snackDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

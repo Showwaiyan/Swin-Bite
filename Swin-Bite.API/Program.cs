@@ -45,8 +45,8 @@ builder.Services.AddScoped<BankServices>();
 builder.Services.AddScoped<BankValidatorServices>();
 builder.Services.AddScoped<OrderServices>();
 builder.Services.AddScoped<ValidationEventArgs>();
-builder.Services.AddScoped<IValidatorServices<ValidationEventArgs>, BankValidatorServices>();
-builder.Services.AddScoped<IValidateServices<ValidationEventArgs>, BankServices>();
+builder.Services.AddScoped<BankValidatorServices>();
+builder.Services.AddScoped<BankServices>();
 
 var app = builder.Build();
 

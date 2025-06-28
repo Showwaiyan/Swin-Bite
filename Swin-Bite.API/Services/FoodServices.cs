@@ -17,8 +17,13 @@ namespace SwinBite.Services
             Food food = await _repo.GetFoodByIdAsync(id);
             if (food == null)
                 throw new ArgumentException("We can't find food with this id!");
-            food.Description = food.GetDetails();
             return food;
+        }
+
+        public async Task<bool> AddMenu(Food food)
+        {
+            await _repo.AddFoodAsync(food);
+            return true;
         }
     }
 }

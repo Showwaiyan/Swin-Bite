@@ -7,6 +7,12 @@ namespace SwinBite.Models
         private bool _isHealthy;
         private List<string> _allergens;
 
+        //Constructor
+        public Snack()
+        {
+            _allergens = new List<string>();
+        }
+
         // Properties
         public int PackageSize
         {

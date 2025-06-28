@@ -91,6 +91,10 @@ namespace SwinBite.Context
             {
                 return BadRequest(ex.Message);
             }
+            catch (InvalidOperationException ex)
+            {
+              return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal Error Occured: {ex.Message}");

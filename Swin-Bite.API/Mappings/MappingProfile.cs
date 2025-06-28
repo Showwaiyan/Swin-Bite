@@ -10,10 +10,15 @@ namespace SwinBite.Mappings
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
-            // CreateMap<Customer, CustomerDto>();
             CreateMap<Restaurant, RestaurantDto>();
 
             CreateMap<Food, FoodDto>();
+            CreateMap<Dish, DishDto>();
+            CreateMap<DishDto, Dish>();
+            CreateMap<Drink, DrinkDto>();
+            CreateMap<DrinkDto, Drink>();
+            CreateMap<Snack, SnackDto>();
+            CreateMap<SnackDto, Snack>();
 
             CreateMap<ShoppingCart, ShoppingCartDto>();
             CreateMap<ShoppingCartItem, ShoppingCartItemDto>();

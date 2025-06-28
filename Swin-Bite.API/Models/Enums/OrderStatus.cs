@@ -4,8 +4,10 @@ namespace SwinBite.Models
     {
         Pending,
         Confirmed,
-        Prepared,
+        Preparing,
         Ready,
+        OutForDelivery,
+        Delivered,
         Completed,
         Cancelled,
     }

@@ -9,7 +9,6 @@ namespace SwinBite.Models
         private int _foodId;
         private string _name;
         private decimal _price;
-        private string _description;
         private FoodCategory _category;
         private int _restaurantId;
         private Restaurant _restaurant; 

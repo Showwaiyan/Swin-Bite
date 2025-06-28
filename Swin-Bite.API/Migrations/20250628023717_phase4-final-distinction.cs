@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Swin_Bite.API.Migrations
 {
     /// <inheritdoc />
-    public partial class phase4 : Migration
+    public partial class phase4finaldistinction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,12 +67,10 @@ namespace Swin_Bite.API.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
                     Category = table.Column<int>(type: "integer", nullable: false),
                     RestaurantId = table.Column<int>(type: "integer", nullable: false),
                     IsAvailable = table.Column<bool>(type: "boolean", nullable: false),
                     PrepTime = table.Column<int>(type: "integer", nullable: false),
-                    TotalQuantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     ServingSize = table.Column<int>(type: "integer", nullable: true),
                     SpiceLevel = table.Column<int>(type: "integer", nullable: true),
                     Calories = table.Column<int>(type: "integer", nullable: true),
@@ -132,7 +130,8 @@ namespace Swin_Bite.API.Migrations
                 {
                     ShoppingCartId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    CustomerId = table.Column<int>(type: "integer", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,31 +230,31 @@ namespace Swin_Bite.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "Foods",
-                columns: new[] { "FoodId", "Calories", "Category", "Description", "Ingredients", "IsAvailable", "Name", "PrepTime", "Price", "RestaurantId", "ServingSize", "SpiceLevel" },
-                values: new object[] { 1, 0, 0, null, null, true, "Spicy Noodles", 0, 10.00m, 3, 0, 0 });
+                columns: new[] { "FoodId", "Calories", "Category", "Ingredients", "IsAvailable", "Name", "PrepTime", "Price", "RestaurantId", "ServingSize", "SpiceLevel" },
+                values: new object[] { 1, 0, 0, new List<string>(), true, "Spicy Noodles", 0, 10.00m, 3, 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "Foods",
-                columns: new[] { "FoodId", "Category", "Description", "HasAlcohol", "IsAvailable", "IsCarbonated", "Name", "PrepTime", "Price", "RestaurantId", "Temperature", "Volume" },
-                values: new object[] { 2, 1, null, false, true, false, "Iced Tea", 0, 3.00m, 3, 0, 0 });
+                columns: new[] { "FoodId", "Category", "HasAlcohol", "IsAvailable", "IsCarbonated", "Name", "PrepTime", "Price", "RestaurantId", "Temperature", "Volume" },
+                values: new object[] { 2, 1, false, true, false, "Iced Tea", 0, 3.00m, 3, 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "Foods",
-                columns: new[] { "FoodId", "Calories", "Category", "Description", "Ingredients", "IsAvailable", "Name", "PrepTime", "Price", "RestaurantId", "ServingSize", "SpiceLevel" },
-                values: new object[] { 3, 0, 0, null, null, true, "Grilled Chicken", 0, 12.00m, 4, 0, 0 });
+                columns: new[] { "FoodId", "Calories", "Category", "Ingredients", "IsAvailable", "Name", "PrepTime", "Price", "RestaurantId", "ServingSize", "SpiceLevel" },
+                values: new object[] { 3, 0, 0, new List<string>(), true, "Grilled Chicken", 0, 12.00m, 4, 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "Foods",
-                columns: new[] { "FoodId", "Category", "Description", "HasAlcohol", "IsAvailable", "IsCarbonated", "Name", "PrepTime", "Price", "RestaurantId", "Temperature", "Volume" },
-                values: new object[] { 4, 1, null, false, true, false, "Lemonade", 0, 2.50m, 4, 0, 0 });
+                columns: new[] { "FoodId", "Category", "HasAlcohol", "IsAvailable", "IsCarbonated", "Name", "PrepTime", "Price", "RestaurantId", "Temperature", "Volume" },
+                values: new object[] { 4, 1, false, true, false, "Lemonade", 0, 2.50m, 4, 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "ShoppingCarts",
-                columns: new[] { "ShoppingCartId", "CustomerId" },
+                columns: new[] { "ShoppingCartId", "CustomerId", "TotalPrice" },
                 values: new object[,]
                 {
-                    { 1, 1 },
-                    { 2, 2 }
+                    { 1, 1, 0m },
+                    { 2, 2, 0m }
                 });
 
             migrationBuilder.CreateIndex(

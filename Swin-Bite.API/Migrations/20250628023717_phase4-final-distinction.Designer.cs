@@ -13,8 +13,8 @@ using SwinBite.Context;
 namespace Swin_Bite.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250625144926_phase4-3")]
-    partial class phase43
+    [Migration("20250628023717_phase4-final-distinction")]
+    partial class phase4finaldistinction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,9 +103,6 @@ namespace Swin_Bite.API.Migrations
 
                     b.Property<int>("Category")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
@@ -336,6 +333,7 @@ namespace Swin_Bite.API.Migrations
                             Price = 10.00m,
                             RestaurantId = 3,
                             Calories = 0,
+                            Ingredients = new List<string>(),
                             ServingSize = 0,
                             SpiceLevel = 0
                         },
@@ -349,6 +347,7 @@ namespace Swin_Bite.API.Migrations
                             Price = 12.00m,
                             RestaurantId = 4,
                             Calories = 0,
+                            Ingredients = new List<string>(),
                             ServingSize = 0,
                             SpiceLevel = 0
                         });

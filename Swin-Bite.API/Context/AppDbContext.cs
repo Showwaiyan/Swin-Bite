@@ -48,7 +48,7 @@ namespace SwinBite.Context
             // Shopping Cart
             ShoppingCartEntityConfiguration ShoppingCartsEC = new ShoppingCartEntityConfiguration();
             ShoppingCartsEC.Configure(modelBuilder.Entity<ShoppingCart>());
-            ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
+            // ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
 
             ShoppingCartItemEntityConfiguration ShoppingCartItemEC =
                 new ShoppingCartItemEntityConfiguration();
@@ -66,8 +66,8 @@ namespace SwinBite.Context
             // Food
             FoodEntityConfiguration FoodsEC = new FoodEntityConfiguration();
             FoodsEC.Configure(modelBuilder.Entity<Food>());
-            new DishEntityConfiguration().Seed(modelBuilder.Entity<Dish>());
-            new DrinkEntityConfiguration().Seed(modelBuilder.Entity<Drink>());
+            // new DishEntityConfiguration().Seed(modelBuilder.Entity<Dish>());
+            // new DrinkEntityConfiguration().Seed(modelBuilder.Entity<Drink>());
         }
     }
 }

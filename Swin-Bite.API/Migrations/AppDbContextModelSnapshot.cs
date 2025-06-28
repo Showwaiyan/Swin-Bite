@@ -101,9 +101,6 @@ namespace Swin_Bite.API.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
 
@@ -214,20 +211,6 @@ namespace Swin_Bite.API.Migrations
                         .IsUnique();
 
                     b.ToTable("ShoppingCarts");
-
-                    b.HasData(
-                        new
-                        {
-                            ShoppingCartId = 1,
-                            CustomerId = 1,
-                            TotalPrice = 0m
-                        },
-                        new
-                        {
-                            ShoppingCartId = 2,
-                            CustomerId = 2,
-                            TotalPrice = 0m
-                        });
                 });
 
             modelBuilder.Entity("SwinBite.Models.ShoppingCartItem", b =>
@@ -321,34 +304,6 @@ namespace Swin_Bite.API.Migrations
                         .HasColumnType("integer");
 
                     b.HasDiscriminator().HasValue(0);
-
-                    b.HasData(
-                        new
-                        {
-                            FoodId = 1,
-                            Category = 0,
-                            IsAvailable = true,
-                            Name = "Spicy Noodles",
-                            PrepTime = 0,
-                            Price = 10.00m,
-                            RestaurantId = 3,
-                            Calories = 0,
-                            ServingSize = 0,
-                            SpiceLevel = 0
-                        },
-                        new
-                        {
-                            FoodId = 3,
-                            Category = 0,
-                            IsAvailable = true,
-                            Name = "Grilled Chicken",
-                            PrepTime = 0,
-                            Price = 12.00m,
-                            RestaurantId = 4,
-                            Calories = 0,
-                            ServingSize = 0,
-                            SpiceLevel = 0
-                        });
                 });
 
             modelBuilder.Entity("SwinBite.Models.Drink", b =>
@@ -368,36 +323,6 @@ namespace Swin_Bite.API.Migrations
                         .HasColumnType("integer");
 
                     b.HasDiscriminator().HasValue(1);
-
-                    b.HasData(
-                        new
-                        {
-                            FoodId = 2,
-                            Category = 0,
-                            IsAvailable = true,
-                            Name = "Iced Tea",
-                            PrepTime = 0,
-                            Price = 3.00m,
-                            RestaurantId = 3,
-                            HasAlcohol = false,
-                            IsCarbonated = false,
-                            Temperature = 0,
-                            Volume = 0
-                        },
-                        new
-                        {
-                            FoodId = 4,
-                            Category = 0,
-                            IsAvailable = true,
-                            Name = "Lemonade",
-                            PrepTime = 0,
-                            Price = 2.50m,
-                            RestaurantId = 4,
-                            HasAlcohol = false,
-                            IsCarbonated = false,
-                            Temperature = 0,
-                            Volume = 0
-                        });
                 });
 
             modelBuilder.Entity("SwinBite.Models.Snack", b =>

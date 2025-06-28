@@ -13,6 +13,7 @@ namespace SwinBite.Models
         private bool _isAuthenticated;
         private UserType _userType;
         private int _bankAccountId;
+        private string _address;
 
         private BankAccount _bankAccount;
 
@@ -50,6 +51,12 @@ namespace SwinBite.Models
         {
             get { return _isAuthenticated; }
             set { _isAuthenticated = value; }
+        }
+
+        public string Address
+        {
+            get { return _address; }
+            set { _address = value; }
         }
 
         // Discriminator

@@ -4,7 +4,6 @@ namespace SwinBite.Models
     {
         // Fields
         private string _name;
-        private string _address;
         private float _rating;
         private List<Food> _menu; // Need to implement 1:many relationship
         private List<Order> _orders;
@@ -22,12 +21,6 @@ namespace SwinBite.Models
         {
             get { return _name; }
             set { _name = value; }
-        }
-
-        public string Address
-        {
-            get { return _address; }
-            set { _address = value; }
         }
 
         public float Rating

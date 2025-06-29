@@ -1,6 +1,8 @@
+using SwinBite.Interface;
+
 namespace SwinBite.Models
 {
-    public class DeliveryDriver : User
+    public class DeliveryDriver : User, IObserver
     {
         // Fields
         private VehicleType _vehicle;
@@ -40,5 +42,21 @@ namespace SwinBite.Models
         }
 
         // Methods
+        public void Update(Notification notification)
+        {
+            AddNotification(notification);
+
+            if (notification.Type == NotificationType.OrderUpdate && IsAvailable)
+            {
+                CheckForDeliveryOpportunity(notification);
+            }
+        }
+
+        private void CheckForDeliveryOpportunity(Notification notification)
+        {
+            Console.WriteLine(
+                $"Driver {Username} received notification: {notification.GetContent()}\n"
+            );
+        }
     }
 }

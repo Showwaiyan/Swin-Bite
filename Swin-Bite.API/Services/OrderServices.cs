@@ -12,6 +12,12 @@ namespace SwinBite.Services
             _repo = repo;
         }
 
+        public async Task<Order> FetchCustomerAndRestaurant(Order order)
+        {
+          order = await _repo.GetOrderByIdAsync(order.OrderId);
+          return order;
+        }
+
         public async Task SaveOrder(Order order)
         {
             await _repo.SaveOrder(order);

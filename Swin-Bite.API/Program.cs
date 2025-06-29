@@ -35,6 +35,8 @@ builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddScoped<FoodRepository>();
 builder.Services.AddScoped<BankRepository>();
 builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<DeliveryDriverRepository>();
+builder.Services.AddScoped<NotificationRepository>();
 
 // Services Injection
 builder.Services.AddScoped<UserServices>();
@@ -47,6 +49,8 @@ builder.Services.AddScoped<OrderServices>();
 builder.Services.AddScoped<ValidationEventArgs>();
 builder.Services.AddScoped<BankValidatorServices>();
 builder.Services.AddScoped<BankServices>();
+builder.Services.AddScoped<DeliveryDriverServices>();
+builder.Services.AddScoped<NotificationServices>();
 
 var app = builder.Build();
 

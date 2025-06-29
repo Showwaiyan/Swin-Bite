@@ -86,10 +86,10 @@ namespace SwinBite.Models
             Order order = GetOrder(id);
             if (order == null)
                 throw new ArgumentException("We can't find order with this id!");
-            order.UpdateStatus(status);
-            if (status == OrderStatus.Cancelled || status == OrderStatus.Completed)
+            if (status == OrderStatus.Cancelled)
                 if (!Orders.Remove(order))
                     throw new InvalidOperationException("Can't cancell the order!");
+            order.UpdateStatus(status);
             return order;
         }
 
@@ -130,7 +130,7 @@ namespace SwinBite.Models
 
         private void HandleNewOrder(Notification notification)
         {
-            Console.WriteLine($"Restaurant {Name}: Processing new order notification...");
+            Console.WriteLine($"Restaurant {Name}: Processing new order notification...\n");
         }
     }
 }

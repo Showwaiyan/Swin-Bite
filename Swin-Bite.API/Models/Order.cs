@@ -125,7 +125,7 @@ namespace SwinBite.Models
         }
 
         // Methods
-        public void PlaceOrder()
+        public Notification PlaceOrderNotification()
         {
             Notification notification = new Notification
             {
@@ -137,20 +137,26 @@ namespace SwinBite.Models
                 IsRead = false,
             };
             NotifyObservers(notification);
+            return notification;
         }
 
         public void UpdateStatus(OrderStatus status)
         {
             Status = status;
+        }
+
+        public Notification UpdateStatusNotification()
+        {
             Notification notification = new Notification
             {
-                Message = $"Order #{OrderId} status updated to {status}",
+                Message = $"Order #{OrderId} status updated to {Status}",
                 UserId = CustomerId,
                 TimeStamp = DateTime.UtcNow,
                 Type = NotificationType.OrderUpdate,
                 IsRead = false,
             };
             NotifyObservers(notification);
+            return notification;
         }
 
         public decimal CalculateTotal()

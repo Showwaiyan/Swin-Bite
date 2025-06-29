@@ -114,7 +114,7 @@ namespace SwinBite.Models
             Email = user.Email;
         }
 
-        protected void AddNotification(Notification notification)
+        public void AddNotification(Notification notification)
         {
             _notifications.Add(notification);
         }

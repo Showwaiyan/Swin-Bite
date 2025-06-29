@@ -1,9 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SwinBite.DTO;
+using SwinBite.Interface;
 using SwinBite.Models;
 using SwinBite.Services;
-using SwinBite.Interface;
 
 namespace SwinBite.Controller
 {
@@ -16,20 +16,26 @@ namespace SwinBite.Controller
         private readonly RestaurantServices _restaurantServices;
         private readonly OrderServices _orderServices;
         private readonly BankServices _bankServices;
+        private readonly DeliveryDriverServices _deliveryDriverServices;
+        private readonly NotificationServices _notificationServices;
 
         public OrderController(
+            IMapper mapper,
             CustomerServices customerServices,
             RestaurantServices restaruatnServices,
             OrderServices orderServices,
             BankServices bankServices,
-            IMapper mapper
+            DeliveryDriverServices deliveryDriverServices,
+            NotificationServices notificationServices
         )
         {
+            _mapper = mapper;
             _customerServices = customerServices;
             _restaurantServices = restaruatnServices;
             _orderServices = orderServices;
             _bankServices = bankServices;
-            _mapper = mapper;
+            _deliveryDriverServices = deliveryDriverServices;
+            _notificationServices = notificationServices;
         }
 
         [HttpGet("customer")]
@@ -80,9 +86,9 @@ namespace SwinBite.Controller
 
                 if (await _bankServices.ProcessPayment(sender, receiver, totalPrice))
                 {
-                    order.AddObserver(order.Customer as IObserver);
-                    order.AddObserver(order.Restaurant as IObserver);
-                    order.PlaceOrder();
+                    _notificationServices.AddObserverForOrder(order, sender);
+                    _notificationServices.AddObserverForOrder(order, receiver);
+                    await _notificationServices.NotifyRestaruantForNewOrder(order);
                     await _orderServices.SaveOrder(order);
                     await _customerServices.ClearCart(order.Customer);
                     OrderDto orderDto = _mapper.Map<OrderDto>(order);
@@ -190,12 +196,23 @@ namespace SwinBite.Controller
                     status,
                     userDto.UserId
                 );
-                await _orderServices.UpdateOrder(order);
+                  
+                order = await _orderServices.FetchCustomerAndRestaurant(order);
+
                 if (status == OrderStatus.Ready)
                 {
-                  // Notify nearby driver by deliverServices
-                  // and add observer that driver
+                    // Notify nearby driver by deliverServices
+                    List<DeliveryDriver> drivers =
+                        await _deliveryDriverServices.GetNearByDelivery();
+                    // and add observer that driver
+                    await _notificationServices.NotifyDeliveryDriversForNewOrder(order, drivers);
                 }
+
+                _notificationServices.AddObserverForOrder(order, order.Restaurant);
+                _notificationServices.AddObserverForOrder(order, order.Customer);
+                _notificationServices.NotifyOrderStatus(order);
+
+                await _orderServices.UpdateOrder(order);
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);
                 return Ok(orderDto);
             }

@@ -19,6 +19,7 @@ namespace SwinBite.Context
                     Email = "johnwick@jw.com",
                     UserType = UserType.DeliveryDriver,
                     BankAccountId = 100005,
+                    IsAvailable = true
                 },
                 new DeliveryDriver
                 {
@@ -28,6 +29,7 @@ namespace SwinBite.Context
                     Email = "skywalker@starwar.com",
                     UserType = UserType.DeliveryDriver,
                     BankAccountId = 100006,
+                    IsAvailable = true
                 }
             );
         }

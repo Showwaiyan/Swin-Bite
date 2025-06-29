@@ -109,17 +109,17 @@ namespace SwinBite.Models
 
         private void HandleOrderUpdate(Notification notification)
         {
-            Console.WriteLine($"Customer {Username}: Checking order status...");
+            Console.WriteLine($"Customer {Username}: Checking order status...\n");
         }
 
         private void HandleDeliveryUpdate(Notification notification)
         {
-            Console.WriteLine($"Customer {Username}: Preparing for delivery arrival...");
+            Console.WriteLine($"Customer {Username}: Preparing for delivery arrival...\n");
         }
 
         private void HandlePromotion(Notification notification)
         {
-            Console.WriteLine($"Customer {Username}: New promotion available!");
+            Console.WriteLine($"Customer {Username}: New promotion available!\n");
         }
     }
 }

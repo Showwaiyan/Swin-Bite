@@ -119,6 +119,11 @@ namespace SwinBite.Models
             set { _pickUpTime = value; }
         }
 
+        public List<IObserver> Observers
+        {
+            get { return _observers; }
+        }
+
         // Methods
         public void UpdateStatus(OrderStatus status)
         {

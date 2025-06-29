@@ -15,7 +15,10 @@ namespace SwinBite.Services
 
         public async Task NotifyRestaruantForNewOrder(Order order)
         {
+            AddObserverForOrder(order, order.Restaurant);
+            AddObserverForOrder(order, order.Customer);
             Notification notification = order.PlaceOrderNotification();
+            order.NotifyObservers(notification);
             await _repo.SaveNotificationAsync(notification);
         }
 
@@ -24,30 +27,33 @@ namespace SwinBite.Services
             order.AddObserver(user as IObserver);
         }
 
-        public async Task NotifyDeliveryDriversForNewOrder(
+        public void NotifyDeliveryDriversForNewOrder(
             Order order,
             List<DeliveryDriver> deliveryDrivers
         )
         {
             foreach (DeliveryDriver driver in deliveryDrivers)
             {
-                Notification newOrderNotifcation = new Notification()
-                {
-                    Message =
-                        $"Order from {order.Restaurant.Name} is placed for delivery, from {order.Restaurant.Address} to {order.Customer.Address}",
-                    UserId = driver.UserId,
-                    TimeStamp = DateTime.UtcNow,
-                    Type = NotificationType.OrderUpdate,
-                    IsRead = false,
-                };
-                driver.Update(newOrderNotifcation);
-                await _repo.SaveNotificationAsync(newOrderNotifcation);
+                AddObserverForOrder(order, driver);
             }
+            Notification notification = order.NewOrderNotification();
+            order.NotifyObservers(notification);
+        }
+
+        public void NotifyDeliverDriverAcceptOrder(Order order)
+        {
+          AddObserverForOrder(order,order.Customer);
+          AddObserverForOrder(order,order.Restaurant);
+          AddObserverForOrder(order,order.DeliveryDriver);
+          Notification deliveryAcceptNotification = order.AcceptOrderNotification();
         }
 
         public void NotifyOrderStatus(Order order)
         {
-            order.UpdateStatusNotification();
+            AddObserverForOrder(order,order.Customer);
+            AddObserverForOrder(order,order.Restaurant);
+            Notification notification = order.UpdateStatusNotification();
+            order.NotifyObservers(notification);
         }
     }
 }

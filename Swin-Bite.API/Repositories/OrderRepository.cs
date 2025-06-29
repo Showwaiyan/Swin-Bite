@@ -18,7 +18,20 @@ namespace SwinBite.Reposiroties
             return await _context
                 .Orders.Include(o => o.Customer)
                 .Include(o => o.Restaurant)
+                .Include(o => o.DeliveryDriver)
+                .Include(o=>o.OrderItems)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
+        }
+
+        public async Task<List<Order>> GetAllOrderWithNoDeliveryDriver()
+        {
+            return await _context
+                .Orders.Include(o => o.Customer)
+                .Include(o => o.Restaurant)
+                .Include(o => o.DeliveryDriver)
+                .Include(o => o.OrderItems)
+                .Where(o => o.DeliveryDriverId == null)
+                .ToListAsync();
         }
 
         public async Task SaveOrder(Order order)
@@ -29,14 +42,14 @@ namespace SwinBite.Reposiroties
 
         public async Task UpdateOrder(Order order)
         {
-          _context.Orders.Update(order);
-          await _context.SaveChangesAsync();
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
         }
-        
+
         public async Task DeleteOrder(Order order)
         {
-          _context.Orders.Remove(order);
-          await _context.SaveChangesAsync();
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
         }
     }
 }

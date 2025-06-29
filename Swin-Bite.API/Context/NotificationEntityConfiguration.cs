@@ -12,7 +12,7 @@ namespace SwinBite.Context
             builder
                 .HasOne(n => n.User)
                 .WithMany(n => n.Notifications)
-                .HasForeignKey(n => n.UserId);
+                .HasForeignKey(n => n.UserId).IsRequired(false);
 
             // Auto Generated PK
             builder.Property(n => n.NotificationId).ValueGeneratedOnAdd();

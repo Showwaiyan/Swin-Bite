@@ -136,7 +136,33 @@ namespace SwinBite.Models
                 Type = NotificationType.OrderUpdate,
                 IsRead = false,
             };
-            NotifyObservers(notification);
+            return notification;
+        }
+
+        public Notification NewOrderNotification()
+        {
+            Notification notification = new Notification()
+            {
+                Message =
+                    $"Order(Id={OrderId}) from {Restaurant.Name} is placed for delivery, from {Restaurant.Address} to {Customer.Address}",
+                TimeStamp = DateTime.UtcNow,
+                Type = NotificationType.OrderUpdate,
+                IsRead = false,
+            };
+            return notification;
+        }
+
+        public Notification AcceptOrderNotification()
+        {
+            Notification notification = new Notification()
+            {
+                Message = $"Driver {DeliveryDriver.Username} accept Order(Id-{OrderId}) and currently on the way.",
+                UserId = RestaurantId,
+                TimeStamp = DateTime.UtcNow,
+                Type = NotificationType.DeliveryUpdate,
+                IsRead = false,
+            };
+
             return notification;
         }
 
@@ -155,7 +181,6 @@ namespace SwinBite.Models
                 Type = NotificationType.OrderUpdate,
                 IsRead = false,
             };
-            NotifyObservers(notification);
             return notification;
         }
 

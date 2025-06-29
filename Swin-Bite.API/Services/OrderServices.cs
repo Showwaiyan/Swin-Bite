@@ -14,8 +14,21 @@ namespace SwinBite.Services
 
         public async Task<Order> FetchCustomerAndRestaurant(Order order)
         {
-          order = await _repo.GetOrderByIdAsync(order.OrderId);
-          return order;
+            order = await _repo.GetOrderByIdAsync(order.OrderId);
+            return order;
+        }
+
+        public async Task<List<Order>> GetAllDeliverableOrder()
+        {
+            return await _repo.GetAllOrderWithNoDeliveryDriver();
+        }
+
+        public async Task<Order> GetOrderById(int id)
+        {
+            Order order = await _repo.GetOrderByIdAsync(id);
+            if (order == null)
+                throw new ArgumentException("We can't find order with this id!");
+            return order;
         }
 
         public async Task SaveOrder(Order order)

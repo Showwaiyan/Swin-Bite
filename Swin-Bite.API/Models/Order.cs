@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SwinBite.Interface;
 
 namespace SwinBite.Models
 {
-    public class Order
+    public class Order : ISubject
     {
         // Fields
         private int _orderId;
@@ -20,10 +21,13 @@ namespace SwinBite.Models
         private DateTime _orderDate;
         private DateTime _pickUpTime;
 
+        private List<IObserver> _observers;
+
         // Constructor
         public Order()
         {
             _orderItems = new List<OrderItem>();
+            _observers = new List<IObserver>();
         }
 
         // Properties
@@ -119,11 +123,43 @@ namespace SwinBite.Models
         public void UpdateStatus(OrderStatus status)
         {
             Status = status;
+            Notification notification = new Notification
+            {
+                Message = $"Order #{OrderId} status updated to {status}",
+                TimeStamp = DateTime.Now,
+                Type = NotificationType.OrderUpdate,
+                IsRead = false,
+            };
+            NotifyObservers(notification);
         }
 
         public decimal CalculateTotal()
         {
             return OrderItems.Sum(i => i.Quantity * i.PriceAtTime);
+        }
+
+        public void AddObserver(IObserver observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+            }
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Remove(observer);
+            }
+        }
+
+        public void NotifyObservers(Notification notification)
+        {
+            foreach (IObserver observer in _observers)
+            {
+                observer.Update(notification);
+            }
         }
     }
 }

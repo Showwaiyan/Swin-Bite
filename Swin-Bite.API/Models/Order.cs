@@ -156,7 +156,8 @@ namespace SwinBite.Models
         {
             Notification notification = new Notification()
             {
-                Message = $"Driver {DeliveryDriver.Username} accept Order(Id-{OrderId}) and currently on the way.",
+                Message =
+                    $"Driver {DeliveryDriver.Username} accept Order(Id-{OrderId}) and currently on the way.",
                 UserId = RestaurantId,
                 TimeStamp = DateTime.UtcNow,
                 Type = NotificationType.DeliveryUpdate,

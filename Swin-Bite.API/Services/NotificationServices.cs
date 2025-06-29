@@ -13,6 +13,11 @@ namespace SwinBite.Services
             _repo = repo;
         }
 
+        public void AddObserverForOrder(Order order, User user)
+        {
+            order.AddObserver(user as IObserver);
+        }
+
         public async Task NotifyRestaruantForNewOrder(Order order)
         {
             AddObserverForOrder(order, order.Restaurant);
@@ -20,11 +25,6 @@ namespace SwinBite.Services
             Notification notification = order.PlaceOrderNotification();
             order.NotifyObservers(notification);
             await _repo.SaveNotificationAsync(notification);
-        }
-
-        public void AddObserverForOrder(Order order, User user)
-        {
-            order.AddObserver(user as IObserver);
         }
 
         public void NotifyDeliveryDriversForNewOrder(

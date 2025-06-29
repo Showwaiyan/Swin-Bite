@@ -23,7 +23,7 @@ namespace SwinBite.Context
             // Many-To-Zero Relationship with DeliveryDriver
             builder
                 .HasOne(o => o.DeliveryDriver)
-                .WithMany(d => d.Deliveries)
+                .WithMany(d => d.Orders)
                 .HasForeignKey(o => o.DeliveryDriverId)
                 .IsRequired(false);
 

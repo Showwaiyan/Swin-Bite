@@ -18,12 +18,15 @@ namespace SwinBite.Reposiroties
             return await _context
                 .DeliveryDrivers.Where(d => d.IsAvailable == true)
                 .Include(d => d.Notifications)
+                .Include(d => d.Orders)
                 .ToListAsync();
         }
 
         public async Task<DeliveryDriver> GetDeliveryDriverByIdAsync(int id)
         {
-          return await _context.DeliveryDrivers.Include(d=>d.Deliveries).FirstOrDefaultAsync(d=>d.UserId == id);
+            return await _context
+                .DeliveryDrivers.Include(d => d.Orders)
+                .FirstOrDefaultAsync(d => d.UserId == id);
         }
     }
 }

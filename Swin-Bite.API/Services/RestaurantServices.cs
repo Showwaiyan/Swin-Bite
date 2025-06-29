@@ -68,7 +68,6 @@ namespace SwinBite.Services
         {
             Restaurant restaurant = await GetRestaurant(restaurantId);
             Order order = restaurant.UpdateOrderStatus(orderId, status);
-            order.Restaurant = restaurant;
             return order;
         }
 

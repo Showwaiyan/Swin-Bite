@@ -180,7 +180,7 @@ namespace SwinBite.Controller
         }
 
         [HttpPatch("restaurant/{id}/{status}")]
-        public async Task<IActionResult> UpdateOrderStatus(
+        public async Task<IActionResult> UpdateOrderStatusByRestaurant(
             int id,
             OrderStatus status,
             [FromBody] UserDto userDto
@@ -204,6 +204,35 @@ namespace SwinBite.Controller
                 }
 
                 await _orderServices.UpdateOrder(order);
+
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("delivery/{id}/{status}")]
+        public async Task<IActionResult> UpdateOrderStatusByDelivery(
+            int id,
+            OrderStatus status,
+            [FromBody] UserDto userDto
+        )
+        {
+            try
+            {
+                Order order = await _deliveryDriverServices.UpdateOrderStatus(
+                    id,
+                    status,
+                    userDto.UserId
+                );
+
+                order = await _orderServices.FetchCustomerAndRestaurant(order);
+                _notificationServices.NotifyOrderStatus(order);
+                await _orderServices.UpdateOrder(order);
+
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);
                 return Ok(orderDto);
             }

@@ -8,12 +8,12 @@ namespace SwinBite.Models
         private VehicleType _vehicle;
         private string _licenseNumber;
         private bool _isAvailable;
-        private List<Order> _deliveries;
+        private List<Order> _orders;
 
         // Constructor
         public DeliveryDriver()
         {
-            _deliveries = new List<Order>();
+            _orders = new List<Order>();
         }
 
         // Properties
@@ -35,10 +35,10 @@ namespace SwinBite.Models
             set { _isAvailable = value; }
         }
 
-        public List<Order> Deliveries
+        public List<Order> Orders
         {
-            get { return _deliveries; }
-            set { _deliveries = value; }
+            get { return _orders; }
+            set { _orders = value; }
         }
 
         // Methods
@@ -57,6 +57,24 @@ namespace SwinBite.Models
             Console.WriteLine(
                 $"Driver {Username} received notification: {notification.GetContent()}\n"
             );
+        }
+
+        public Order GetOrder(int id)
+        {
+            Order order = Orders.Find(o => o.OrderId == id);
+            return order;
+        }
+
+        public Order UpdateOrderStatus(int id, OrderStatus status)
+        {
+            Order order = GetOrder(id);
+            if (order == null)
+                throw new ArgumentException("We can't find order with this id!");
+            if (status == OrderStatus.Cancelled)
+                if (!Orders.Remove(order))
+                    throw new InvalidOperationException("Can't cancell the order!");
+            order.UpdateStatus(status);
+            return order;
         }
     }
 }

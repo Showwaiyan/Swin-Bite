@@ -46,6 +46,7 @@ namespace SwinBite.Services
           AddObserverForOrder(order,order.Restaurant);
           AddObserverForOrder(order,order.DeliveryDriver);
           Notification deliveryAcceptNotification = order.AcceptOrderNotification();
+          order.NotifyObservers(deliveryAcceptNotification);
         }
 
         public void NotifyOrderStatus(Order order)

@@ -19,7 +19,8 @@ namespace SwinBite.Reposiroties
                 .Orders.Include(o => o.Customer)
                 .Include(o => o.Restaurant)
                 .Include(o => o.DeliveryDriver)
-                .Include(o=>o.OrderItems)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Food)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
         }
 
@@ -30,6 +31,7 @@ namespace SwinBite.Reposiroties
                 .Include(o => o.Restaurant)
                 .Include(o => o.DeliveryDriver)
                 .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Food)
                 .Where(o => o.DeliveryDriverId == null)
                 .ToListAsync();
         }

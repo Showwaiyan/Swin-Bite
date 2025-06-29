@@ -8,7 +8,7 @@ namespace SwinBite.Context
     {
         public void Configure(EntityTypeBuilder<DeliveryDriver> builder) { }
 
-        public void Seed(EntityTypeBuilder<Customer> builder)
+        public void Seed(EntityTypeBuilder<DeliveryDriver> builder)
         {
             builder.HasData(
                 new DeliveryDriver

@@ -9,6 +9,7 @@ namespace SwinBite.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<DeliveryDriver> DeliveryDrivers { get; set; }
 
         public DbSet<BankAccount> BankAccounts { get; set; }
 
@@ -26,6 +27,9 @@ namespace SwinBite.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        // Notification
+        public DbSet<Notification> Notifications { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
@@ -40,6 +44,8 @@ namespace SwinBite.Context
             RestaurantsEC.Configure(modelBuilder.Entity<Restaurant>());
             RestaurantsEC.Seed(modelBuilder.Entity<Restaurant>());
 
+            new DeliveryDriverEntityConfiguration().Seed(modelBuilder.Entity<DeliveryDriver>());
+
             // BankAccount
             BankAccountEntityConfiguration BankAccountsEC = new BankAccountEntityConfiguration();
             BankAccountsEC.Configure(modelBuilder.Entity<BankAccount>());
@@ -48,7 +54,7 @@ namespace SwinBite.Context
             // Shopping Cart
             ShoppingCartEntityConfiguration ShoppingCartsEC = new ShoppingCartEntityConfiguration();
             ShoppingCartsEC.Configure(modelBuilder.Entity<ShoppingCart>());
-            // ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
+            ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
 
             ShoppingCartItemEntityConfiguration ShoppingCartItemEC =
                 new ShoppingCartItemEntityConfiguration();
@@ -68,6 +74,9 @@ namespace SwinBite.Context
             FoodsEC.Configure(modelBuilder.Entity<Food>());
             // new DishEntityConfiguration().Seed(modelBuilder.Entity<Dish>());
             // new DrinkEntityConfiguration().Seed(modelBuilder.Entity<Drink>());
+
+            // Notification
+            new NotificationEntityConfiguration().Configure(modelBuilder.Entity<Notification>());
         }
     }
 }

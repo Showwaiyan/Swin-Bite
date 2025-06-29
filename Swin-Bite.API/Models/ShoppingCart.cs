@@ -56,8 +56,8 @@ namespace SwinBite.Models
         // Methods
         public ShoppingCartItem AddItem(Food food, int quantity)
         {
-          ShoppingCartItem item;
-            if (!ShoppingCartItems.Exists(si=>si.FoodId == food.FoodId))
+            ShoppingCartItem item;
+            if (!ShoppingCartItems.Exists(si => si.FoodId == food.FoodId))
             {
                 item = new ShoppingCartItem()
                 {
@@ -67,10 +67,10 @@ namespace SwinBite.Models
                 };
                 ShoppingCartItems.Add(item);
             }
-            else 
+            else
             {
-              item = ShoppingCartItems.Find(si=>si.FoodId == food.FoodId);
-              item.Quantity = item.Quantity+quantity;
+                item = ShoppingCartItems.Find(si => si.FoodId == food.FoodId);
+                item.Quantity = item.Quantity + quantity;
             }
 
             return item;
@@ -78,8 +78,9 @@ namespace SwinBite.Models
 
         public ShoppingCartItem RemoveItem(Food food)
         {
-            ShoppingCartItem removeItm = ShoppingCartItems.Find(si=>si.FoodId == food.FoodId);
-            if (removeItm == null) throw new InvalidOperationException("You can't remove non-existing item!");
+            ShoppingCartItem removeItm = ShoppingCartItems.Find(si => si.FoodId == food.FoodId);
+            if (removeItm == null)
+                throw new InvalidOperationException("You can't remove non-existing item!");
 
             ShoppingCartItems.Remove(removeItm);
             return removeItm;
@@ -95,7 +96,7 @@ namespace SwinBite.Models
             ShoppingCartItems.Clear();
         }
 
-        public Order ConvertToOrder()
+        public Order ConvertToOrder(OrderType type)
         {
             if (ShoppingCartItems == null || !ShoppingCartItems.Any())
                 throw new InvalidOperationException("Cannot create order from empty shopping ");
@@ -109,6 +110,7 @@ namespace SwinBite.Models
                 Status = OrderStatus.Pending,
                 OrderDate = DateTime.UtcNow,
                 PickUpTime = DateTime.UtcNow.AddMinutes(30), // HardCoded value now
+                Type = type,
             };
 
             // Create orderItems and assigned each shoppingCartItem to it

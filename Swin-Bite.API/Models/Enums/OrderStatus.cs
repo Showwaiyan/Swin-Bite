@@ -3,8 +3,8 @@ namespace SwinBite.Models
     public enum OrderStatus
     {
         Pending,
-        Preparing,
         Confirmed,
+        Preparing,
         Ready,
         DeliveryAccepted,
         OutForDelivery,

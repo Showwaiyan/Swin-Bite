@@ -15,7 +15,15 @@ namespace SwinBite.Models
         private int _bankAccountId;
         private string _address;
 
+        private List<Notification> _notifications;
+
         private BankAccount _bankAccount;
+
+        // Constructor
+        public User()
+        {
+            _notifications = new List<Notification>();
+        }
 
         //Properties
         [Key]
@@ -81,6 +89,11 @@ namespace SwinBite.Models
             set { _bankAccount = value; }
         }
 
+        public List<Notification> Notifications
+        {
+            get { return _notifications; }
+        }
+
         //Methods
         public bool Login(string password)
         {
@@ -99,6 +112,16 @@ namespace SwinBite.Models
         {
             Username = user.Username;
             Email = user.Email;
+        }
+
+        protected void AddNotification(Notification notification)
+        {
+            _notifications.Add(notification);
+        }
+
+        public List<Notification> GetNotifications()
+        {
+            return _notifications.ToList();
         }
     }
 }

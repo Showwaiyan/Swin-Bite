@@ -1,12 +1,20 @@
 using System.ComponentModel.DataAnnotations;
+using SwinBite.Interface;
 
 namespace SwinBite.Models
 {
-    public class Customer : User
+    public class Customer : User, IObserver
     {
         // Fields
         private ShoppingCart _shoppingCart;
         private List<Order> _orders;
+
+        // Constructor
+        public Customer()
+            : base()
+        {
+            _orders = new List<Order>();
+        }
 
         // Properties
         [Required]
@@ -28,9 +36,9 @@ namespace SwinBite.Models
             return ShoppingCart.AddItem(food, quantity);
         }
 
-        public Order PlaceOrder()
+        public Order PlaceOrder(OrderType type)
         {
-            return ShoppingCart.ConvertToOrder();
+            return ShoppingCart.ConvertToOrder(type);
         }
 
         public void ClearCart()
@@ -72,6 +80,46 @@ namespace SwinBite.Models
                 throw new InvalidOperationException("Can't cancell the order!");
 
             return order;
+        }
+
+        // Every Notifcation using Observer pattern will be shown by Console WriteLine
+        // Using Console WriteLine in each class is not good pratice, however
+        // Showing actual push notification is limited due to web api project
+        public void Update(Notification notification)
+        {
+            AddNotification(notification);
+            Console.WriteLine(
+                $"Customer {Username} received notification: {notification.GetContent()}"
+            );
+
+            // Customer-specific behavior based on notification type
+            switch (notification.Type)
+            {
+                case NotificationType.OrderUpdate:
+                    HandleOrderUpdate(notification);
+                    break;
+                case NotificationType.DeliveryUpdate:
+                    HandleDeliveryUpdate(notification);
+                    break;
+                case NotificationType.Promotion:
+                    HandlePromotion(notification);
+                    break;
+            }
+        }
+
+        private void HandleOrderUpdate(Notification notification)
+        {
+            Console.WriteLine($"Customer {Username}: Checking order status...");
+        }
+
+        private void HandleDeliveryUpdate(Notification notification)
+        {
+            Console.WriteLine($"Customer {Username}: Preparing for delivery arrival...");
+        }
+
+        private void HandlePromotion(Notification notification)
+        {
+            Console.WriteLine($"Customer {Username}: New promotion available!");
         }
     }
 }

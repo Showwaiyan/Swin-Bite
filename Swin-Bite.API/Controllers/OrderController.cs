@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SwinBite.DTO;
 using SwinBite.Models;
 using SwinBite.Services;
+using SwinBite.Interface;
 
 namespace SwinBite.Controller
 {
@@ -62,19 +63,26 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpPost("customer/placeorder")]
-        public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto)
+        [HttpPost("customer/placeorder/{type}")]
+        public async Task<IActionResult> PlaceOrder([FromBody] UserDto userDto, OrderType type)
         {
             try
             {
-                Order order = await _customerServices.ConvertToOrder(userDto.UserId);
+                Order order = await _customerServices.ConvertToOrder(userDto.UserId, type);
                 Customer sender = await _customerServices.GetCustomer(order.CustomerId);
                 Restaurant receiver = await _restaurantServices.GetRestaurant(order.RestaurantId);
                 order.Customer = sender;
                 order.Restaurant = receiver;
+                decimal totalPrice =
+                    order.Type == OrderType.Dlivery
+                        ? order.TotalPrice + (order.TotalPrice * 0.03m)
+                        : order.TotalPrice;
 
-                if (await _bankServices.ProcessPayment(sender, receiver, order.TotalPrice))
+                if (await _bankServices.ProcessPayment(sender, receiver, totalPrice))
                 {
+                    order.AddObserver(order.Customer as IObserver);
+                    order.AddObserver(order.Restaurant as IObserver);
+                    order.PlaceOrder();
                     await _orderServices.SaveOrder(order);
                     await _customerServices.ClearCart(order.Customer);
                     OrderDto orderDto = _mapper.Map<OrderDto>(order);
@@ -183,6 +191,11 @@ namespace SwinBite.Controller
                     userDto.UserId
                 );
                 await _orderServices.UpdateOrder(order);
+                if (status == OrderStatus.Ready)
+                {
+                  // Notify nearby driver by deliverServices
+                  // and add observer that driver
+                }
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);
                 return Ok(orderDto);
             }
@@ -191,6 +204,5 @@ namespace SwinBite.Controller
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

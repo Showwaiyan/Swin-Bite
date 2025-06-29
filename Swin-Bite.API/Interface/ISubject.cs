@@ -6,6 +6,6 @@ namespace SwinBite.Interface
   {
     public void AddObserver(SwinBite.Interface.IObserver observer);
     public void RemoveObserver(SwinBite.Interface.IObserver observer);
-    public void NotifyObserver(Notification notification);
+    public void NotifyObservers(Notification notification);
   }
 }

@@ -2,8 +2,9 @@ namespace SwinBite.Models
 {
     public enum UserType
     {
+        Base,
         Customer,
-        RestaurantOwner,
+        Restaurant,
         DeliveryDriver,
     }
 }

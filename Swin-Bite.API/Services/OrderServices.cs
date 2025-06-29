@@ -3,23 +3,23 @@ using SwinBite.Reposiroties;
 
 namespace SwinBite.Services
 {
-  public class OrderServices
-  {
-    private readonly OrderRepository _repo;
-
-    public OrderServices(OrderRepository repo)
+    public class OrderServices
     {
-      _repo = repo;
-    }
+        private readonly OrderRepository _repo;
 
-    public async Task SaveOrder(Order order)
-    {
-      await _repo.SaveOrder(order);
-    }
+        public OrderServices(OrderRepository repo)
+        {
+            _repo = repo;
+        }
 
-    public async Task UpdateOrder(Order order)
-    {
-      await _repo.UpdateOrder(order);
+        public async Task SaveOrder(Order order)
+        {
+            await _repo.SaveOrder(order);
+        }
+
+        public async Task UpdateOrder(Order order)
+        {
+            await _repo.UpdateOrder(order);
+        }
     }
-  }
 }

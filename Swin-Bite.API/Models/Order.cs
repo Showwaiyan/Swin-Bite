@@ -125,13 +125,28 @@ namespace SwinBite.Models
         }
 
         // Methods
+        public void PlaceOrder()
+        {
+            Notification notification = new Notification
+            {
+                Message =
+                    $"Customer {Customer.Username}(ID-{CustomerId}) place order with Order(ID-{OrderId}) at {OrderDate:yyyy-MM-dd HH:mm}",
+                UserId = RestaurantId,
+                TimeStamp = DateTime.UtcNow,
+                Type = NotificationType.OrderUpdate,
+                IsRead = false,
+            };
+            NotifyObservers(notification);
+        }
+
         public void UpdateStatus(OrderStatus status)
         {
             Status = status;
             Notification notification = new Notification
             {
                 Message = $"Order #{OrderId} status updated to {status}",
-                TimeStamp = DateTime.Now,
+                UserId = CustomerId,
+                TimeStamp = DateTime.UtcNow,
                 Type = NotificationType.OrderUpdate,
                 IsRead = false,
             };

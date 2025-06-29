@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwinBite.Models
 {
@@ -6,6 +7,8 @@ namespace SwinBite.Models
     {
         // Fields
         private int _notificationId;
+        private int _userId;
+        private User _user;
         private string _message;
         private DateTime _timeStamp;
         private NotificationType _type;
@@ -44,6 +47,20 @@ namespace SwinBite.Models
         {
             get { return _isRead; }
             set { _isRead = value; }
+        }
+
+        // Many-To-One Relationship
+        [Required]
+        public int UserId
+        {
+            get { return _userId; }
+            set { _userId = value; }
+        }
+        [ForeignKey("UserId")]
+        public User User
+        {
+            get { return _user; }
+            set { _user = value; }
         }
 
         // Method

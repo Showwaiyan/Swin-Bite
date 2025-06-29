@@ -38,14 +38,14 @@ namespace SwinBite.Services
             return item;
         }
 
-        public async Task<Order> ConvertToOrder(int customerId)
+        public async Task<Order> ConvertToOrder(int customerId, OrderType type)
         {
             Customer customer = await _repo.GetByIdAsync(customerId);
 
             if (customer == null)
                 throw new ArgumentException("We can't find customer with this id!");
 
-            Order order = customer.ShoppingCart.ConvertToOrder();
+            Order order = customer.PlaceOrder(type);
 
             return order;
         }

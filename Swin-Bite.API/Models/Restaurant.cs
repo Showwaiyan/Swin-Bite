@@ -1,6 +1,8 @@
+using SwinBite.Interface;
+
 namespace SwinBite.Models
 {
-    public class Restaurant : User
+    public class Restaurant : User, IObserver
     {
         // Fields
         private string _name;
@@ -11,6 +13,7 @@ namespace SwinBite.Models
 
         // Constructor
         public Restaurant()
+            : base()
         {
             _menu = new List<Food>();
             _orders = new List<Order>();
@@ -93,7 +96,8 @@ namespace SwinBite.Models
         public void UpdateMenu(Food food)
         {
             int index = Menu.FindIndex(f => f.FoodId == food.FoodId);
-            if (index == -1) throw new InvalidOperationException("Can't update non-existing item!");
+            if (index == -1)
+                throw new InvalidOperationException("Can't update non-existing item!");
             Menu[index] = food;
         }
 
@@ -106,6 +110,27 @@ namespace SwinBite.Models
         {
             Order order = Orders.Find(o => o.OrderId == id);
             return order;
+        }
+
+        // Every Notifcation using Observer pattern will be shown by Console WriteLine
+        // Using Console WriteLine in each class is not good pratice, however
+        // Showing actual push notification is limited due to web api project
+        public void Update(Notification notification)
+        {
+            AddNotification(notification);
+            Console.WriteLine(
+                $"Restaurant {Name} received notification: {notification.GetContent()}"
+            );
+
+            if (notification.Type == NotificationType.OrderUpdate)
+            {
+                HandleNewOrder(notification);
+            }
+        }
+
+        private void HandleNewOrder(Notification notification)
+        {
+            Console.WriteLine($"Restaurant {Name}: Processing new order notification...");
         }
     }
 }

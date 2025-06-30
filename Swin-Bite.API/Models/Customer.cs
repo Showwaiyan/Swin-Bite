@@ -118,5 +118,64 @@ namespace SwinBite.Models
         {
             Console.WriteLine($"Customer {Username}: New promotion available!\n");
         }
+
+        public string GenerateMonthlyReport()
+        {
+            // This resolves to your project root:
+            string projectRoot = Directory.GetCurrentDirectory();
+
+            // Combine it with your Reports/ folder:
+            string reportsFolder = Path.Combine(projectRoot, "Reports");
+
+            // Ensure the folder exists:
+            if (!Directory.Exists(reportsFolder))
+            {
+                Directory.CreateDirectory(reportsFolder);
+                Console.WriteLine($"Created folder: {reportsFolder}");
+            }
+
+            // Define file path
+            string fileName = $"Report_C{UserId}{Username}_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+            string filePath = Path.Combine(reportsFolder, fileName);
+            // Calculate the date range for one month back
+            DateTime oneMonthAgo = DateTime.Now.AddMonths(-1);
+
+            // Filter this customer's orders from last month
+            List<Order> monthlyOrders = Orders
+                .Where(o => o.OrderDate >= oneMonthAgo)
+                .OrderBy(o => o.OrderDate)
+                .ToList();
+
+            decimal totalCost = 0;
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine($"Monthly Order Report for Customer: {Username} (ID {UserId})");
+                writer.WriteLine($"Period: {oneMonthAgo:yyyy-MM-dd} to {DateTime.Now:yyyy-MM-dd}");
+                writer.WriteLine();
+
+                if (monthlyOrders.Any())
+                {
+                    writer.WriteLine("Orders:");
+                    foreach (var order in monthlyOrders)
+                    {
+                        writer.WriteLine(
+                            $"OrderId: {order.OrderId}, Date: {order.OrderDate:yyyy-MM-dd}, Total: ${order.TotalPrice:F2}"
+                        );
+                        totalCost += order.TotalPrice;
+                    }
+
+                    writer.WriteLine();
+                    writer.WriteLine($"TOTAL COST: ${totalCost:F2}");
+                }
+                else
+                {
+                    writer.WriteLine("No orders found for this period.");
+                }
+            }
+
+            Console.WriteLine($"Report generated at: {filePath}");
+            return filePath;
+        }
     }
 }

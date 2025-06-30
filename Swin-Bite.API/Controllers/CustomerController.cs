@@ -93,7 +93,7 @@ namespace SwinBite.Context
             }
             catch (InvalidOperationException ex)
             {
-              return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -114,6 +114,30 @@ namespace SwinBite.Context
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("report")]
+        public async Task<IActionResult> DownloadCustomerReport([FromBody] UserDto userDto)
+        {
+            Customer customer = await _customerServices.GetCustomer(userDto.UserId);
+
+            // Generate the report and get its path
+            string filePath = customer.GenerateMonthlyReport();
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("Report not found.");
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            var fileName = Path.GetFileName(filePath);
+
+            // Return as file download
+            return File(
+                fileBytes,
+                "text/plain", // content-type for txt file
+                fileName
+            );
         }
     }
 }

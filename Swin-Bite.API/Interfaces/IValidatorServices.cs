@@ -1,4 +1,4 @@
-namespace SwinBite.Services
+namespace SwinBite.Interface
 {
     public interface IValidatorServices<ValidationEventArgs>
     {

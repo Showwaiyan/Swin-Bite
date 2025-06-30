@@ -1,6 +1,6 @@
 using SwinBite.Models;
 using SwinBite.Reposiroties;
-using SwinBite.Interface;
+using SwinBite.Interfaces;
 
 namespace SwinBite.Services
 {

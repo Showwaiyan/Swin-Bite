@@ -1,5 +1,5 @@
 using SwinBite.Models;
-using SwinBite.Interface;
+using SwinBite.Interfaces;
 
 namespace SwinBite.Services
 {

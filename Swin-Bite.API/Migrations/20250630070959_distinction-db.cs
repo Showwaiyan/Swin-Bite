@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Swin_Bite.API.Migrations
 {
     /// <inheritdoc />
-    public partial class phase4finaldistinction : Migration
+    public partial class distinctiondb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -227,26 +227,6 @@ namespace Swin_Bite.API.Migrations
                     { 3, null, 100003, "walterwhite@breakingbad.com", false, "ChemistryChad", null, "lethimcook", 0f, 1, "Walter White" },
                     { 4, null, 100004, "dean@supernatural.com", false, "ApplePi", null, "iambatman", 0f, 1, "Dean Winchester" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Foods",
-                columns: new[] { "FoodId", "Calories", "Category", "Ingredients", "IsAvailable", "Name", "PrepTime", "Price", "RestaurantId", "ServingSize", "SpiceLevel" },
-                values: new object[] { 1, 0, 0, new List<string>(), true, "Spicy Noodles", 0, 10.00m, 3, 0, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Foods",
-                columns: new[] { "FoodId", "Category", "HasAlcohol", "IsAvailable", "IsCarbonated", "Name", "PrepTime", "Price", "RestaurantId", "Temperature", "Volume" },
-                values: new object[] { 2, 1, false, true, false, "Iced Tea", 0, 3.00m, 3, 0, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Foods",
-                columns: new[] { "FoodId", "Calories", "Category", "Ingredients", "IsAvailable", "Name", "PrepTime", "Price", "RestaurantId", "ServingSize", "SpiceLevel" },
-                values: new object[] { 3, 0, 0, new List<string>(), true, "Grilled Chicken", 0, 12.00m, 4, 0, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Foods",
-                columns: new[] { "FoodId", "Category", "HasAlcohol", "IsAvailable", "IsCarbonated", "Name", "PrepTime", "Price", "RestaurantId", "Temperature", "Volume" },
-                values: new object[] { 4, 1, false, true, false, "Lemonade", 0, 2.50m, 4, 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "ShoppingCarts",

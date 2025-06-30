@@ -13,8 +13,8 @@ using SwinBite.Context;
 namespace Swin_Bite.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250628023901_phase4-distinction")]
-    partial class phase4distinction
+    [Migration("20250630070959_distinction-db")]
+    partial class distinctiondb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,6 +214,20 @@ namespace Swin_Bite.API.Migrations
                         .IsUnique();
 
                     b.ToTable("ShoppingCarts");
+
+                    b.HasData(
+                        new
+                        {
+                            ShoppingCartId = 1,
+                            CustomerId = 1,
+                            TotalPrice = 0m
+                        },
+                        new
+                        {
+                            ShoppingCartId = 2,
+                            CustomerId = 2,
+                            TotalPrice = 0m
+                        });
                 });
 
             modelBuilder.Entity("SwinBite.Models.ShoppingCartItem", b =>

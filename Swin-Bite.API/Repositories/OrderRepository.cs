@@ -13,7 +13,7 @@ namespace SwinBite.Reposiroties
             _context = context;
         }
 
-        public async Task<Order> GetOrderByAsync(int id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
             return await _context
                 .Orders.Include(o => o.Customer)

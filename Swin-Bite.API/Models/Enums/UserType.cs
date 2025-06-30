@@ -3,7 +3,7 @@ namespace SwinBite.Models
     public enum UserType
     {
         Customer,
-        RestaurantOwner,
+        Restaurant,
         DeliveryDriver,
         Admin,
     }

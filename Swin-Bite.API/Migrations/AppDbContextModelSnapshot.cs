@@ -211,6 +211,20 @@ namespace Swin_Bite.API.Migrations
                         .IsUnique();
 
                     b.ToTable("ShoppingCarts");
+
+                    b.HasData(
+                        new
+                        {
+                            ShoppingCartId = 1,
+                            CustomerId = 1,
+                            TotalPrice = 0m
+                        },
+                        new
+                        {
+                            ShoppingCartId = 2,
+                            CustomerId = 2,
+                            TotalPrice = 0m
+                        });
                 });
 
             modelBuilder.Entity("SwinBite.Models.ShoppingCartItem", b =>

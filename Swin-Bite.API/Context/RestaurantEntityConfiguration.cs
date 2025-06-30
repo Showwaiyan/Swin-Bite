@@ -24,7 +24,7 @@ public class RestaurantEntityConfiguration : IEntityTypeConfiguration<Restaurant
                 Name = "ChemistryChad",
                 Password = "lethimcook",
                 Email = "walterwhite@breakingbad.com",
-                UserType = UserType.RestaurantOwner,
+                UserType = UserType.Restaurant,
                 BankAccountId = 100003,
             },
             new Restaurant
@@ -34,7 +34,7 @@ public class RestaurantEntityConfiguration : IEntityTypeConfiguration<Restaurant
                 Name = "ApplePi",
                 Password = "iambatman",
                 Email = "dean@supernatural.com",
-                UserType = UserType.RestaurantOwner,
+                UserType = UserType.Restaurant,
                 BankAccountId = 100004,
             }
         );

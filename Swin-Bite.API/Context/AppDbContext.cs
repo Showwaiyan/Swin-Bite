@@ -48,7 +48,7 @@ namespace SwinBite.Context
             // Shopping Cart
             ShoppingCartEntityConfiguration ShoppingCartsEC = new ShoppingCartEntityConfiguration();
             ShoppingCartsEC.Configure(modelBuilder.Entity<ShoppingCart>());
-            // ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
+            ShoppingCartsEC.Seed(modelBuilder.Entity<ShoppingCart>());
 
             ShoppingCartItemEntityConfiguration ShoppingCartItemEC =
                 new ShoppingCartItemEntityConfiguration();

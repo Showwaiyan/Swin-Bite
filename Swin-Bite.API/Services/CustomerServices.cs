@@ -45,7 +45,7 @@ namespace SwinBite.Services
             if (customer == null)
                 throw new ArgumentException("We can't find customer with this id!");
 
-            Order order = customer.ShoppingCart.ConvertToOrder();
+            Order order = customer.PlaceOrder();
 
             return order;
         }

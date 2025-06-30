@@ -13,8 +13,8 @@ using SwinBite.Context;
 namespace Swin_Bite.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250630070959_distinction-db")]
-    partial class distinctiondb
+    [Migration("20250630104438_fooddeliverydbd")]
+    partial class fooddeliverydbd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

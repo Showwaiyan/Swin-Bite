@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Swin_Bite.API.Migrations
 {
     /// <inheritdoc />
-    public partial class distinctiondb : Migration
+    public partial class fooddeliverydbd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

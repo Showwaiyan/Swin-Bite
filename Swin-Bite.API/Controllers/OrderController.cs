@@ -214,7 +214,7 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpPatch("delivery/{id}/{status}")]
+        [HttpPatch("deliery/{id}/{status}")]
         public async Task<IActionResult> UpdateOrderStatusByDelivery(
             int id,
             OrderStatus status,
@@ -232,6 +232,45 @@ namespace SwinBite.Controller
                 order = await _orderServices.FetchCustomerAndRestaurant(order);
                 _notificationServices.NotifyOrderStatus(order);
                 await _orderServices.UpdateOrder(order);
+
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                return Ok(orderDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("delivery")]
+        public async Task<IActionResult> GetAllOrders([FromBody] UserDto userDto)
+        {
+            try
+            {
+                DeliveryDriver driver = await _deliveryDriverServices.GetDeliveryDriver(
+                    userDto.UserId
+                );
+                List<Order> validOrders = await _orderServices.GetAllDeliverableOrder();
+                List<OrderDto> validOrdersDto = _mapper.Map<List<OrderDto>>(validOrders);
+                return Ok(validOrdersDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("delivery/{id}")]
+        public async Task<IActionResult> AcceptOrder(int id, [FromBody] UserDto userDto)
+        {
+            try
+            {
+                Order order = await _orderServices.GetOrderById(id);
+                order = await _deliveryDriverServices.AcceptOrder(order, userDto.UserId);
+                await _orderServices.UpdateOrder(order);
+
+
+                _notificationServices.NotifyDeliverDriverAcceptOrder(order);
 
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);
                 return Ok(orderDto);

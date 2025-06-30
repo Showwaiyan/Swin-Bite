@@ -54,18 +54,15 @@ namespace SwinBite.Models
         public Order GetOrder(int id)
         {
             Order order = Orders.Find(o => o.OrderId == id);
+            if (order == null)
+                throw new ArgumentException("We can't find order with this id!");
             return order;
         }
 
         public Order PickUpOrder(int orderId)
         {
             Order order = GetOrder(orderId);
-            if (order == null)
-                throw new ArgumentException("We can't find order with this id!");
             order.UpdateStatus(OrderStatus.Completed);
-            if (!Orders.Remove(order))
-                throw new InvalidOperationException("Can't confirm the order!");
-
             return order;
         }
 

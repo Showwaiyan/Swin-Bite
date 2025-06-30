@@ -42,17 +42,35 @@ namespace SwinBite.Services
 
         public void NotifyDeliverDriverAcceptOrder(Order order)
         {
-          AddObserverForOrder(order,order.Customer);
-          AddObserverForOrder(order,order.Restaurant);
-          AddObserverForOrder(order,order.DeliveryDriver);
-          Notification deliveryAcceptNotification = order.AcceptOrderNotification();
-          order.NotifyObservers(deliveryAcceptNotification);
+            AddObserverForOrder(order, order.Customer);
+            AddObserverForOrder(order, order.Restaurant);
+            AddObserverForOrder(order, order.DeliveryDriver);
+            Notification deliveryAcceptNotification = order.AcceptOrderNotification();
+            order.NotifyObservers(deliveryAcceptNotification);
+        }
+
+        public void NotifyOrderDelivered(Order order)
+        {
+            AddObserverForOrder(order, order.Customer);
+            AddObserverForOrder(order, order.Restaurant);
+            AddObserverForOrder(order, order.DeliveryDriver);
+            Notification deliveredOrderNotification = order.DeliveredOrderNotification();
+            order.NotifyObservers(deliveredOrderNotification);
+        }
+
+        public void NotifyOrderPickUp(Order order)
+        {
+            AddObserverForOrder(order, order.Customer);
+            AddObserverForOrder(order, order.Restaurant);
+            AddObserverForOrder(order, order.DeliveryDriver);
+            Notification completeOrderNotification = order.CompleteOrderNotification();
+            order.NotifyObservers(completeOrderNotification);
         }
 
         public void NotifyOrderStatus(Order order)
         {
-            AddObserverForOrder(order,order.Customer);
-            AddObserverForOrder(order,order.Restaurant);
+            AddObserverForOrder(order, order.Customer);
+            AddObserverForOrder(order, order.Restaurant);
             Notification notification = order.UpdateStatusNotification();
             order.NotifyObservers(notification);
         }

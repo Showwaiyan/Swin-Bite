@@ -79,7 +79,7 @@ namespace SwinBite.Controller
                 order.Customer = sender;
                 order.Restaurant = receiver;
                 decimal totalPrice =
-                    order.Type == OrderType.Dlivery
+                    order.Type == OrderType.Delivery
                         ? order.TotalPrice + (order.TotalPrice * 0.03m)
                         : order.TotalPrice;
 
@@ -114,8 +114,11 @@ namespace SwinBite.Controller
             try
             {
                 Order order = await _customerServices.PickUpOrder(id, userDto.UserId);
-                OrderDto orderDto = _mapper.Map<OrderDto>(order);
+                order = await _orderServices.FetchCustomerRestaurantAndDelivery(order);
+
+                _notificationServices.NotifyOrderPickUp(order);
                 await _orderServices.UpdateOrder(order);
+                OrderDto orderDto = _mapper.Map<OrderDto>(order);
                 return Ok(orderDto);
             }
             catch (ArgumentException ex)
@@ -134,6 +137,9 @@ namespace SwinBite.Controller
             try
             {
                 Order order = await _customerServices.CancellOrder(id, userDto.UserId);
+                order = await _orderServices.FetchCustomerRestaurantAndDelivery(order);
+                 
+                _notificationServices.NotifyOrderStatus(order);
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);
                 await _orderServices.UpdateOrder(order);
                 return Ok(orderDto);
@@ -194,7 +200,7 @@ namespace SwinBite.Controller
                     userDto.UserId
                 );
 
-                order = await _orderServices.FetchCustomerAndRestaurant(order);
+                order = await _orderServices.FetchCustomerRestaurantAndDelivery(order);
 
                 if (status == OrderStatus.Ready)
                 {
@@ -202,7 +208,7 @@ namespace SwinBite.Controller
                         await _deliveryDriverServices.GetNearByDelivery();
                     _notificationServices.NotifyDeliveryDriversForNewOrder(order, drivers);
                 }
-
+                _notificationServices.NotifyOrderStatus(order);
                 await _orderServices.UpdateOrder(order);
 
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);
@@ -214,7 +220,7 @@ namespace SwinBite.Controller
             }
         }
 
-        [HttpPatch("deliery/{id}/{status}")]
+        [HttpPatch("delivery/{id}/{status}")]
         public async Task<IActionResult> UpdateOrderStatusByDelivery(
             int id,
             OrderStatus status,
@@ -229,8 +235,13 @@ namespace SwinBite.Controller
                     userDto.UserId
                 );
 
-                order = await _orderServices.FetchCustomerAndRestaurant(order);
-                _notificationServices.NotifyOrderStatus(order);
+                order = await _orderServices.FetchCustomerRestaurantAndDelivery(order);
+                if (status == OrderStatus.Delivered)
+                {
+                  _notificationServices.NotifyOrderDelivered(order);
+                }
+                else _notificationServices.NotifyOrderStatus(order);
+
                 await _orderServices.UpdateOrder(order);
 
                 OrderDto orderDto = _mapper.Map<OrderDto>(order);

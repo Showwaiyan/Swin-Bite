@@ -167,9 +167,33 @@ namespace SwinBite.Models
             return notification;
         }
 
-        public void UpdateStatus(OrderStatus status)
+        public Notification DeliveredOrderNotification()
         {
-            Status = status;
+            Notification notification = new Notification()
+            {
+                Message =
+                    $"Delivery {DeliveryDriver.Username} has delivered Order (Id-{OrderId}) at {Customer.Address}",
+                UserId = CustomerId,
+                TimeStamp = DateTime.UtcNow,
+                Type = NotificationType.DeliveryUpdate,
+                IsRead = false,
+            };
+
+            return notification;
+        }
+
+        public Notification CompleteOrderNotification()
+        {
+            Notification notification = new Notification()
+            {
+                Message = $"Customer {Customer.Username} picked up order.",
+                UserId = RestaurantId,
+                TimeStamp = DateTime.UtcNow,
+                Type = NotificationType.DeliveryUpdate,
+                IsRead = false,
+            };
+
+            return notification;
         }
 
         public Notification UpdateStatusNotification()
@@ -183,6 +207,11 @@ namespace SwinBite.Models
                 IsRead = false,
             };
             return notification;
+        }
+
+        public void UpdateStatus(OrderStatus status)
+        {
+            Status = status;
         }
 
         public decimal CalculateTotal()

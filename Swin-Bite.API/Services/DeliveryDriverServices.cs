@@ -28,19 +28,25 @@ namespace SwinBite.Services
 
         public async Task<Order> AcceptOrder(Order order, int deliveryDriverId)
         {
-          DeliveryDriver driver = await GetDeliveryDriver(deliveryDriverId);
-          order.DeliveryDriverId = driver.UserId;
-          order.DeliveryDriver = driver;
-          order.UpdateStatus(OrderStatus.DeliveryAccepted);
-          driver.IsAvailable = false;
-          return order;
+            DeliveryDriver driver = await GetDeliveryDriver(deliveryDriverId);
+            order.DeliveryDriverId = driver.UserId;
+            order.DeliveryDriver = driver;
+            order.UpdateStatus(OrderStatus.DeliveryAccepted);
+            driver.IsAvailable = false;
+            return order;
         }
 
-        public async Task<Order> UpdateOrderStatus(int orderId, OrderStatus status, int deliveryDriverId)
+        public async Task<Order> UpdateOrderStatus(
+            int orderId,
+            OrderStatus status,
+            int deliveryDriverId
+        )
         {
-          DeliveryDriver driver = await _repo.GetDeliveryDriverByIdAsync(deliveryDriverId);
-          Order order = driver.UpdateOrderStatus(orderId, status);
-          return order; 
+            DeliveryDriver driver = await _repo.GetDeliveryDriverByIdAsync(deliveryDriverId);
+            if (status == OrderStatus.Delivered)
+                driver.IsAvailable = true;
+            Order order = driver.UpdateOrderStatus(orderId, status);
+            return order;
         }
     }
 }

@@ -45,18 +45,26 @@ namespace SwinBite.Models
         public void Update(Notification notification)
         {
             AddNotification(notification);
-
+            Console.WriteLine(
+                $"Driver {Username} received notification: {notification.GetContent()}"
+            );
             if (notification.Type == NotificationType.OrderUpdate && IsAvailable)
             {
                 CheckForDeliveryOpportunity(notification);
             }
+            else DeliveredOrder(notification);
         }
 
         private void CheckForDeliveryOpportunity(Notification notification)
         {
             Console.WriteLine(
-                $"Driver {Username} received notification: {notification.GetContent()}\n"
+                $"Finding Order Opportunity.\n"
             );
+        }
+
+        private void DeliveredOrder(Notification notification)
+        {
+          Console.WriteLine("Order has been delivered.\n");
         }
 
         public Order GetOrder(int id)
@@ -70,9 +78,6 @@ namespace SwinBite.Models
             Order order = GetOrder(id);
             if (order == null)
                 throw new ArgumentException("We can't find order with this id!");
-            if (status == OrderStatus.Cancelled)
-                if (!Orders.Remove(order))
-                    throw new InvalidOperationException("Can't cancell the order!");
             order.UpdateStatus(status);
             return order;
         }

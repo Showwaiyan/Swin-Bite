@@ -1,0 +1,80 @@
+---
+config:
+  theme: redux
+  look: classic
+---
+sequenceDiagram
+    participant C as Customer
+    participant SC as ShoppingCart
+    participant O as Order
+    participant R as Restaurant
+    participant DD as DeliveryDriver
+    participant N as Notification System
+    Note over C,N: SwinBite Food Delivery System - Order Flow
+    C->>SC: AddItem(food, quantity)
+    SC->>SC: Create/Update ShoppingCartItem
+    SC-->>C: Return ShoppingCartItem
+    C->>SC: ConvertToOrder(OrderType)
+    SC->>O: Create new Order
+    SC->>O: Add OrderItems from cart
+    O->>O: CalculateTotal()
+    SC-->>C: Return Order
+    C->>O: PlaceOrder()
+    O->>O: AddObserver(Restaurant)
+    O->>O: AddObserver(Customer)
+    O->>N: PlaceOrderNotification()
+    N->>R: Update(notification)
+    R->>R: HandleNewOrder()
+    Note right of R: Console output: Processing new order
+    R->>O: ProcessOrder(order)
+    O->>O: UpdateStatus(Ready)
+    alt Order Type is Delivery
+        O->>N: NewOrderNotification()
+        N->>DD: Update(notification)
+        DD->>DD: CheckForDeliveryOpportunity()
+        Note right of DD: Console output: Finding Order Opportunity
+        DD->>O: UpdateOrderStatus(id, status)
+        O->>O: UpdateStatus(status)
+        O->>N: AcceptOrderNotification()
+        N->>R: Update(notification)
+        R->>R: HandleDeliveryPickUp()
+        N->>C: Update(notification)
+        C->>C: HandleDeliveryUpdate()
+        Note right of C: Console output: Preparing for delivery arrival
+        DD->>O: UpdateOrderStatus(id, status)
+        O->>O: UpdateStatus(status)
+        O->>N: DeliveredOrderNotification()
+        N->>C: Update(notification)
+        C->>C: HandleDeliveryUpdate()
+        C->>O: UpdateStatus(Completed)
+        O->>N: UpdateStatusNotification()
+        N->>R: Update(notification)
+    else Order Type is Pickup
+        R->>O: UpdateOrderStatus(id, status)
+        O->>O: UpdateStatus(status)
+        O->>N: UpdateStatusNotification()
+        N->>C: Update(notification)
+        C->>C: HandleOrderUpdate()
+        Note right of C: Console output: Checking order status
+        C->>O: PickUpOrder(orderId)
+        O->>O: UpdateStatus(Completed)
+        O->>N: CompleteOrderNotification()
+        N->>R: Update(notification)
+    end
+    alt Customer wants to cancel
+        C->>O: CancelOrder(orderId)
+        alt Order status is Pending
+            O->>O: UpdateStatus(Cancelled)
+            C->>C: Remove order from Orders list
+            O->>N: UpdateStatusNotification()
+            N->>R: Update(notification)
+        else Order already confirmed
+            O-->>C: Throw InvalidOperationException
+        end
+    end
+    opt Monthly Report Generation
+        C->>C: GenerateMonthlyReport()
+        C->>C: Filter orders from last month
+        C->>C: Create report file
+        Note right of C: Report saved to Reports/ folder
+    end

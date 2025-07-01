@@ -1,0 +1,360 @@
+---
+config:
+  layout: elk
+  look: classic
+---
+classDiagram
+direction TB
+    class FoodCategory {
+	    Dish
+	    Drink
+	    Snack
+    }
+    class NotificationType {
+	    OrderUpdate
+	    DeliveryUpdate
+	    Payment
+	    Promotion
+	    System
+    }
+    class OrderStatus {
+	    Pending
+	    Confirmed
+	    Preparing
+	    Ready
+	    DeliveryAccepted
+	    OutForDelivery
+	    Delivered
+	    Completed
+	    Cancelled
+    }
+    class OrderType {
+	    SelfPickUp
+	    Delivery
+    }
+    class UserType {
+	    Base
+	    Customer
+	    Restaurant
+	    DeliveryDriver
+    }
+    class VehicleType {
+	    Bicycle
+	    Motorcycle
+	    Car
+	    Van
+    }
+    class IObserver {
+	    +Update(notification: Notification)
+    }
+    class ISubject {
+	    +AddObserver(observer: IObserver)
+	    +RemoveObserver(observer: IObserver)
+	    +NotifyObservers(notification: Notification)
+    }
+    class User {
+	    -_userId: int
+	    -_username: string
+	    -_email: string
+	    -_password: string
+	    -_isAuthenticated: bool
+	    -_userType: UserType
+	    -_bankAccountId: int
+	    -_address: string
+	    -_notifications: List~Notification~
+	    -_bankAccount: BankAccount
+	    +UserId: int
+	    +Username: string
+	    +Email: string
+	    +Password: string
+	    +IsAuthenticated: bool
+	    +Address: string
+	    +UserType: UserType
+	    +BankAccountId: int
+	    +BankAccount: BankAccount
+	    +Notifications: List~Notification~
+	    +Login(password: string) : bool
+	    +Logout() : void
+	    +UpdateProfile(user: User) : void
+	    +AddNotification(notification: Notification) : void
+	    +GetNotifications() : List~Notification~
+    }
+    class Food {
+	    -_foodId: int
+	    -_name: string
+	    -_price: decimal
+	    -_category: FoodCategory
+	    -_restaurantId: int
+	    -_restaurant: Restaurant
+	    -_isAvailable: bool
+	    -_prepTime: int
+	    +FoodId: int
+	    +Name: string
+	    +Price: decimal
+	    +Description: string
+	    +Category: FoodCategory
+	    +RestaurantId: int
+	    +Restaurant: Restaurant
+	    +IsAvailable: bool
+	    +PrepTime: int
+	    +GetDetails() : string~~abstract~~
+    }
+    class Customer {
+	    -_shoppingCart: ShoppingCart
+	    -_orders: List~Order~
+	    +ShoppingCart: ShoppingCart
+	    +Orders: List~Order~
+	    +AddToCart(food: Food, quantity: int) : ShoppingCartItem
+	    +PlaceOrder(type: OrderType) : Order
+	    +ClearCart() : void
+	    +GetOrders() : List~Order~
+	    +GetOrder(id: int) : Order
+	    +PickUpOrder(orderId: int) : Order
+	    +CancellOrder(orderId: int) : Order
+	    +Update(notification: Notification) : void
+	    +GenerateMonthlyReport() : string
+	    -HandleOrderUpdate(notification: Notification) : void
+	    -HandleDeliveryUpdate(notification: Notification) : void
+	    -HandlePromotion(notification: Notification) : void
+    }
+    class Restaurant {
+	    -_name: string
+	    -_rating: float
+	    -_menu: List~Food~
+	    -_orders: List~Order~
+	    -_operatingHours: string
+	    +Name: string
+	    +Rating: float
+	    +Menu: List~Food~
+	    +Orders: List~Order~
+	    +OperatingHours: string
+	    +ProcessOrder(order: Order) : Order
+	    +GetMenu() : List~Food~
+	    +AddMenuItem(food: Food) : void
+	    +ViewOrder() : List~Order~
+	    +ViewMenu() : List~Food~
+	    +UpdateOrderStatus(id: int, status: OrderStatus) : Order
+	    +UpdateMenu(food: Food) : void
+	    +GetOrders() : List~Order~
+	    +GetOrder(id: int) : Order
+	    +Update(notification: Notification) : void
+	    -HandleNewOrder(notification: Notification) : void
+	    -HandleDeliveryPickUp(notification: Notification) : void
+    }
+    class DeliveryDriver {
+	    -_vehicle: VehicleType
+	    -_licenseNumber: string
+	    -_isAvailable: bool
+	    -_orders: List~Order~
+	    +Vehivle: VehicleType
+	    +LicenseNumber: string
+	    +IsAvailable: bool
+	    +Orders: List~Order~
+	    +Update(notification: Notification) : void
+	    +GetOrder(id: int) : Order
+	    +UpdateOrderStatus(id: int, status: OrderStatus) : Order
+	    -CheckForDeliveryOpportunity(notification: Notification) : void
+	    -DeliveredOrder(notification: Notification) : void
+    }
+    class Dish {
+	    -_servingSize: int
+	    -_spiceLevel: int
+	    -_calories: int
+	    -_ingredients: List~string~
+	    +ServingSize: int
+	    +SpiceLevel: int
+	    +Calories: int
+	    +Ingredients: List~string~
+	    +GetDetails() : string~~overrider~~
+    }
+    class Drink {
+	    -_volume: int
+	    -_temperature: int
+	    -_isCarbonated: bool
+	    -_hasAlcohol: bool
+	    +Volume: int
+	    +Temperature: int
+	    +IsCarbonated: bool
+	    +HasAlcohol: bool
+	    +GetDetails() : string~~overrider~~
+    }
+    class Snack {
+	    -_packageSize: int
+	    -_isHealthy: bool
+	    -_allergens: List~string~
+	    +PackageSize: int
+	    +IsHealthy: bool
+	    +Allergens: List~string~
+	    +GetDetails() : string~~overrider~~
+    }
+    class BankAccount {
+	    -_bankId: int
+	    -_accountNumber: string
+	    -_balance: decimal
+	    -_pin: string
+	    -_isActive: bool
+	    -_user: User
+	    +BankId: int
+	    +AccountNumber: string
+	    +Balance: decimal
+	    +Pin: string
+	    +IsActive: bool
+	    +User: User
+	    +ProcessPayment(amount: decimal) : void
+	    +GetBalance() : decimal
+    }
+    class Notification {
+	    -_notificationId: int
+	    -_userId: int
+	    -_user: User
+	    -_message: string
+	    -_timeStamp: DateTime
+	    -_type: NotificationType
+	    -_isRead: bool
+	    +NotificationId: int
+	    +Message: string
+	    +TimeStamp: DateTime
+	    +Type: NotificationType
+	    +IsRead: bool
+	    +UserId: int
+	    +User: User
+	    +MarkAsRead() : void
+	    +GetContent() : string
+    }
+    class Order {
+	    -_orderId: int
+	    -_customerId: int
+	    -_customer: Customer
+	    -_restaurantId: int
+	    -_restaurant: Restaurant
+	    -_deliveryDriverId: int?
+	    -_deliveryDriver: DeliveryDriver
+	    -_orderItems: List~OrderItem~
+	    -_totalPrice: decimal
+	    -_status: OrderStatus
+	    -_type: OrderType
+	    -_orderDate: DateTime
+	    -_pickUpTime: DateTime
+	    -_observers: List~IObserver~
+	    +OrderId: int
+	    +CustomerId: int
+	    +Customer: Customer
+	    +RestaurantId: int
+	    +Restaurant: Restaurant
+	    +DeliveryDriverId: int?
+	    +DeliveryDriver: DeliveryDriver
+	    +OrderItems: List~OrderItem~
+	    +TotalPrice: decimal
+	    +Status: OrderStatus
+	    +Type: OrderType
+	    +OrderDate: DateTime
+	    +PickUpTime: DateTime
+	    +Observers: List~IObserver~
+	    +PlaceOrderNotification() : Notification
+	    +NewOrderNotification() : Notification
+	    +AcceptOrderNotification() : Notification
+	    +DeliveredOrderNotification() : Notification
+	    +CompleteOrderNotification() : Notification
+	    +UpdateStatusNotification() : Notification
+	    +UpdateStatus(status: OrderStatus) : void
+	    +CalculateTotal() : decimal
+	    +AddObserver(observer: IObserver) : void
+	    +RemoveObserver(observer: IObserver) : void
+	    +NotifyObservers(notification: Notification) : void
+    }
+    class OrderItem {
+	    -_orderItemId: int
+	    -_orderId: int
+	    -_order: Order
+	    -_foodId: int
+	    -_food: Food
+	    -_quantity: int
+	    -_priceAtTime: decimal
+	    +OrderItemId: int
+	    +OrderId: int
+	    +Order: Order
+	    +FoodId: int
+	    +Food: Food
+	    +Quantity: int
+	    +PriceAtTime: decimal
+    }
+    class ShoppingCart {
+	    -_shoppingCartId: int
+	    -_customerId: int
+	    -_customer: Customer
+	    -_shoppingCartItems: List~ShoppingCartItem~
+	    -_totalPrice: decimal
+	    +ShoppingCartId: int
+	    +ShoppingCartItems: List~ShoppingCartItem~
+	    +CustomerId: int
+	    +Customer: Customer
+	    +TotalPrice: decimal
+	    +AddItem(food: Food, quantity: int) : ShoppingCartItem
+	    +RemoveItem(food: Food) : ShoppingCartItem
+	    +CalculateTotal() : decimal
+	    +Clear() : void
+	    +ConvertToOrder(type: OrderType) : Order
+    }
+    class ShoppingCartItem {
+	    -_shoppingCartItemId: int
+	    -_quantitiy: int
+	    -_shoppingCartId: int
+	    -_shoppingCart: ShoppingCart
+	    -_foodId: int
+	    -_food: Food
+	    +ShoppingCartItemId: int
+	    +Quantity: int
+	    +ShoppingCartId: int
+	    +ShoppingCart: ShoppingCart
+	    +FoodId: int
+	    +Food: Food
+    }
+
+	<<enumeration>> FoodCategory
+	<<enumeration>> NotificationType
+	<<enumeration>> OrderStatus
+	<<enumeration>> OrderType
+	<<enumeration>> UserType
+	<<enumeration>> VehicleType
+	<<interface>> IObserver
+	<<interface>> ISubject
+	<<abstract>> Food
+
+    User <|-- Customer : inherits
+    User <|-- Restaurant : inherits
+    User <|-- DeliveryDriver : inherits
+    Food <|-- Dish : inherits
+    Food <|-- Drink : inherits
+    Food <|-- Snack : inherits
+    User "1" --> "1" BankAccount : uses
+    User "1" o-- "0..*" Notification : contains
+    Customer "1" --> "1" ShoppingCart : has
+    Customer "1" o-- "0..*" Order : places
+    Customer ..> OrderType
+    Customer ..> Notification : receives
+    Restaurant "1" o-- "1..*" Food : offers
+    Restaurant ..> OrderStatus
+	Restaurant ..> Notification : receives
+    DeliveryDriver "1" o-- "0..*" Order : delivers
+    DeliveryDriver ..> Notification : receives
+    DeliveryDriver ..> OrderStatus
+    ShoppingCart "1" o-- "0..*" ShoppingCartItem : contains
+	ShoppingCart ..> Food : adds
+	ShoppingCart ..> OrderType
+    Order "1" o-- "1..*" OrderItem : contains
+    Order "0..*" --o "1" Restaurant : receives
+	Order ..> IObserver
+    OrderItem "0..*" --> "1" Food : references
+    ShoppingCartItem "0..*" --> "1" Food : references
+    Customer "1" ..> "1..*" Food : buy
+    Customer "1" ..> "0..*" Restaurant : browse
+    IObserver <|.. Customer : implements
+    IObserver <|.. Restaurant : implements
+    IObserver <|.. DeliveryDriver : implements
+    ISubject <|.. Order : implements
+    User --> UserType : uses
+    Food --> FoodCategory : categorized by
+    Notification --> NotificationType : has
+    Order --> OrderStatus : has
+    Order --> OrderType : has
+    DeliveryDriver --> VehicleType : uses

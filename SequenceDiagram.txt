@@ -1,0 +1,125 @@
+---
+config:
+  theme: redux
+  look: classic
+---
+sequenceDiagram
+    participant C as Customer
+    participant SC as ShoppingCart
+    participant SCI as ShoppingCartItem
+    participant F as Food
+    participant R as Restaurant
+    participant O as Order
+    participant OI as OrderItem
+    participant BA as BankAccount
+    Note over C,BA: Customer Order Placement Flow
+    C->>C: Login(password)
+    activate C
+    C-->>C: IsAuthenticated = true
+    deactivate C
+    C->>R: GetMenu()
+    activate R
+    R-->>C: List<Food>
+    deactivate R
+    loop For each selected food item
+        C->>C: AddToCart(food, quantity)
+        activate C
+        C->>SC: AddItem(food, quantity)
+        activate SC
+        alt Item doesn't exist in cart
+            SC->>SCI: new ShoppingCartItem()
+            activate SCI
+            SCI-->>SC: ShoppingCartItem
+            deactivate SCI
+            SC->>SC: ShoppingCartItems.Add(item)
+        else Item exists in cart
+            SC->>SCI: Update Quantity
+            activate SCI
+            SCI-->>SC: Updated quantity
+            deactivate SCI
+        end
+        SC-->>C: ShoppingCartItem
+        deactivate SC
+        deactivate C
+    end
+    C->>SC: CalculateTotal()
+    activate SC
+    loop For each ShoppingCartItem
+        SC->>SCI: Get Quantity
+        activate SCI
+        SCI-->>SC: quantity
+        deactivate SCI
+        SC->>F: Get Price
+        activate F
+        F-->>SC: price
+        deactivate F
+    end
+    SC-->>C: totalPrice
+    deactivate SC
+    C->>C: PlaceOrder()
+    activate C
+    C->>SC: ConvertToOrder()
+    activate SC
+    SC->>O: new Order()
+    activate O
+    O->>O: Set OrderDate, PickUpTime, Status
+    loop For each ShoppingCartItem
+        SC->>OI: new OrderItem()
+        activate OI
+        OI->>F: Get Price (PriceAtTime)
+        activate F
+        F-->>OI: price
+        deactivate F
+        OI-->>O: OrderItem
+        deactivate OI
+        O->>O: OrderItems.Add(orderItem)
+    end
+    O->>O: CalculateTotal()
+    O-->>SC: Order
+    deactivate O
+    SC-->>C: Order
+    deactivate SC
+    C->>BA: ProcessPayment(totalAmount)
+    activate BA
+    BA->>BA: Balance += amount
+    BA-->>C: Payment processed
+    deactivate BA
+    C->>R: ProcessOrder(order)
+    activate R
+    R->>O: UpdateStatus(Confirmed)
+    activate O
+    O->>O: Status = Confirmed
+    O-->>R: Updated order
+    deactivate O
+    R->>R: Orders.Add(order)
+    R-->>C: Confirmed order
+    deactivate R
+    C->>SC: Clear()
+    activate SC
+    SC->>SC: ShoppingCartItems.Clear()
+    SC-->>C: Cart cleared
+    deactivate SC
+    deactivate C
+    Note over C,BA: Order Processing by Restaurant
+    R->>R: UpdateOrderStatus(orderId, Prepared)
+    activate R
+    R->>O: UpdateStatus(Prepared)
+    activate O
+    O-->>R: Status updated
+    deactivate O
+    deactivate R
+    R->>R: UpdateOrderStatus(orderId, Ready)
+    activate R
+    R->>O: UpdateStatus(Ready)
+    activate O
+    O-->>R: Status updated
+    deactivate O
+    deactivate R
+    Note over C,BA: Customer Pickup
+    C->>C: PickUpOrder(orderId)
+    activate C
+    C->>C: GetOrder(orderId)
+    C->>O: UpdateStatus(Completed)
+    activate O
+    O-->>C: Order completed
+    deactivate O

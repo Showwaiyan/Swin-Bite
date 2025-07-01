@@ -1,0 +1,249 @@
+---
+config:
+  layout: elk
+---
+classDiagram
+    class User {
+        - _userId : int
+        - _username : string
+        - _email : string
+        - _password : string
+        - _isAuthenticated : bool
+        - _userType : UserType
+        - _bankAccountId : int
+        - _bankAccount : BankAccount
+        + UserId : int
+        + Username : string
+        + Email : string
+        + Password : string
+        + IsAuthenticated : bool
+        + UserType : UserType
+        + BankAccountId : int
+        + BankAccount : BankAccount
+        + Login(password : string) : bool
+        + Logout() : void
+        + UpdateProfile(user : User) : void
+    }
+    class Customer {
+        - _shoppingCart : ShoppingCart
+        - _orders : List~Order~
+        + ShoppingCart : ShoppingCart
+        + Orders : List~Order~
+        + AddToCart(food : Food, quantity : int) : ShoppingCartItem
+        + PlaceOrder() : Order
+        + ClearCart() : void
+        + GetOrders() : List~Order~
+        + GetOrder(id : int) : Order
+        + PickUpOrder(orderId : int) : Order
+        + CancellOrder(orderId : int) : Order
+        + GenerateMonthlyReport() : string
+    }
+    class Restaurant {
+        - _name : string
+        - _address : string
+        - _rating : float
+        - _menu : List~Food~
+        - _orders : List~Order~
+        - _operatingHours : string
+        + Name : string
+        + Address : string
+        + Rating : float
+        + Menu : List~Food~
+        + Orders : List~Order~
+        + OperatingHours : string
+        + ProcessOrder(order : Order) : Order
+        + GetMenu() : List~Food~
+        + AddMenuItem(food : Food) : void
+        + ViewOrder() : List~Order~
+        + ViewMenu() : List~Food~
+        + UpdateOrderStatus(id : int, status : OrderStatus) : Order
+        + UpdateMenu(food : Food) : void
+        + GetOrders() : List~Order~
+        + GetOrder(id : int) : Order
+    }
+    class BankAccount {
+        - _bankId : int
+        - _accountNumber : string
+        - _balance : decimal
+        - _pin : string
+        - _isActive : bool
+        - _user : User
+        + BankId : int
+        + AccountNumber : string
+        + Balance : decimal
+        + Pin : string
+        + IsActive : bool
+        + User : User
+        + ProcessPayment(amount : decimal) : void
+        + GetBalance() : decimal
+    }
+    class Food {
+        <<abstract>>
+        - _foodId : int
+        - _name : string
+        - _price : decimal
+        - _category : FoodCategory
+        - _restaurantId : int
+        - _restaurant : Restaurant
+        - _isAvailable : bool
+        - _prepTime : int
+        + FoodId : int
+        + Name : string
+        + Price : decimal
+        + Description : string
+        + Category : FoodCategory
+        + RestaurantId : int
+        + Restaurant : Restaurant
+        + IsAvailable : bool
+        + PrepTime : int
+        + GetDetails() : string~~abstract~~
+    }
+    class Dish {
+        - _servingSize : int
+        - _spiceLevel : int
+        - _calories : int
+        - _ingredients : List~string~
+        + ServingSize : int
+        + SpiceLevel : int
+        + Calories : int
+        + Ingredients : List~string~
+        + GetDetails() : string~~override~~
+    }
+    class Drink {
+        - _volume : int
+        - _temperature : int
+        - _isCarbonated : bool
+        - _hasAlcohol : bool
+        + Volume : int
+        + Temperature : int
+        + IsCarbonated : bool
+        + HasAlcohol : bool
+        + GetDetails() : string~~override~~
+    }
+    class Snack {
+        - _packageSize : int
+        - _isHealthy : bool
+        - _allergens : List~string~
+        + PackageSize : int
+        + IsHealthy : bool
+        + Allergens : List~string~
+        + GetDetails() : string~~override~~
+    }
+    class ShoppingCart {
+        - _shoppingCartId : int
+        - _customerId : int
+        - _customer : Customer
+        - _shoppingCartItems : List~ShoppingCartItem~
+        - _totalPrice : decimal
+        + ShoppingCartId : int
+        + ShoppingCartItems : List~ShoppingCartItem~
+        + CustomerId : int
+        + Customer : Customer
+        + TotalPrice : decimal
+        + AddItem(food : Food, quantity : int) : ShoppingCartItem
+        + RemoveItem(food : Food) : ShoppingCartItem
+        + CalculateTotal() : decimal
+        + Clear() : void
+        + ConvertToOrder() : Order
+    }
+    class ShoppingCartItem {
+        - _shoppingCartItemId : int
+        - _quantitiy : int
+        - _shoppingCartId : int
+        - _shoppingCart : ShoppingCart
+        - _foodId : int
+        - _food : Food
+        + ShoppingCartItemId : int
+        + Quantity : int
+        + ShoppingCartId : int
+        + ShoppingCart : ShoppingCart
+        + FoodId : int
+        + Food : Food
+    }
+    class Order {
+        - _orderId : int
+        - _customerId : int
+        - _customer : Customer
+        - _restaurantId : int
+        - _restaurant : Restaurant
+        - _orderItems : List~OrderItem~
+        - _totalPrice : decimal
+        - _status : OrderStatus
+        - _orderDate : DateTime
+        - _pickUpTime : DateTime
+        + OrderId : int
+        + CustomerId : int
+        + Customer : Customer
+        + RestaurantId : int
+        + Restaurant : Restaurant
+        + OrderItems : List~OrderItem~
+        + TotalPrice : decimal
+        + Status : OrderStatus
+        + OrderDate : DateTime
+        + PickUpTime : DateTime
+        + UpdateStatus(status : OrderStatus) : void
+        + CalculateTotal() : decimal
+    }
+    class OrderItem {
+        - _orderItemId : int
+        - _orderId : int
+        - _order : Order
+        - _foodId : int
+        - _food : Food
+        - _quantity : int
+        - _priceAtTime : decimal
+        + OrderItemId : int
+        + OrderId : int
+        + Order : Order
+        + FoodId : int
+        + Food : Food
+        + Quantity : int
+        + PriceAtTime : decimal
+    }
+    class UserType {
+        <<enumeration>>
+        Customer
+        Restaurant
+        DeliveryDriver
+        Admin
+    }
+    class FoodCategory {
+        <<enumeration>>
+        Dish
+        Drink
+        Snack
+    }
+    class OrderStatus {
+        <<enumeration>>
+        Pending
+        Confirmed
+        Prepared
+        Ready
+        Completed
+        Cancelled
+    }
+    class IReport {
+        <<interface>>
+        + GenerateMonthlyReport() : string
+    }
+    User <|-- Customer
+    User <|-- Restaurant
+    Food <|-- Dish
+    Food <|-- Drink
+    Food <|-- Snack
+    Customer ..|> IReport
+    User "1" --> "1" BankAccount : has
+    Customer "1" --> "1" ShoppingCart : owns
+    Customer "1" o-- "0..*" Order : places
+    Customer ..> Food : order
+    Restaurant "1" o-- "0..*" Food : offers
+    Restaurant "1" o-- "0..*" Order : receives
+    Restaurant ..> OrderStatus : use
+    ShoppingCart "1" o-- "0..*" ShoppingCartItem : contains
+    ShoppingCart  ..>  Food : add to/remove from
+    Order "1" o-- "1..*" OrderItem : includes
+    ShoppingCartItem "1" --> "1" Food : references
+    OrderItem "1" --> "1" Food : references
+    User "1" --> "1" UserType : has type
+    Food "1" --> "1" FoodCategory : categorized as
+    Order "1" --> "1" OrderStatus : has status

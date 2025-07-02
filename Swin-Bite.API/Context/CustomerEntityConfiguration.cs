@@ -19,6 +19,7 @@ namespace SwinBite.Context
                     Email = "johnsnow@got.com",
                     UserType = UserType.Customer,
                     BankAccountId = 100001,
+                    Address = "123 Maple Street, Springfield, IL 62704",
                 },
                 new Customer
                 {
@@ -28,6 +29,7 @@ namespace SwinBite.Context
                     Email = "frodo@lotr.com",
                     UserType = UserType.Customer,
                     BankAccountId = 100002,
+                    Address = "456 Oak Avenue, Portland, OR 97205",
                 }
             );
         }

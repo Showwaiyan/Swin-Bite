@@ -26,6 +26,7 @@ public class RestaurantEntityConfiguration : IEntityTypeConfiguration<Restaurant
                 Email = "walterwhite@breakingbad.com",
                 UserType = UserType.Restaurant,
                 BankAccountId = 100003,
+                Address = "789 Pine Lane, Austin, TX 78701",
             },
             new Restaurant
             {
@@ -36,6 +37,7 @@ public class RestaurantEntityConfiguration : IEntityTypeConfiguration<Restaurant
                 Email = "dean@supernatural.com",
                 UserType = UserType.Restaurant,
                 BankAccountId = 100004,
+                Address = "22 Cherry Blossom Way, Seattle, WA 98109",
             }
         );
     }

@@ -19,7 +19,8 @@ namespace SwinBite.Context
                     Email = "johnwick@jw.com",
                     UserType = UserType.DeliveryDriver,
                     BankAccountId = 100005,
-                    IsAvailable = true
+                    IsAvailable = true,
+                    Address = "55 River Road, Boston, MA 02114",
                 },
                 new DeliveryDriver
                 {
@@ -29,7 +30,8 @@ namespace SwinBite.Context
                     Email = "skywalker@starwar.com",
                     UserType = UserType.DeliveryDriver,
                     BankAccountId = 100006,
-                    IsAvailable = true
+                    IsAvailable = true,
+                    Address = "980 Sunset Blvd, Los Angeles, CA 90028"
                 }
             );
         }

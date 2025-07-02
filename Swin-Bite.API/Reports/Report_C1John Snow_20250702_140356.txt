@@ -1,0 +1,7 @@
+Monthly Order Report for Customer: John Snow (ID 1)
+Period: 2025-06-02 to 2025-07-02
+
+Orders:
+OrderId: 1, Date: 2025-07-02, Total: $22.50
+
+TOTAL COST: $22.50

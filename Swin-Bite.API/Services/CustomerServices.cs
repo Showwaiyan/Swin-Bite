@@ -14,8 +14,8 @@ namespace SwinBite.Services
 
         public async Task<ShoppingCartItem> AddToCart(int customerId, Food food, int quantity)
         {
-            if (quantity <= 0)
-                throw new InvalidDataException("Quantity can't be zero or negative!");
+            if (quantity == 0)
+                throw new InvalidDataException("Quantity can't be zero");
 
             Customer customer = await _repo.GetByIdAsync(customerId);
             if (customer == null)

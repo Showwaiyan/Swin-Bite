@@ -56,9 +56,6 @@ namespace SwinBite.Models
             if (order == null)
                 throw new ArgumentException("We can't find order with this id!");
             order.UpdateStatus(OrderStatus.Completed);
-            if (!Orders.Remove(order))
-                throw new InvalidOperationException("Can't confirm the order!");
-
             return order;
         }
 

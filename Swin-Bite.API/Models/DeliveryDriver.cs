@@ -4,42 +4,20 @@ namespace SwinBite.Models
 {
     public class DeliveryDriver : User, IObserver
     {
-        // Fields
-        private VehicleType _vehicle;
-        private string _licenseNumber;
-        private bool _isAvailable;
-        private List<Order> _orders;
-
         // Constructor
         public DeliveryDriver()
         {
-            _orders = new List<Order>();
+            Orders = new List<Order>();
         }
 
         // Properties
-        public VehicleType Vehivle
-        {
-            get { return _vehicle; }
-            set { _vehicle = value; }
-        }
+        public VehicleType Vehivle { get; set; }
 
-        public string LicenseNumber
-        {
-            get { return _licenseNumber; }
-            set { _licenseNumber = value; }
-        }
+        public string LicenseNumber { get; set; }
 
-        public bool IsAvailable
-        {
-            get { return _isAvailable; }
-            set { _isAvailable = value; }
-        }
+        public bool IsAvailable { get; set; }
 
-        public List<Order> Orders
-        {
-            get { return _orders; }
-            set { _orders = value; }
-        }
+        public List<Order> Orders { get; set; }
 
         // Methods
         public void Update(Notification notification)
@@ -52,19 +30,18 @@ namespace SwinBite.Models
             {
                 CheckForDeliveryOpportunity(notification);
             }
-            else DeliveredOrder(notification);
+            else
+                DeliveredOrder(notification);
         }
 
         private void CheckForDeliveryOpportunity(Notification notification)
         {
-            Console.WriteLine(
-                $"Finding Order Opportunity.\n"
-            );
+            Console.WriteLine($"Finding Order Opportunity.\n");
         }
 
         private void DeliveredOrder(Notification notification)
         {
-          Console.WriteLine("Order has been delivered.\n");
+            Console.WriteLine("Order has been delivered.\n");
         }
 
         public Order GetOrder(int id)

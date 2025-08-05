@@ -5,30 +5,18 @@ namespace SwinBite.Models
 {
     public class Customer : User, IObserver
     {
-        // Fields
-        private ShoppingCart _shoppingCart;
-        private List<Order> _orders;
-
         // Constructor
         public Customer()
             : base()
         {
-            _orders = new List<Order>();
+            Orders = new List<Order>();
         }
 
         // Properties
         [Required]
-        public ShoppingCart ShoppingCart // One-to-One relationship
-        {
-            get { return _shoppingCart; }
-            set { _shoppingCart = value; }
-        }
+        public ShoppingCart ShoppingCart { get; set; } // One-to-One relationship
 
-        public List<Order> Orders
-        {
-            get { return _orders; }
-            set { _orders = value; }
-        }
+        public List<Order> Orders { get; set; }
 
         // Methods
         public ShoppingCartItem AddToCart(Food food, int quantity)

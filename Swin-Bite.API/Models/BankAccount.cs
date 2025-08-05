@@ -4,53 +4,21 @@ namespace SwinBite.Models
 {
     public class BankAccount
     {
-        //Fields
-        private int _bankId;
-        private string _accountNumber;
-        private decimal _balance;
-        private string _pin;
-        private bool _isActive;
-        private User _user;
-
         // Properties
         [Key]
-        public int BankId
-        {
-            get { return _bankId; }
-            set { _bankId = value; }
-        }
+        public int BankId { get; set; }
 
         [Required]
-        public string AccountNumber
-        {
-            get { return _accountNumber; }
-            set { _accountNumber = value; }
-        }
+        public string AccountNumber { get; set; }
 
-        public decimal Balance
-        {
-            get { return _balance; }
-            set { _balance = value; }
-        }
+        public decimal Balance { get; set; }
 
         [Required]
-        public string Pin
-        {
-            get { return _pin; }
-            set { _pin = value; }
-        }
+        public string Pin { get; set; }
 
-        public bool IsActive
-        {
-            get { return _isActive; }
-            set { _isActive = value; }
-        }
+        public bool IsActive { get; set; }
 
-        public User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
+        public User User { get; set; }
 
         //Methods
         public void ProcessPayment(decimal amount)

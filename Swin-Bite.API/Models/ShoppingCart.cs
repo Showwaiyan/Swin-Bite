@@ -5,132 +5,97 @@ namespace SwinBite.Models
 {
     public class ShoppingCart
     {
-        // Fields
-        private int _shoppingCartId;
-        private int _customerId;
-        private Customer _customer;
-        private List<ShoppingCartItem> _shoppingCartItems;
-        private decimal _totalPrice;
-
-        // constructor
-        public ShoppingCart()
-        {
-            _shoppingCartItems = new List<ShoppingCartItem>();
-        }
-
-        // Properties
         [Key]
-        public int ShoppingCartId
-        {
-            get { return _shoppingCartId; }
-            set { _shoppingCartId = value; }
-        }
+        public int ShoppingCartId { get; set; }
 
-        public List<ShoppingCartItem> ShoppingCartItems
-        {
-            get { return _shoppingCartItems; }
-            set { _shoppingCartItems = value; }
-        }
-
-        // For One-to-One Relationship
         [Required]
-        public int CustomerId
-        {
-            get { return _customerId; }
-            set { _customerId = value; }
-        }
+        public int CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
-        public Customer Customer
-        {
-            get { return _customer; }
-            set { _customer = value; }
-        }
+        public Customer Customer { get; set; }
 
-        public decimal TotalPrice
-        {
-            get { return _totalPrice; }
-            set { _totalPrice = value; }
-        }
+        public List<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
 
-        // Methods
+        public decimal TotalPrice { get; set; }
+
+        // Add item to cart
         public ShoppingCartItem AddItem(Food food, int quantity)
         {
-            ShoppingCartItem item;
-            if (!ShoppingCartItems.Exists(si => si.FoodId == food.FoodId))
+            var item = ShoppingCartItems.FirstOrDefault(i => i.FoodId == food.FoodId);
+            if (item == null)
             {
-                item = new ShoppingCartItem()
+                item = new ShoppingCartItem
                 {
                     ShoppingCartId = ShoppingCartId,
-                    Quantity = quantity,
                     FoodId = food.FoodId,
+                    Quantity = quantity
                 };
                 ShoppingCartItems.Add(item);
             }
             else
             {
-                item = ShoppingCartItems.Find(si => si.FoodId == food.FoodId);
-                item.Quantity = item.Quantity + quantity;
+                item.Quantity += quantity;
             }
 
             return item;
         }
 
+        // Remove item from cart
         public ShoppingCartItem RemoveItem(Food food)
         {
-            ShoppingCartItem removeItm = ShoppingCartItems.Find(si => si.FoodId == food.FoodId);
-            if (removeItm == null)
-                throw new InvalidOperationException("You can't remove non-existing item!");
+            var itemToRemove = ShoppingCartItems.FirstOrDefault(i => i.FoodId == food.FoodId);
+            if (itemToRemove == null)
+                throw new InvalidOperationException("You can't remove a non-existing item!");
 
-            ShoppingCartItems.Remove(removeItm);
-            return removeItm;
+            ShoppingCartItems.Remove(itemToRemove);
+            return itemToRemove;
         }
 
+        // Total price calculator
         public decimal CalculateTotal()
         {
             return ShoppingCartItems.Sum(i => i.Quantity * i.Food.Price);
         }
 
+        // Clear the cart
         public void Clear()
         {
             ShoppingCartItems.Clear();
         }
 
+        // Convert cart to order
         public Order ConvertToOrder(OrderType type)
         {
-            if (ShoppingCartItems == null || !ShoppingCartItems.Any())
-                throw new InvalidOperationException("Cannot create order from empty shopping ");
+            if (!ShoppingCartItems.Any())
+                throw new InvalidOperationException("Cannot create an order from an empty cart.");
 
-            // Creating Order
-            Order order = new Order()
+            var order = new Order
             {
                 CustomerId = CustomerId,
                 RestaurantId = ShoppingCartItems.First().Food.RestaurantId,
                 OrderItems = new List<OrderItem>(),
                 Status = OrderStatus.Pending,
                 OrderDate = DateTime.UtcNow,
-                PickUpTime = DateTime.UtcNow.AddMinutes(30), // HardCoded value now
-                Type = type,
+                PickUpTime = DateTime.UtcNow.AddMinutes(30),
+                Type = type
             };
 
-            // Create orderItems and assigned each shoppingCartItem to it
-            foreach (ShoppingCartItem item in ShoppingCartItems)
+            foreach (var item in ShoppingCartItems)
             {
-                OrderItem orderItem = new OrderItem()
+                var orderItem = new OrderItem
                 {
-                    Order = order,
                     FoodId = item.FoodId,
                     Quantity = item.Quantity,
                     PriceAtTime = item.Food.Price,
+                    Order = order // Keeping the reference — correct if not saving yet
                 };
-                // and these orderItem is assigned to order
+
                 order.OrderItems.Add(orderItem);
             }
 
-            // Computing Total Price
             order.TotalPrice = order.CalculateTotal();
-
             return order;
         }
     }
 }
+

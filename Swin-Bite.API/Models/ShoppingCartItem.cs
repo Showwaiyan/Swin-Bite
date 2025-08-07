@@ -5,58 +5,22 @@ namespace SwinBite.Models
 {
     public class ShoppingCartItem
     {
-        //Fields
-        private int _shoppingCartItemId;
-        private int _quantitiy;
+        [Key]
+        public int ShoppingCartItemId { get; set; }
 
-        private int _shoppingCartId;
-        private ShoppingCart _shoppingCart;
-
-        private int _foodId;
-        private Food _food;
-
-        //Properties
-        public int ShoppingCartItemId
-        {
-            get { return _shoppingCartItemId; }
-            set { _shoppingCartItemId = value; }
-        }
-        public int Quantity
-        {
-            get { return _quantitiy; }
-            set { _quantitiy = value; }
-        }
-
-        // For Many-To-Many Relationship
         [Required]
-        public int ShoppingCartId
-        {
-            get { return _shoppingCartId; }
-            set { _shoppingCartId = value; }
-        }
+        public int Quantity { get; set; }
+
+        [Required]
+        public int ShoppingCartId { get; set; }
 
         [ForeignKey("ShoppingCartId")]
-        public ShoppingCart ShoppingCart
-        {
-            get { return _shoppingCart; }
-            set { _shoppingCart = value; }
-        }
+        public ShoppingCart ShoppingCart { get; set; }
 
-        // For One-To-One Relationship
         [Required]
-        public int FoodId
-        {
-            get { return _foodId; }
-            set { _foodId = value; }
-        }
+        public int FoodId { get; set; }
 
         [ForeignKey("FoodId")]
-        public Food Food
-        {
-            get { return _food; }
-            set { _food = value; }
-        }
-
-        //Method
+        public Food Food { get; set; }
     }
 }

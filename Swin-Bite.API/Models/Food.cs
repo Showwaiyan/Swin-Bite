@@ -5,76 +5,31 @@ namespace SwinBite.Models
 {
     public abstract class Food
     {
-        // Fields
-        private int _foodId;
-        private string _name;
-        private decimal _price;
-        private FoodCategory _category;
-        private int _restaurantId;
-        private Restaurant _restaurant; 
-        private bool _isAvailable;
-        private int _prepTime;
-
-        // Properties
         [Key]
-        public int FoodId
-        {
-            get { return _foodId; }
-            set { _foodId = value; }
-        }
+        public int FoodId { get; set; }
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        public string Name { get; set; }
 
-        public decimal Price
-        {
-            get { return _price; }
-            set { _price = value; }
-        }
+        public decimal Price { get; set; }
 
-        public string Description
-        {
-            get { return GetDetails(); }
-        }
+        // Computed property — not mapped by EF unless explicitly configured
+        public string Description => GetDetails();
 
-        // Discriminator
         [Required]
-        public FoodCategory Category
-        {
-            get { return _category; }
-            set { _category = value; }
-        }
+        public FoodCategory Category { get; set; }
 
-        // Many-To-One Relationship
-        public int RestaurantId
-        {
-            get { return _restaurantId; }
-            set { _restaurantId = value; }
-        }
+        // Many-to-One Relationship
+        public int RestaurantId { get; set; }
 
         [ForeignKey("RestaurantId")]
-        public Restaurant Restaurant
-        {
-            get { return _restaurant; }
-            set { _restaurant = value; }
-        }
+        public Restaurant Restaurant { get; set; }
 
-        public bool IsAvailable
-        {
-            get { return _isAvailable; }
-            set { _isAvailable = value; }
-        }
+        public bool IsAvailable { get; set; }
 
-        public int PrepTime
-        {
-            get { return _prepTime; }
-            set { _prepTime = value; }
-        }
+        public int PrepTime { get; set; }
 
-        // Method
+        // Abstract method
         public abstract string GetDetails();
     }
 }
+

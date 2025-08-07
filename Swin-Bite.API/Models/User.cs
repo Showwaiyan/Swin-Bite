@@ -5,99 +5,46 @@ namespace SwinBite.Models
 {
     public class User
     {
-        // Fields
-        private int _userId;
-        private string _username;
-        private string _email;
-        private string _password;
-        private bool _isAuthenticated;
-        private UserType _userType;
-        private int _bankAccountId;
-        private string _address;
-
-        private List<Notification> _notifications;
-
-        private BankAccount _bankAccount;
-
         // Constructor
         public User()
         {
-            _notifications = new List<Notification>();
+            Notifications = new List<Notification>();
         }
 
-        //Properties
+        // Properties
         [Key]
-        public int UserId
-        {
-            get { return _userId; }
-            set { _userId = value; }
-        }
+        public int UserId { get; set; }
 
         [Required]
-        public string Username
-        {
-            get { return _username; }
-            set { _username = value; }
-        }
+        public string Username { get; set; }
 
         [EmailAddress]
-        public string Email
-        {
-            get { return _email; }
-            set { _email = value; }
-        }
+        public string Email { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 8)]
-        public string Password
-        {
-            get { return _password; }
-            set { _password = value; }
-        }
+        public string Password { get; set; }
 
-        public bool IsAuthenticated
-        {
-            get { return _isAuthenticated; }
-            set { _isAuthenticated = value; }
-        }
+        public bool IsAuthenticated { get; set; }
 
-        public string Address
-        {
-            get { return _address; }
-            set { _address = value; }
-        }
+        public string Address { get; set; }
 
-        // Discriminator
         [Required]
-        public UserType UserType
-        {
-            get { return _userType; }
-            set { _userType = value; }
-        }
+        public UserType UserType { get; set; }
 
-        // For one-to-one relationship with Bankaccount
-        public int BankAccountId
-        {
-            get { return _bankAccountId; }
-            set { _bankAccountId = value; }
-        }
+        // One-to-one relationship with BankAccount
+        public int BankAccountId { get; set; }
 
         [ForeignKey("BankAccountId")]
-        public BankAccount BankAccount
-        {
-            get { return _bankAccount; }
-            set { _bankAccount = value; }
-        }
+        public BankAccount BankAccount { get; set; }
 
-        public List<Notification> Notifications
-        {
-            get { return _notifications; }
-        }
+        // Navigation property with private setter to control collection access
+        public List<Notification> Notifications { get; private set; }
 
-        //Methods
+        // Methods
         public bool Login(string password)
         {
-            if (!(Password == password))
+            if (Password != password)
                 return false;
             IsAuthenticated = true;
             return true;
@@ -116,12 +63,13 @@ namespace SwinBite.Models
 
         public void AddNotification(Notification notification)
         {
-            _notifications.Add(notification);
+            Notifications.Add(notification);
         }
 
         public List<Notification> GetNotifications()
         {
-            return _notifications.ToList();
+            return Notifications.ToList();
         }
     }
 }
+

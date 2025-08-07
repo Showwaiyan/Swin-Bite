@@ -22,7 +22,7 @@ namespace SwinBite.Services
             Restaurant restaurant = await _repo.GetRestaruantByIdAsync(restaurantId);
             if (restaurant == null)
                 throw new ArgumentException("There is no such restaurant");
-            return restaurant.ViewMenu();
+            return restaurant.Menu;
         }
 
         public async Task<IEnumerable<Restaurant>> FindRestaruantsByName(string name)
@@ -44,7 +44,7 @@ namespace SwinBite.Services
             Restaurant restaurant = await GetRestaurant(restaurantId);
             if (restaurant == null)
                 throw new ArgumentException("We can't find restaurant with this id.");
-            List<Order> orders = restaurant.GetOrders();
+            List<Order> orders = restaurant.Orders;
             return orders;
         }
 

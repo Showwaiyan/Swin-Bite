@@ -4,91 +4,32 @@ namespace SwinBite.Models
 {
     public class Restaurant : User, IObserver
     {
-        // Fields
-        private string _name;
-        private float _rating;
-        private List<Food> _menu; // Need to implement 1:many relationship
-        private List<Order> _orders;
-        private string _operatingHours;
+        public string Name { get; set; }
+        public float Rating { get; set; }
 
-        // Constructor
-        public Restaurant()
-            : base()
-        {
-            _menu = new List<Food>();
-            _orders = new List<Order>();
-        }
+        // One-to-Many: One Restaurant has many Foods
+        public List<Food> Menu { get; set; } = new List<Food>();
 
-        // Properties
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        // One-to-Many: One Restaurant has many Orders
+        public List<Order> Orders { get; set; } = new List<Order>();
 
-        public float Rating
-        {
-            get { return _rating; }
-            set { _rating = value; }
-        }
+        public string OperatingHours { get; set; }
 
-        public List<Food> Menu
-        {
-            get { return _menu; }
-            set { _menu = value; }
-        }
-
-        public List<Order> Orders
-        {
-            get { return _orders; }
-            set { _orders = value; }
-        }
-
-        public string OperatingHours
-        {
-            get { return _operatingHours; }
-            set { _operatingHours = value; }
-        }
-
-        // Methods
+        // Process an order and mark as confirmed
         public Order ProcessOrder(Order order)
         {
             if (order.RestaurantId != UserId)
                 throw new InvalidOperationException(
                     "This order does not belong to this restaurant."
                 );
+
             order.Status = OrderStatus.Confirmed;
             return order;
-        }
-
-        public List<Food> GetMenu()
-        {
-            return new List<Food>() { };
         }
 
         public void AddMenuItem(Food food)
         {
             Menu.Add(food);
-        }
-
-        public List<Order> ViewOrder()
-        {
-            return Orders;
-        }
-
-        public List<Food> ViewMenu()
-        {
-            return Menu;
-        }
-
-        public Order UpdateOrderStatus(int id, OrderStatus status)
-        {
-            Order order = GetOrder(id);
-            if (status == OrderStatus.Cancelled)
-                if (!Orders.Remove(order))
-                    throw new InvalidOperationException("Can't cancell the order!");
-            order.UpdateStatus(status);
-            return order;
         }
 
         public void UpdateMenu(Food food)
@@ -99,22 +40,27 @@ namespace SwinBite.Models
             Menu[index] = food;
         }
 
-        public List<Order> GetOrders()
+        public Order UpdateOrderStatus(int id, OrderStatus status)
         {
-            return Orders;
+            var order = GetOrder(id);
+            if (status == OrderStatus.Cancelled)
+            {
+                if (!Orders.Remove(order))
+                    throw new InvalidOperationException("Can't cancel the order!");
+            }
+            order.UpdateStatus(status);
+            return order;
         }
 
         public Order GetOrder(int id)
         {
-            Order order = Orders.Find(o => o.OrderId == id);
+            var order = Orders.Find(o => o.OrderId == id);
             if (order == null)
-                throw new ArgumentException("We can't find order with this id!");
+                throw new ArgumentException("We can't find an order with this ID!");
             return order;
         }
 
-        // Every Notifcation using Observer pattern will be shown by Console WriteLine
-        // Using Console WriteLine in each class is not good pratice, however
-        // Showing actual push notification is limited due to web api project
+        // Observer Pattern: Receive and react to notifications
         public void Update(Notification notification)
         {
             AddNotification(notification);
@@ -123,13 +69,9 @@ namespace SwinBite.Models
             );
 
             if (notification.Type == NotificationType.OrderUpdate)
-            {
                 HandleNewOrder(notification);
-            }
             else if (notification.Type == NotificationType.DeliveryUpdate)
-            {
-              HandleDeliveryPickUp(notification);
-            }
+                HandleDeliveryPickUp(notification);
         }
 
         private void HandleNewOrder(Notification notification)
@@ -137,10 +79,9 @@ namespace SwinBite.Models
             Console.WriteLine($"Restaurant {Name}: Processing new order notification...\n");
         }
 
-        private void HandleDeliveryPickUp(Notification notifitcaiton)
+        private void HandleDeliveryPickUp(Notification notification)
         {
-            Console.WriteLine($"Restaurant {Name}: Deligating order for delivery...\n");
-
+            Console.WriteLine($"Restaurant {Name}: Delegating order for delivery...\n");
         }
     }
 }

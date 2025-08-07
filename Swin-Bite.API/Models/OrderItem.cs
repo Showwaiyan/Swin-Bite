@@ -5,64 +5,27 @@ namespace SwinBite.Models
 {
     public class OrderItem
     {
-        // Fields
-        private int _orderItemId;
-        private int _orderId;
-        private Order _order;
-        private int _foodId;
-        private Food _food;
-        private int _quantity;
-        private decimal _priceAtTime;
-
-        // Properties
         [Key]
-        public int OrderItemId
-        {
-            get { return _orderItemId; }
-            set { _orderItemId = value; }
-        }
+        public int OrderItemId { get; set; }
 
-        // Many-To-One Relationship
+        // Many-To-One Relationship with Order
         [Required]
-        public int OrderId
-        {
-            get { return _orderId; }
-            set { _orderId = value; }
-        }
+        public int OrderId { get; set; }
 
         [ForeignKey("OrderId")]
-        public Order Order
-        {
-            get { return _order; }
-            set { _order = value; }
-        }
+        public Order Order { get; set; }
 
-        // Many-To-One Relationship
+        // Many-To-One Relationship with Food
         [Required]
-        public int FoodId
-        {
-            get { return _foodId; }
-            set { _foodId = value; }
-        }
+        public int FoodId { get; set; }
+
         [ForeignKey("FoodId")]
-        public Food Food
-        {
-            get { return _food; }
-            set { _food = value; }
-        }
+        public Food Food { get; set; }
 
-        public int Quantity
-        {
-            get { return _quantity; }
-            set { _quantity = value; }
-        }
+        public int Quantity { get; set; }
 
-        public decimal PriceAtTime // To store Food.Price at order time
-        {
-            get { return _priceAtTime; }
-            set { _priceAtTime = value; }
-        }
-
-        // Methods
+        // Price of the food at the time the order was placed
+        public decimal PriceAtTime { get; set; }
     }
 }
+

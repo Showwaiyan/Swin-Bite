@@ -5,65 +5,26 @@ namespace SwinBite.Models
 {
     public class Notification
     {
-        // Fields
-        private int _notificationId;
-        private int _userId;
-        private User _user;
-        private string _message;
-        private DateTime _timeStamp;
-        private NotificationType _type;
-        private bool _isRead;
-
-        // Constructor
-
-        // Properties
         [Key]
-        public int NotificationId
-        {
-            get { return _notificationId; }
-            set { _notificationId = value; }
-        }
+        public int NotificationId { get; set; }
 
         [Required]
-        public string Message
-        {
-            get { return _message; }
-            set { _message = value; }
-        }
+        public string Message { get; set; }
 
-        public DateTime TimeStamp
-        {
-            get { return _timeStamp; }
-            set { _timeStamp = value; }
-        }
+        public DateTime TimeStamp { get; set; }
 
-        public NotificationType Type
-        {
-            get { return _type; }
-            set { _type = value; }
-        }
+        public NotificationType Type { get; set; }
 
-        public bool IsRead
-        {
-            get { return _isRead; }
-            set { _isRead = value; }
-        }
+        public bool IsRead { get; set; }
 
         // Many-To-One Relationship
         [Required]
-        public int UserId
-        {
-            get { return _userId; }
-            set { _userId = value; }
-        }
-        [ForeignKey("UserId")]
-        public User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
+        public int UserId { get; set; }
 
-        // Method
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+
+        // Methods
         public void MarkAsRead()
         {
             IsRead = true;

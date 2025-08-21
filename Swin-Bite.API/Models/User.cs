@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwinBite.Models
 {
@@ -31,12 +30,6 @@ namespace SwinBite.Models
 
         [Required]
         public UserType UserType { get; set; }
-
-        // One-to-one relationship with BankAccount
-        public int BankAccountId { get; set; }
-
-        [ForeignKey("BankAccountId")]
-        public BankAccount BankAccount { get; set; }
 
         // Navigation property with private setter to control collection access
         public List<Notification> Notifications { get; private set; }

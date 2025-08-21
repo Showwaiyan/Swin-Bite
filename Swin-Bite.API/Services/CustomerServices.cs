@@ -1,15 +1,32 @@
+using SwinBite.DTO;
+using SwinBite.Interface;
 using SwinBite.Models;
 using SwinBite.Reposiroties;
 
 namespace SwinBite.Services
 {
-    public class CustomerServices
+    public class CustomerServices : ICustomerServices
     {
         private readonly CustomerRepository _repo;
 
         public CustomerServices(CustomerRepository repo)
         {
             _repo = repo;
+        }
+
+        public async Task<Customer> Register(CreateCustomerDto registerCustomer)
+        {
+            // Validate Input
+            // Check password and password confirm
+            // add to db
+            string username = registerCustomer.Username;
+            string email = registerCustomer.Email;
+            string password = registerCustomer.Password;
+            string address = registerCustomer.Address;
+
+            Customer newCustomer = await _repo.CreateCustomer(username, email, password, address);
+
+            return newCustomer;
         }
 
         public async Task<ShoppingCartItem> AddToCart(int customerId, Food food, int quantity)

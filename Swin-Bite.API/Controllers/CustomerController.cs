@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SwinBite.DTO;
+using SwinBite.Interface;
 using SwinBite.Models;
 using SwinBite.Services;
 
@@ -11,12 +12,12 @@ namespace SwinBite.Context
     public class CustomerController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly CustomerServices _customerServices;
+        private readonly ICustomerServices _customerServices;
         private readonly FoodServices _foodServices;
 
         public CustomerController(
             IMapper mapper,
-            CustomerServices customerServices,
+            ICustomerServices customerServices,
             FoodServices foodServices
         )
         {
@@ -93,7 +94,7 @@ namespace SwinBite.Context
             }
             catch (InvalidOperationException ex)
             {
-              return BadRequest(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

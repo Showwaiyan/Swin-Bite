@@ -1,9 +1,10 @@
+using SwinBite.Interface;
 using SwinBite.Models;
 using SwinBite.Reposiroties;
 
 namespace SwinBite.Services
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
         private readonly UserRepository _repo;
 

@@ -17,14 +17,33 @@ namespace SwinBite.Reposiroties
         public async Task<Customer> GetByIdAsync(int id)
         {
             return await _context
-                .Customers.Include(c => c.BankAccount)
-                .Include(c => c.ShoppingCart)
+                .Customers.Include(c => c.ShoppingCart)
                 .ThenInclude(s => s.ShoppingCartItems)
                 .ThenInclude(si => si.Food)
                 .Include(c => c.Orders)
                 .ThenInclude(o => o.OrderItems)
                 .ThenInclude(oi => oi.Food)
                 .FirstOrDefaultAsync(c => c.UserId == id);
+        }
+
+        public async Task<Customer> CreateCustomer(
+            string username,
+            string email,
+            string password,
+            string address
+        )
+        {
+            Customer customer = new Customer
+            {
+                Username = username,
+                Email = email,
+                Password = password, // need to hash
+                IsAuthenticated = true,
+                Address = address,
+            };
+            await _context.Customers.AddAsync(customer);
+            await _context.SaveChangesAsync();
+            return customer;
         }
 
         // Save Cart Item

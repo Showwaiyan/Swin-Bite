@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using SwinBite.Context;
+using SwinBite.Interface;
 using SwinBite.Mappings;
 using SwinBite.Reposiroties;
 using SwinBite.Services;
@@ -39,9 +40,9 @@ builder.Services.AddScoped<DeliveryDriverRepository>();
 builder.Services.AddScoped<NotificationRepository>();
 
 // Services Injection
-builder.Services.AddScoped<UserServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<RestaurantServices>();
-builder.Services.AddScoped<CustomerServices>();
+builder.Services.AddScoped<ICustomerServices, CustomerServices>();
 builder.Services.AddScoped<FoodServices>();
 builder.Services.AddScoped<BankServices>();
 builder.Services.AddScoped<BankValidatorServices>();

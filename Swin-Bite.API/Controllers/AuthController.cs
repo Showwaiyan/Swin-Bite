@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SwinBite.DTO;
+using SwinBite.Interface;
 using SwinBite.Models;
-using SwinBite.Services;
 
 namespace SwinBite.Controller
 {
@@ -10,13 +10,34 @@ namespace SwinBite.Controller
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserServices _userServices;
+        private readonly IUserServices _userServices;
+        private readonly ICustomerServices _customerServices;
         private readonly IMapper _mapper;
 
-        public AuthController(UserServices userServices, IMapper mapper)
+        public AuthController(
+            IUserServices userServices,
+            ICustomerServices customerServices,
+            IMapper mapper
+        )
         {
             _userServices = userServices;
             _mapper = mapper;
+        }
+
+        [HttpPost("customers/register")]
+        public async Task<IActionResult> Register([FromBody] CreateCustomerDto createCustomerDto)
+        {
+            try
+            {
+                Customer newCustomer = await _customerServices.Register(createCustomerDto);
+
+                UserDto newUser = _mapper.Map<UserDto>(newCustomer);
+                return StatusCode(201, newUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Error Occured: {ex.Message}");
+            }
         }
 
         [HttpPost("login")]
